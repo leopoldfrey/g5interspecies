@@ -91,6 +91,10 @@
 
 		//window.location.href = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");
     }
+    
+    function next() {
+    	console.log("NEXT");
+    }
 
 	var ws;
     //const port = location.PORT || 3000;
@@ -192,7 +196,7 @@
     document.addEventListener("DOMContentLoaded", function(event) {
 
         // Buttons
-        document.getElementById("next-btn").onclick = onClick;
+        //document.getElementById("next-btn").onclick = onClick;
 		
 		connectToWS();
         
@@ -226,7 +230,7 @@
 	<br/>
 	
 	<section id="section-btn" class="container content-section text-center" style="padding:0;">
-        <div id="next-btn" class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">NEXT</div>
+        <div id="next-btn" class="btn btn-lg btn-click-look" onclick="next();">NEXT</div>
     </section>
 
     <!-- jQuery -->
