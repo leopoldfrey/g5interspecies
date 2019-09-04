@@ -42,6 +42,10 @@ app.get('/id_machine.html',function(req,res){
       res.sendFile(__dirname + "/public/id_machine.html");
 });
 
+app.get('/referendum.html',function(req,res){
+      res.sendFile(__dirname + "/public/referendum.html");
+});
+
 app.get('/controller.html',function(req,res){
       res.sendFile(__dirname + "/public/controller.html");
 });

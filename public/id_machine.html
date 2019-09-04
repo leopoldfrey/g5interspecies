@@ -105,13 +105,49 @@
     
     <script>
 
+	function sendMsg(_type, _message) {
+		try {
+		
+			if(!ws)
+				connectToWS();
+				
+			ws.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					type: _type,
+					stage: _message
+				})
+			, function (err) {
+				if (err) {
+					console.log("- Error sending message "+err.stack);
+				} else {
+					console.log("- Success sending message "+ _type);
+				}
+			
+			});
+		} catch (err) {
+			//alert(err.message);
+			console.log("Error sending message : "+err.message);
+			console.log(err.stack);
+		}
+	}
 
 	stage = -1;
+				
+    //const port = location.PORT || 3000;
+
+	var ws;
+    //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    var wsServer = "wss://" + window.location.hostname + "/wss";
     
     function onClick() {
 		switch (stage) {
 			case -1:
 				document.getElementById("btn-click-photo-os").click();
+				break;
+			case 4:
+				setStage(5,'');
 				break;
 			default:
 				break;
@@ -119,7 +155,6 @@
 	}
 
 /* Utility function to convert a canvas to a BLOB */
-
     var dataURLToBlob = function(dataURL) {
       //console.log("DataURLToBlob")
         var BASE64_MARKER = ';base64,';
@@ -144,6 +179,7 @@
 
         return new Blob([uInt8Array], {type: contentType});
     }
+    /* End Utility function to convert a canvas to a BLOB      */
 
     // https://www.codeforest.net/html5-image-upload-resize-and-crop
 
@@ -211,28 +247,102 @@
 
     }
 
+    /* -- Web Sockets -- */
+    document.addEventListener("visibilitychange", function() {
+        //console.log("Visibility changed to: " + document.visibilityState);
+        if(document.visibilityState == "visible" ) {
+            checkWSStateAndReconnectIfNecessary(ws.readyState);
+
+            // Check again in one second
+            setTimeout(function(){
+                checkWSStateAndReconnectIfNecessary(ws.readyState);
+            }, 3000);
+        }
+    });
+
+    document.addEventListener("onfocus", function() {
+        //console.log("Gained focus");
+        checkWSStateAndReconnectIfNecessary(ws.readyState);
+
+        // Check again in one second
+        setTimeout(function(){
+            checkWSStateAndReconnectIfNecessary(ws.readyState);
+        }, 3000);
+    });
+
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.type == "changeState" || reply.type == "initState") {
+                setStage(reply.stage, reply.standbyMsg);
+            } else if (reply.type == "domatch" ) {
+            	checkMatch(reply.u1, reply.u2);
+            } else if (reply.type == "match" || reply.type == "name" ) {
+                //console.log("Unknown state received from server: " + reply.type);
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+          	
+          	//sendMsg("name", name);
+          	//console.log("- Sending /name "+name);
+          	//sendName();
+
+        };
+
+    }
+
+    function checkWSStateAndReconnectIfNecessary(wsReadyState) {
+        switch(wsReadyState) {
+            case ws.CONNECTING:
+                console.log("- WebSocket Connecting...");
+                break;
+            case ws.OPEN:
+                console.log("- WebSocket Open :)");
+                break;
+            case ws.CLOSING:
+                console.log("- WebSocket Closing...");
+                break;
+            case ws.CLOSED:
+                console.log("* WebSocket Closed :(");
+                connectToWS();
+                break;
+        }
+
+    }
+
     function setStage(_stage, standbyMsg) {
 		stage = _stage;
         switch(parseInt(stage)) {
             case -1:
                 document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Identification";
-            	document.getElementById("msg-standby").innerHTML = "";
+            	document.getElementById("msg-standby").innerHTML = "Scroll with your tongue";
             	document.getElementById("img-result").src = "";
             	document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
-            	document.getElementById("avatar-div-id").style.display = "";
-            	document.getElementById("btn-click-look").innerHTML = "Take a selfie";
-                document.getElementById("btn-click-look").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+                document.getElementById("btn-click-look").style.display = "none";
                 break;
             case 0:
                 document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Analyzing your selfie";
+                document.getElementById("msg-top").innerHTML = "Analyzing your saliva";
             	document.getElementById("img-result").src = "";
                 document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "";
@@ -245,7 +355,7 @@
                 break;
             case 1:
                 document.getElementById("section-bottom").style.display = "";
-                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Access Denied";
             	document.getElementById("img-result").src = "";
@@ -258,6 +368,75 @@
 					window.location.href = '/#main';
 				}, 5000);
                 break;
+            case 2:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "none";
+                document.getElementById("msg-standby").innerHTML = "And again";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
+                break;
+            case 3:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Good<br/>Your saliva is being analyzed";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
+                setTimeout(function() {
+					setStage(4,'');
+				}, 5000);
+                break;
+            case 4:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Analysis of your Microbiota population";
+            	document.getElementById("btn-click-look").innerHTML = "Biosync";
+                document.getElementById("msg-standby").innerHTML = "";
+                var rnd = Math.round(Math.random()*42);
+                var str = "img/micro_"+rnd+".jpg";
+                document.getElementById("img-result").src = str;
+				document.getElementById("img-result").style.display = "";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "";
+                break;
+            case 5:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Looking for a complementary microbiota";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
+                break;
+            case 6:
+                document.getElementById("section-bottom").style.display = "";
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Your healing solution";
+            	document.getElementById("msg-standby").innerHTML = "";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "";
+            	document.getElementById("btn-click-look").innerHTML = "";
+                document.getElementById("btn-click-look").style.display = "none";
+                break;
         }
             
     }
@@ -268,7 +447,45 @@
         // Buttons
         document.getElementById("btn-click-look").onclick = onClick;
         
-        if (window.File && window.FileReader && window.FormData) {
+        
+    	window.onscroll = function (event) {
+    		event.preventDefault();
+    		
+    		console.log(document.body.scrollTop);
+    		
+			setTimeout(function() {
+
+				// Run the callback
+				//console.log( 'Scrolling has stopped.' );
+				if (document.body.scrollTop > 15) {
+					switch (stage) {
+						case -1:
+							setStage(0,'');
+							break;
+						case 0:
+							setStage(1,'');
+							break;
+						case 1:
+							setStage(2,'');
+							break;
+						case 2:
+							setStage(3,'');
+							break;
+						default:
+							break;
+					}
+				}
+			}, 200);
+    	
+    	};//*/
+    	
+    	
+    	window.ondblclick = function (event) {
+    		event.preventDefault();
+    		setStage(stage+1,'');
+    	}
+		
+		if (window.File && window.FileReader && window.FormData) {
 
             document.getElementById("btn-click-photo-os").onchange = function (event) {
 
@@ -280,7 +497,13 @@
         } else {
             alert("File upload is not supported!");
         }
+		
+		connectToWS();
         
+        var temp = location.search.substring(1).split("=");
+    	name = decodeURIComponent(temp[1]);
+    	document.getElementById("name").innerHTML = name;
+    	
     	setStage(-1);
     });
 
@@ -334,7 +557,11 @@
         <h1 id="msg-standby"></h1>
     </section>
 
-	<!-- jQuery -->
+	<section style="display:none">
+		<div id="name"></div>
+	</section>
+
+    <!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->

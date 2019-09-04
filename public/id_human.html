@@ -105,9 +105,8 @@
     
     <script>
 
-
 	stage = -1;
-    
+				
     function onClick() {
 		switch (stage) {
 			case -1:
@@ -119,7 +118,6 @@
 	}
 
 /* Utility function to convert a canvas to a BLOB */
-
     var dataURLToBlob = function(dataURL) {
       //console.log("DataURLToBlob")
         var BASE64_MARKER = ';base64,';
@@ -144,6 +142,7 @@
 
         return new Blob([uInt8Array], {type: contentType});
     }
+    /* End Utility function to convert a canvas to a BLOB      */
 
     // https://www.codeforest.net/html5-image-upload-resize-and-crop
 
@@ -247,7 +246,7 @@
                 document.getElementById("section-bottom").style.display = "";
                 document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Access Denied";
+                document.getElementById("msg-top").innerHTML = "Access Granted";
             	document.getElementById("img-result").src = "";
                 document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
@@ -255,7 +254,7 @@
             	document.getElementById("avatar-div-id").style.display = "";
             	document.getElementById("btn-click-look").style.display = "none";
             	setTimeout(function() {
-					window.location.href = '/#main';
+					window.location.href = '/referendum.html';
 				}, 5000);
                 break;
         }
@@ -280,7 +279,7 @@
         } else {
             alert("File upload is not supported!");
         }
-        
+		
     	setStage(-1);
     });
 
@@ -318,9 +317,7 @@
 			
 			<div id="section-bottom" style="display: none;">
 				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
-					WARNING !<br/>
-					A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.<br/></br>
-					You will be redirected to the home page.
+					You are now able to vote
 				</p>
 			</div>
         </div>
@@ -334,7 +331,7 @@
         <h1 id="msg-standby"></h1>
     </section>
 
-	<!-- jQuery -->
+    <!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
