@@ -22,10 +22,25 @@
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
 
+    <style>
+    .btn-click-look {
+        background-color: white;
+        color: gray;
+        border: 1px solid lightgray;
+        height: 40px;
+        /*position: fixed;*/
+        bottom: 40px;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: 15px;
+        /*color: rgba(255, 255, 255, 0.2)*/
+    }
+    </style>
+
     <script>
 
 	stage = -1;
-				
+					
 
     function setStage(_stage, standbyMsg) {
 		stage = _stage;
@@ -165,6 +180,12 @@
     <section id="section-standBy" style="" class="container content-section text-center" style="padding:0;">
         
         <h1 id="msg-standby"></h1>
+    </section>
+
+	<br/>
+
+	<section id="section-btn" class="container content-section text-center" style="padding:0;">
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">ABANDON</div>
     </section>
 
     <!-- jQuery -->
