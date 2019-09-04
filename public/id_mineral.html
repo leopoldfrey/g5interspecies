@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>G5 Interspecies</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <!--link href="css/grayscale.min.css" rel="stylesheet"-->
+    <link href="css/grayscale.css" rel="stylesheet">
+
+    <!-- Img processing from phone -->
+    <script src="js/load-image.all.min.js"></script>
+    
+    <style>
+    .btn-click-look {
+        background-color: white;
+        color: gray;
+        border: 1px solid lightgray;
+        height: 40px;
+        /*position: fixed;*/
+        bottom: 40px;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: 15px;
+        /*color: rgba(255, 255, 255, 0.2)*/
+    }
+    
+    #img-loading {
+    	/*position: relative;
+		top: 50%;
+		transform: translate(0%, -50%);//*/
+    }
+    
+    #img-result {
+        /*width:50%;
+        max-height: 500px;
+        height:auto;//*/
+    	/*margin-left: auto;
+    	margin-right: auto;
+  		position: absolute;
+  		min-width: 400px;
+  		min-height: 100%;//*/
+  		
+  		height:200px;
+		min-width:100%;
+		max-width:none;
+		margin: 0 -50%;
+		border: solid white 10px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    #imgResultDiv {
+    	width: 200px;
+    	height: 200px;
+    	text-align: center;
+		
+    	margin: 0 auto;
+  		overflow: hidden;
+  		position: relative;
+  		
+  		margin-bottom: 40px;
+    }
+    
+    .avatar-div {
+    	/*border-radius: 150px;*/
+		height:200px;
+		width:200px;
+		/*overflow:hidden;*/
+		text-align: center;
+		margin:0 auto;
+  		margin-bottom: 40px;
+    }
+    
+    .avatar-canvas {
+    	/*height:300px;
+		min-width:100%;
+		max-width:none;
+		position: relative;
+		left: 50%;
+	 	top: 50%;
+		transform: translate(-50%, -50%);//*/
+		height:200px;
+		/*width:50%;*/
+		/*max-width:none;*/
+		margin: 0 -50%;
+		border: solid white 10px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    </style>
+    
+    <script>
+
+	function sendMsg(_type, _message) {
+		try {
+		
+			if(!ws)
+				connectToWS();
+				
+			ws.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					type: _type,
+					stage: _message
+				})
+			, function (err) {
+				if (err) {
+					console.log("- Error sending message "+err.stack);
+				} else {
+					console.log("- Success sending message "+ _type);
+				}
+			
+			});
+		} catch (err) {
+			//alert(err.message);
+			console.log("Error sending message : "+err.message);
+			console.log(err.stack);
+		}
+	}
+
+	stage = -1;
+				
+    //const port = location.PORT || 3000;
+
+	var ws;
+    //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    var wsServer = "wss://" + window.location.hostname + "/wss";
+    
+    function onClick() {
+		switch (stage) {
+			case -1:
+				document.getElementById("btn-click-photo-os").click();
+				break;
+			case 4:
+				setStage(5,'');
+				break;
+			default:
+				break;
+		}
+	}
+
+/* Utility function to convert a canvas to a BLOB */
+    var dataURLToBlob = function(dataURL) {
+      //console.log("DataURLToBlob")
+        var BASE64_MARKER = ';base64,';
+        if (dataURL.indexOf(BASE64_MARKER) == -1) {
+            var parts = dataURL.split(',');
+            var contentType = parts[0].split(':')[1];
+            var raw = parts[1];
+
+            return new Blob([raw], {type: contentType});
+        }
+
+        var parts = dataURL.split(BASE64_MARKER);
+        var contentType = parts[0].split(':')[1];
+        var raw = window.atob(parts[1]);
+        var rawLength = raw.length;
+
+        var uInt8Array = new Uint8Array(rawLength);
+
+        for (var i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+
+        return new Blob([uInt8Array], {type: contentType});
+    }
+    /* End Utility function to convert a canvas to a BLOB      */
+
+    // https://www.codeforest.net/html5-image-upload-resize-and-crop
+
+    function resizeAndUpload() {
+        var loadingImage = loadImage(
+            event.target.files[0],
+            function (canvas) {
+            
+            	var dataURL = canvas.toDataURL("image/jpeg");
+
+				var resultDiv = document.querySelector("#avatar-div-id");
+				canvas.classList.add("avatar-canvas");
+	            resultDiv.replaceChild(canvas, resultDiv.children[0]);
+	            
+                // Transform to blob and upload
+                var blob = dataURLToBlob(dataURL);
+                uploadImageAsBlob(blob);
+
+                // In order to trigger again onchange
+                document.getElementById('btn-click-photo-os').value = null;
+            },
+            {
+                maxWidth: 300,
+                //maxHeight: 888,
+                //minWidth: 500,
+                //minHeight: 500,
+                canvas: true,
+                orientation: true
+            }
+        );
+        if (!loadingImage) {
+            console.log("* Error, image not loaded");
+        }
+        setTimeout(function(){
+            setStage(0,'');
+        }, 1500);
+    	
+    }
+
+    /*-- --*/
+
+    function uploadImageAsBlob(blob) {
+
+    	console.log("| Upload blob");
+            
+        var formData = new FormData();
+        formData.append("image", blob);
+        formData.append("name", (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase());
+		
+        $.ajax({
+            url: "/image",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // .. do something
+                var reply = JSON.parse(response);
+                console.log("- Success! Server: " + reply.message);
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                console.log("* "+errorMessage); // Optional
+            }
+        });
+
+    }
+
+    /* -- Web Sockets -- */
+    document.addEventListener("visibilitychange", function() {
+        //console.log("Visibility changed to: " + document.visibilityState);
+        if(document.visibilityState == "visible" ) {
+            checkWSStateAndReconnectIfNecessary(ws.readyState);
+
+            // Check again in one second
+            setTimeout(function(){
+                checkWSStateAndReconnectIfNecessary(ws.readyState);
+            }, 3000);
+        }
+    });
+
+    document.addEventListener("onfocus", function() {
+        //console.log("Gained focus");
+        checkWSStateAndReconnectIfNecessary(ws.readyState);
+
+        // Check again in one second
+        setTimeout(function(){
+            checkWSStateAndReconnectIfNecessary(ws.readyState);
+        }, 3000);
+    });
+
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.type == "changeState" || reply.type == "initState") {
+                setStage(reply.stage, reply.standbyMsg);
+            } else if (reply.type == "domatch" ) {
+            	checkMatch(reply.u1, reply.u2);
+            } else if (reply.type == "match" || reply.type == "name" ) {
+                //console.log("Unknown state received from server: " + reply.type);
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+          	
+          	//sendMsg("name", name);
+          	//console.log("- Sending /name "+name);
+          	//sendName();
+
+        };
+
+    }
+
+    function checkWSStateAndReconnectIfNecessary(wsReadyState) {
+        switch(wsReadyState) {
+            case ws.CONNECTING:
+                console.log("- WebSocket Connecting...");
+                break;
+            case ws.OPEN:
+                console.log("- WebSocket Open :)");
+                break;
+            case ws.CLOSING:
+                console.log("- WebSocket Closing...");
+                break;
+            case ws.CLOSED:
+                console.log("* WebSocket Closed :(");
+                connectToWS();
+                break;
+        }
+
+    }
+
+    function setStage(_stage, standbyMsg) {
+		stage = _stage;
+        switch(parseInt(stage)) {
+            case -1:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Identification";
+            	document.getElementById("msg-standby").innerHTML = "Scroll with your tongue";
+            	document.getElementById("img-result").src = "";
+            	document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	//document.getElementById("btn-click-look").innerHTML = "Take a selfie";
+                document.getElementById("btn-click-look").style.display = "none";
+                break;
+            case 0:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Analyzing your saliva";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
+            	setTimeout(function() {
+					setStage(1,'');
+				}, 3000);
+                break;
+            case 1:
+                document.getElementById("section-bottom").style.display = "";
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Access Denied";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "";
+            	document.getElementById("btn-click-look").style.display = "none";
+            	setTimeout(function() {
+					window.location.href = '/#main';
+				}, 5000);
+                break;
+            case 2:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "none";
+                document.getElementById("msg-standby").innerHTML = "And again";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
+                break;
+            case 3:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Good<br/>Your saliva is being analyzed";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
+                setTimeout(function() {
+					setStage(4,'');
+				}, 5000);
+                break;
+            case 4:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Analysis of your Microbiota population";
+            	document.getElementById("btn-click-look").innerHTML = "Biosync";
+                document.getElementById("msg-standby").innerHTML = "";
+                var rnd = Math.round(Math.random()*42);
+                var str = "img/micro_"+rnd+".jpg";
+                document.getElementById("img-result").src = str;
+				document.getElementById("img-result").style.display = "";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "";
+                break;
+            case 5:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Looking for a complementary microbiota";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
+                break;
+            case 6:
+                document.getElementById("section-bottom").style.display = "";
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Your healing solution";
+            	document.getElementById("msg-standby").innerHTML = "";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "";
+            	document.getElementById("btn-click-look").innerHTML = "";
+                document.getElementById("btn-click-look").style.display = "none";
+                break;
+        }
+            
+    }
+    
+        /* Onload */
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+        // Buttons
+        document.getElementById("btn-click-look").onclick = onClick;
+        
+        
+    	window.onscroll = function (event) {
+    		event.preventDefault();
+    		
+    		console.log(document.body.scrollTop);
+    		
+			setTimeout(function() {
+
+				// Run the callback
+				//console.log( 'Scrolling has stopped.' );
+				if (document.body.scrollTop > 15) {
+					switch (stage) {
+						case 0:
+							setStage(1,'');
+							break;
+						case 1:
+							setStage(2,'');
+							break;
+						case 2:
+							setStage(3,'');
+							break;
+						default:
+							break;
+					}
+				}
+			}, 200);
+    	
+    	};//*/
+    	
+    	
+    	window.ondblclick = function (event) {
+    		event.preventDefault();
+    		setStage(stage+1,'');
+    	}
+		
+		if (window.File && window.FileReader && window.FormData) {
+
+            document.getElementById("btn-click-photo-os").onchange = function (event) {
+
+                // Resize image and upload
+                resizeAndUpload();
+
+            };
+
+        } else {
+            alert("File upload is not supported!");
+        }
+		
+		connectToWS();
+        
+        var temp = location.search.substring(1).split("=");
+    	name = decodeURIComponent(temp[1]);
+    	document.getElementById("name").innerHTML = name;
+    	
+    	setStage(-1);
+    });
+
+    </script>
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
+    
+    </nav>
+
+    <!-- Section -->
+    <section id="section-top" style="padding-top:30px; display:none" class="container content-section text-center" style="padding:0;">
+        
+        <h1><span id="msg-top"></span></h1>
+        
+        <div class="row">
+
+			<div id="avatar-div-id" class="avatar-div" style="display:none">
+				<canvas></canvas>
+			</div>
+            <div id="imgResultDiv" style="display:none"><!--class="col-lg-12" style=""-->
+                <img id="img-result" src="" style="display:none"></img>
+                <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
+            </div>
+
+            <div class="col-lg-12">
+                <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
+                <div id="btn-click-look"  class="btn btn-lg btn-click-look">TAKE A<br>PHOTO</div>
+                
+            </div>            
+			
+			<div id="section-bottom" style="display: none;">
+				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
+					WARNING !<br/>
+					A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.<br/></br>
+					You will be redirected to the home page.
+				</p>
+			</div>
+        </div>
+        
+
+
+    </section>
+
+    <section id="section-standBy" style="" class="container content-section text-center" style="padding:0;">
+        
+        <h1 id="msg-standby"></h1>
+    </section>
+
+	<section style="display:none">
+		<div id="name"></div>
+	</section>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <!--script src="js/grayscale.min.js"></script-->
+    <script src="js/grayscale.js"></script>
+
+</body>
+
+</html>

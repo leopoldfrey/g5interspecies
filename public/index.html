@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Biosync Match Application</title>
+    <title>G5 Interspecies</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -31,31 +31,14 @@
 
     <script>
 
-    document.addEventListener("DOMContentLoaded", function(event) {
-
-        document.getElementById("captcha-img").onclick = function (e) {
-            document.getElementById("captcha-img").src = "/img/captacha.gif";
-            
-            // 5 seconds later
-            setTimeout(function(){
-                document.getElementById("btn-login").classList.remove("disabled");
-            },5000);
-
-        };
-
-    });
-
-    // Link click submit to server
-    function sendName() {
-
-        $.post("/name",{name: document.getElementById("name").value}, function(data){
-            if(data==="ok") {
-                console.log("- Success sending name");
-              }
-          });
-
-		window.location.href = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");
-    }
+	function selSpecy() {
+		v = document.getElementById("select_specy").value
+		if(v != "")
+		{
+			console.log("SelSpecy " + v);
+			window.location.href = '/id_'+v+'.html';
+		}
+	}
 
     </script>
 
@@ -69,40 +52,103 @@
     </nav>
 
     <!-- Intro Header -->
-    <!--header class="intro">
+    <header class="intro">
         <div class="intro-body">
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h1 class="brand-heading">ERGOWEB</h1-->
-                        <!--p class="intro-text">A free, responsive, one page Bootstrap theme.
-                            <br>Created by Start Bootstrap.</p>
-                        <a href="#about" class="btn btn-circle page-scroll">
+                        <h1 class="brand-heading">G5 Interspecies</h1-->
+                        <p class="intro-text">Human Referendum</p>
+                        <a href="#main" class="btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
-                        </a-->
-                    <!--/div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </header-->
+        		<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+        		<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+    </header>
     
     <section id="main" style="padding-top:30px" class="container content-section text-center">
         <div class="row">
-			<h1 style="font-size: 50px; margin-bottom:10px">Welcome</h1>
-			<h2> to the <br/>Biosync Application</h2>
+			<h1>Identification</h1>
 			<br/>
 			<!--form id="idform" action="biosync.html" method="GET"-->
 				<div class="row">
-					<input id="name" style="color:black; margin-top: 20px; width: 276px; font-weight: 500" placeholder="Name">
+					<select id="select_specy" name="specy" onchange="selSpecy()">
+						<option value="">Select your specy...</option>
+						<option value="mineral">MINERAL</option>
+						<option value="vegetal">VEGETAL</option>
+						<option value="animal">ANIMAL</option>
+						<option value="human">HUMAN</option>
+						<option value="machine">MACHINE</option>
+					</select>
 				</div>
 				<br/>
-				<div class="row">
-					<img id="captcha-img" src="/img/captacha-init.png" style="width:280px">
-				</div>
+				<!--div class="row">
+					<button id="btn-login" class="btn btn-click" onclick="sendSpecy()">ENTER</button>
+				</div-->
 				<br/>
-				<div class="row">
-					<button id="btn-login" class="btn btn-click" onclick="sendName()">ENTER</button>
-				</div>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				
 			<!--/form-->
         </div>
     </section>

@@ -22,8 +22,24 @@ app.get('/',function(req,res){
       res.sendFile(__dirname + "/public/index.html");
 });
 
-app.get('/biosync.html',function(req,res){
-      res.sendFile(__dirname + "/public/biosync.html");
+app.get('/id_animal.html',function(req,res){
+      res.sendFile(__dirname + "/public/id_animal.html");
+});
+
+app.get('/id_vegetal.html',function(req,res){
+      res.sendFile(__dirname + "/public/id_vegetal.html");
+});
+
+app.get('/id_mineral.html',function(req,res){
+      res.sendFile(__dirname + "/public/id_mineral.html");
+});
+
+app.get('/id_human.html',function(req,res){
+      res.sendFile(__dirname + "/public/id_human.html");
+});
+
+app.get('/id_machine.html',function(req,res){
+      res.sendFile(__dirname + "/public/id_machine.html");
 });
 
 app.get('/controller.html',function(req,res){
@@ -63,7 +79,7 @@ String.prototype.replaceAll = function(search, replacement) {
 
 var upload = multer({ dest: '/tmp' })
 
-app.post('/image', upload.single("biosync_image"), function (req, res) {
+app.post('/image', upload.single("image"), function (req, res) {
    console.log('| Server received /image');
    var date = new Date();
 
@@ -132,139 +148,6 @@ app.post('/name', function (req, res) {
   res.end("ok");
 })
 
-/*----------- Match receive -----------*/
-app.post('/match', function (req, res) {
-  console.log('| Server received /match');
-  if (req.body.name) {
-  	console.log('- User ready to match : '+req.body.name);
-  	usersMatch.push(req.body.name);
-  	if(wss)
-  	{
-  		wss.clients.forEach(function each(client) {
-			client.send(
-				JSON.stringify(
-				{
-					charset : 'utf8mb4', 
-					type: "match",
-					stage: req.body.name,
-					standbyMsg: ""
-				}));
-        	});
-  	}
-  } else {
-    console.log("* Error: invalid match received");  
-  }
-  
-  res.end("ok");
-})
-
-/*----------- matchmake receive -----------*/
-app.post('/matchmake', function (req, res) {
-  console.log('| Server received /matchmake');
-  
-  if(wss)
-  {
-		console.log('- MATCHMAKE '+usersMatch.length);
-		
-		while(usersMatch.length > 1)
-		{
-			var i = Math.floor(Math.random()*usersMatch.length);
-			var u1n = usersMatch[i];
-			usersMatch.splice(i,1);
-			var j = Math.floor(Math.random()*usersMatch.length);
-			var u2n = usersMatch[j];
-			usersMatch.splice(j,1);
-			console.log('- Matchmake '+u1n+' '+u2n);
-			// Broadcast
-			wss.clients.forEach(function each(client) {
-				client.send(
-						JSON.stringify(
-						{
-							charset : 'utf8mb4', 
-							type: "domatch",
-							u1: u1n,
-							u2: u2n
-						}));
-			});
-		}
-		/*if(usersMatch.length == 1)
-		{
-			console.log('- Alone '+usersMatch[0]);
-			wss.clients.forEach(function each(client) {
-				client.send(
-						JSON.stringify(
-						{
-							charset : 'utf8mb4', 
-							type: "domatch",
-							u1: usersMatch[0],
-							u2: "rocio"
-						}));
-			});
-			usersMatch = [];
-		}//*/
-  }
-  
-  res.end("ok");
-})
-
-// ALONE
-
-app.post('/alone', function (req, res) {
-  console.log('| Server received /alone');
-  
-  if(wss)
-  {
-		console.log('- ALONE '+usersMatch.length);
-		
-		if(usersMatch.length == 1)
-		{
-			console.log('- Alone '+usersMatch[0]);
-			wss.clients.forEach(function each(client) {
-				client.send(
-						JSON.stringify(
-						{
-							charset : 'utf8mb4', 
-							type: "domatch",
-							u1: usersMatch[0],
-							u2: "columba_livia"
-						}));
-			});
-			usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
-		}
-  }
-  
-  res.end("ok");
-})
-
-/*----------- getusers receive -----------*/
-app.post('/getusers', function (req, res) {
-	console.log('| Server received /getusers '+usersMatch);
-  
-  	if(wss)
-	{
-  		wss.clients.forEach(function each(client) {
-			client.send(
-				JSON.stringify(
-					{
-						charset : 'utf8mb4', 
-						type: "users",
-						userArray: usersMatch
-					}));
-		});
-  	}
-  
-  	res.end("ok");
-})
-
-/*----------- clearusers receive -----------*/
-app.post('/clearusers', function (req, res) {
-  console.log('| Server received /clearusers');
-  
-  usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
-  
-  res.end("ok");
-})
-
 /*----------- stage receive -----------*/
 app.post('/stage', function (req, res) {
   	console.log('| Server received /stage '+req.body.stage);
@@ -303,13 +186,6 @@ wss.closeTimeout = 180 * 1000;
 var currentStage = -1;
 var currentStandbyMessage = "Take a Selfie";
 
-//var users = [];//"D","Bb","C","A","Leo"];
-var usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
-  
-
-//usersMatch = users.slice();
-//console.log(usersMatch);
-
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     console.log('| WebSocket received : %s', message);
@@ -337,118 +213,6 @@ wss.on('connection', function connection(ws) {
 				}
         	});
 			break;
-		case "match":
-			console.log("- MATCH " + msg.stage);
-			usersMatch.push(msg.stage);
-			// Broadcast
-    	    wss.clients.forEach(function each(client) {
-				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					//console.log("Sending match : " + msg.stage);
-					client.send(
-						JSON.stringify(
-						{
-							charset : 'utf8mb4', 
-							type: "match",
-							stage: msg.stage,
-							standbyMsg: ""
-						}));
-				}
-        	});
-	    	break;
-	    case "name":
-	    	console.log('- NAME : '+msg.stage);
-	    	// Broadcast
-    	    wss.clients.forEach(function each(client) {
-				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					//console.log("Sending name : " + msg.stage);
-					client.send(
-						JSON.stringify(
-						{
-							charset : 'utf8mb4', 
-							type: "name",
-							stage: msg.stage,
-							standbyMsg: ""
-						}));
-				}
-        	});
-  			break;
-	    case "domatch":
-	    	console.log('- DOMATCH : '+msg.u1+' '+msg.u2);
-	    	// Broadcast
-    	    wss.clients.forEach(function each(client) {
-				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					//console.log("Sending name : domatch " + msg.u1 + " " + msg.u2);
-					client.send(
-						JSON.stringify(
-						{
-							charset : 'utf8mb4', 
-							type: "domatch",
-							u1: msg.u1,
-							u2: msg.u2
-						}));
-				}
-        	});
-  			break;
-  			
-  		case "matchmake":
-	    	
-	    	//usersMatch = users.slice();
-	    	console.log('- MATCHMAKE '+usersMatch.length);
-	    	
-	    	while(usersMatch.length > 1)
-	    	{
-	    		var i = Math.floor(Math.random()*usersMatch.length);
-				var u1n = usersMatch[i];
-				usersMatch.splice(i,1);
-				var j = Math.floor(Math.random()*usersMatch.length);
-				var u2n = usersMatch[j];
-				usersMatch.splice(j,1);
-				console.log('- Matchmake '+u1n+' '+u2n);
-				// Broadcast
-				wss.clients.forEach(function each(client) {
-					client.send(
-							JSON.stringify(
-							{
-								charset : 'utf8mb4', 
-								type: "domatch",
-								u1: u1n,
-								u2: u2n
-							}));
-				});
-	    	}
-	    	if(usersMatch.length == 1)
-	    	{
-	    		console.log('- Alone '+usersMatch[0]);
-	    		wss.clients.forEach(function each(client) {
-					client.send(
-							JSON.stringify(
-							{
-								charset : 'utf8mb4', 
-								type: "domatch",
-								u1: usersMatch[0],
-								u2: "columba_livia"
-							}));
-				});
-				usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
-	    	}
-  			break;
-  			
-  		case "getusers":
-  			console.log('- GETUSERS '+usersMatch.length);
-  			wss.clients.forEach(function each(client) {
-					client.send(
-							JSON.stringify(
-							{
-								charset : 'utf8mb4', 
-								type: "users",
-								userArray: usersMatch
-							}));
-				});
-	    	break;
-  		case "clearusers":
-  			console.log('- CLEARUSERS');
-  			usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
-  	    	break;
   		default:
   			console.log('* ignored : '+msg.type);
   			break;
