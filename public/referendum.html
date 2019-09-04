@@ -93,9 +93,9 @@
     }
 
 	var ws;
-    const port = location.PORT || 3000;
-	var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
-    //var wsServer = "wss://" + window.location.hostname + "/wss";
+    //const port = location.PORT || 3000;
+	//var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    var wsServer = "wss://" + window.location.hostname + "/wss";
     	
     /* -- Web Sockets -- */
     document.addEventListener("visibilitychange", function() {
