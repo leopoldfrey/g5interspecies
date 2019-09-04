@@ -1,0 +1,15 @@
+{
+  "A.I": {
+    "anarchy": 0,
+    "democracy": 2,
+    "spirituality": 0,
+    "totalitarism": 0,
+    "other": 1
+  },
+  "A.II.1": {
+    "only_intelligent": 0,
+    "most_intelligent": 0,
+    "another_intelligent": 0,
+    "another_form": 1
+  }
+}

@@ -57,6 +57,9 @@ a:focus {
   text-decoration: none;
   color: #1d9b6c;
 }
+input[type="radio"] {
+	margin: 0px 8px;
+}
 .light {
   font-weight: 400;
 }

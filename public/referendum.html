@@ -38,18 +38,15 @@
         font-size: 15px;
         /*color: rgba(255, 255, 255, 0.2)*/
     }
+    
+    #msg-middle {
+    	text-transform: none;
+    }
     </style>
     
     <script>
 
-	stage = -1;
-		
-   function onClick() {
-		switch (stage) {
-			default:
-				break;
-		}
-	}
+	vote = 0;
 		
 	// WEBSOCKET CONNECTION	
     
@@ -64,7 +61,7 @@
 				{
 					charset : 'utf8mb4', 
 					type: _type,
-					stage: _message
+					vote: _message
 				})
 			, function (err) {
 				if (err) {
@@ -81,11 +78,11 @@
 		}
 	}
 
-	function sendName() {
+	function sendVote(_vote, _value) {
 
-        $.post("/name",{name: document.getElementById("name").innerHTML}, function(data){
-            if(data==="ok") {
-                console.log("- Success sending name");
+        $.post("/vote",{vote: _vote, value: _value}, function(data){
+        	if(data==="ok") {
+                console.log("- Success sending vote");
               }
           });
 
@@ -93,7 +90,16 @@
     }
     
     function next() {
-    	console.log("NEXT");
+    	switch(vote){
+    		case 0:
+    			sendVote('A.I',document.querySelector('input[name="A.I"]:checked').value);
+    			setvote(vote+1);
+    			break;
+    		case 1:
+    			sendVote('A.II.1',document.querySelector('input[name="A.II.1"]:checked').value);
+    			setvote(vote+1);
+    			break;
+    	}
     }
 
 	var ws;
@@ -133,11 +139,7 @@
             console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
             if (reply.type == "changeState" || reply.type == "initState") {
-                setStage(reply.stage, reply.standbyMsg);
-            } else if (reply.type == "domatch" ) {
-            	checkMatch(reply.u1, reply.u2);
-            } else if (reply.type == "match" || reply.type == "name" ) {
-                //console.log("Unknown state received from server: " + reply.type);
+                setvote(reply.vote);
             }
         };
 
@@ -169,20 +171,35 @@
         }
     }
 
-    function setStage(_stage, standbyMsg) {
-		stage = _stage;
-        switch(parseInt(stage)) {
-            case -1:
+    function setvote(_vote) {
+		vote = _vote;
+        switch(parseInt(vote)) {
+            case 0:
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "REFERENDUM<br/>A.I";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Which human political protocol would you propose ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='A.I' value='anarchy'/></td><td>Anarchy</td></tr>"+
+                "<tr><td><input type='radio' name='A.I' value='democracy'/></td><td>Democracy</td></tr>"+
+                "<tr><td><input type='radio' name='A.I' value='spirituality'/></td><td>Spirituality</td></tr>"+
+                "<tr><td><input type='radio' name='A.I' value='totalitarism'/></td><td>Totalitarism</td></tr>"+
+                "<tr><td><input type='radio' name='A.I' value='other''/></td><td>Other</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "bottom";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 1:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM<br/>A.II.1";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "What is a human ?"+
                 "<br/>"+
-                "<br/><input type='radio' name='A.I' value='1'>&nbsp;&nbsp;anarchy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</input>"+
-                "<br/><input type='radio' name='A.I' value='2'>&nbsp;&nbsp;democracy&nbsp;&nbsp;</input>"+
-                "<br/><input type='radio' name='A.I' value='3'>&nbsp;&nbsp;spirituality&nbsp;&nbsp;&nbsp;</input>"+
-                "<br/><input type='radio' name='A.I' value='4'>&nbsp;&nbsp;totalitarism</input>"+
-                "<br/><input type='radio' name='A.I' value='5'>&nbsp;&nbsp;other</input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+                "<br/><input type='radio' name='A.II.1' value='only_intelligent'>the only form of intelligence on earth</input>"+
+                "<br/><input type='radio' name='A.II.1' value='most_intelligent'>the most intelligent form on earth</input>"+
+                "<br/><input type='radio' name='A.II.1' value='another_intelligent'>another form of intelligence on earth</input>"+
+                "<br/><input type='radio' name='A.II.1' value='another_form'>another form of life among several others</input>"+
                 "</div>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "bottom";
@@ -200,7 +217,7 @@
 		
 		connectToWS();
         
-        setStage(-1);
+        setvote(0);
     });
 
     </script>

@@ -54,6 +54,10 @@ app.get('/address.html',function(req,res){
       res.sendFile(__dirname + "/public/address.html");
 });
 
+app.get('/votes.json',function(req,res){
+      res.sendFile(__dirname + "/public/votes.json");
+});
+
 
 /*----------- Static Files -----------*/
 app.use('/vendor', express.static('public/vendor'));
@@ -126,11 +130,31 @@ app.post('/image', upload.single("image"), function (req, res) {
    });
 });
 
+var rawvotes = fs.readFileSync('public/votes.json');
+var votes = JSON.parse(rawvotes);
+console.log(votes);
+
 /*----------- vote receive -----------*/
 app.post('/vote', function (req, res) {
-  console.log('| Server received /vote');
-  if (req.body) {
-  	console.log('- New vote : '+req.body);
+  console.log('| Server received /vote '+req.body.vote);
+  if (req.body.vote) {
+  	console.log('- New vote : '+req.body.vote +' '+ req.body.value);
+  	if(votes.hasOwnProperty(req.body.vote))
+  	{
+  		v = votes[req.body.vote];
+  		v[req.body.value]+=1;
+  		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync('public/votes.json', jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err)
+			} else {
+				console.log('Successfully wrote file')
+			}
+		})
+  	} else {
+  		console.log("not found : "+req.body.vote);
+  	}
+  	//console.log(votes);
   	
   } else {
     console.log("* Error: invalid vote received");  
