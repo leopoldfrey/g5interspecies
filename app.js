@@ -126,27 +126,14 @@ app.post('/image', upload.single("image"), function (req, res) {
    });
 });
 
-/*----------- Name receive -----------*/
-// https://codeforgeek.com/2014/09/handle-get-post-request-express-4/
-app.post('/name', function (req, res) {
-  console.log('| Server received /name');
-  if (req.body.name) {
-  	console.log('- New user : '+req.body.name);
-  	if(wss)
-  	{
-  		wss.clients.forEach(function each(client) {
-			client.send(
-				JSON.stringify(
-				{
-					charset : 'utf8mb4', 
-					type: "name",
-					stage: req.body.name,
-					standbyMsg: ""
-				}));
-        	});
-  	}
+/*----------- vote receive -----------*/
+app.post('/vote', function (req, res) {
+  console.log('| Server received /vote');
+  if (req.body) {
+  	console.log('- New vote : '+req.body);
+  	
   } else {
-    console.log("* Error: invalid name received");  
+    console.log("* Error: invalid vote received");  
   }
   
   res.end("ok");

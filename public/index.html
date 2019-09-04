@@ -31,11 +31,11 @@
 
     <script>
 
-	function selSpecy() {
-		v = document.getElementById("select_specy").value
+	function selspecie() {
+		v = document.getElementById("select_specie").value
 		if(v != "")
 		{
-			console.log("SelSpecy " + v);
+			console.log("Selspecie " + v);
 			window.location.href = '/id_'+v+'.html';
 		}
 	}
@@ -57,7 +57,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h1 class="brand-heading">G5 Interspecies</h1-->
+                        <h1 class="brand-heading">Coexistence</h1>
                         <p class="intro-text">Human Referendum</p>
                         <a href="#main" class="btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
@@ -98,8 +98,8 @@
 			<br/>
 			<!--form id="idform" action="biosync.html" method="GET"-->
 				<div class="row">
-					<select id="select_specy" name="specy" onchange="selSpecy()">
-						<option value="">Select your specy...</option>
+					<select id="select_specie" name="specie" onchange="selspecie()">
+						<option value="">Select your specie...</option>
 						<option value="mineral">MINERAL</option>
 						<option value="vegetal">VEGETAL</option>
 						<option value="animal">ANIMAL</option>
@@ -109,7 +109,7 @@
 				</div>
 				<br/>
 				<!--div class="row">
-					<button id="btn-login" class="btn btn-click" onclick="sendSpecy()">ENTER</button>
+					<button id="btn-login" class="btn btn-click" onclick="sendspecie()">ENTER</button>
 				</div-->
 				<br/>
 				<br/>

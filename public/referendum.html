@@ -38,73 +38,21 @@
         font-size: 15px;
         /*color: rgba(255, 255, 255, 0.2)*/
     }
-    
-    #img-loading {
-    	/*position: relative;
-		top: 50%;
-		transform: translate(0%, -50%);//*/
-    }
-    
-    #img-result {
-        /*width:50%;
-        max-height: 500px;
-        height:auto;//*/
-    	/*margin-left: auto;
-    	margin-right: auto;
-  		position: absolute;
-  		min-width: 400px;
-  		min-height: 100%;//*/
-  		
-  		height:200px;
-		min-width:100%;
-		max-width:none;
-		margin: 0 -50%;
-		border: solid white 10px;
-		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
-    #imgResultDiv {
-    	width: 200px;
-    	height: 200px;
-    	text-align: center;
-		
-    	margin: 0 auto;
-  		overflow: hidden;
-  		position: relative;
-  		
-  		margin-bottom: 40px;
-    }
-    
-    .avatar-div {
-    	/*border-radius: 150px;*/
-		height:200px;
-		width:200px;
-		/*overflow:hidden;*/
-		text-align: center;
-		margin:0 auto;
-  		margin-bottom: 40px;
-    }
-    
-    .avatar-canvas {
-    	/*height:300px;
-		min-width:100%;
-		max-width:none;
-		position: relative;
-		left: 50%;
-	 	top: 50%;
-		transform: translate(-50%, -50%);//*/
-		height:200px;
-		/*width:50%;*/
-		/*max-width:none;*/
-		margin: 0 -50%;
-		border: solid white 10px;
-		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
     </style>
     
     <script>
 
+	stage = -1;
+		
+   function onClick() {
+		switch (stage) {
+			default:
+				break;
+		}
+	}
+		
+	// WEBSOCKET CONNECTION	
+    
 	function sendMsg(_type, _message) {
 		try {
 		
@@ -133,120 +81,22 @@
 		}
 	}
 
-	stage = -1;
-				
-    //const port = location.PORT || 3000;
+	function sendName() {
+
+        $.post("/name",{name: document.getElementById("name").innerHTML}, function(data){
+            if(data==="ok") {
+                console.log("- Success sending name");
+              }
+          });
+
+		//window.location.href = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");
+    }
 
 	var ws;
-    //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
-    var wsServer = "wss://" + window.location.hostname + "/wss";
-    
-    function onClick() {
-		switch (stage) {
-			case -1:
-				document.getElementById("btn-click-photo-os").click();
-				break;
-			case 4:
-				setStage(5,'');
-				break;
-			default:
-				break;
-		}
-	}
-
-/* Utility function to convert a canvas to a BLOB */
-    var dataURLToBlob = function(dataURL) {
-      //console.log("DataURLToBlob")
-        var BASE64_MARKER = ';base64,';
-        if (dataURL.indexOf(BASE64_MARKER) == -1) {
-            var parts = dataURL.split(',');
-            var contentType = parts[0].split(':')[1];
-            var raw = parts[1];
-
-            return new Blob([raw], {type: contentType});
-        }
-
-        var parts = dataURL.split(BASE64_MARKER);
-        var contentType = parts[0].split(':')[1];
-        var raw = window.atob(parts[1]);
-        var rawLength = raw.length;
-
-        var uInt8Array = new Uint8Array(rawLength);
-
-        for (var i = 0; i < rawLength; ++i) {
-            uInt8Array[i] = raw.charCodeAt(i);
-        }
-
-        return new Blob([uInt8Array], {type: contentType});
-    }
-    /* End Utility function to convert a canvas to a BLOB      */
-
-    // https://www.codeforest.net/html5-image-upload-resize-and-crop
-
-    function resizeAndUpload() {
-        var loadingImage = loadImage(
-            event.target.files[0],
-            function (canvas) {
-            
-            	var dataURL = canvas.toDataURL("image/jpeg");
-
-				var resultDiv = document.querySelector("#avatar-div-id");
-				canvas.classList.add("avatar-canvas");
-	            resultDiv.replaceChild(canvas, resultDiv.children[0]);
-	            
-                // Transform to blob and upload
-                var blob = dataURLToBlob(dataURL);
-                uploadImageAsBlob(blob);
-
-                // In order to trigger again onchange
-                document.getElementById('btn-click-photo-os').value = null;
-            },
-            {
-                maxWidth: 300,
-                //maxHeight: 888,
-                //minWidth: 500,
-                //minHeight: 500,
-                canvas: true,
-                orientation: true
-            }
-        );
-        if (!loadingImage) {
-            console.log("* Error, image not loaded");
-        }
-        setTimeout(function(){
-            setStage(0,'');
-        }, 1500);
+    const port = location.PORT || 3000;
+	var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    //var wsServer = "wss://" + window.location.hostname + "/wss";
     	
-    }
-
-    /*-- --*/
-
-    function uploadImageAsBlob(blob) {
-
-    	console.log("| Upload blob");
-            
-        var formData = new FormData();
-        formData.append("image", blob);
-        formData.append("name", (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase());
-		
-        $.ajax({
-            url: "/image",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                // .. do something
-                var reply = JSON.parse(response);
-                console.log("- Success! Server: " + reply.message);
-            },
-            error: function(jqXHR, textStatus, errorMessage) {
-                console.log("* "+errorMessage); // Optional
-            }
-        });
-
-    }
-
     /* -- Web Sockets -- */
     document.addEventListener("visibilitychange", function() {
         //console.log("Visibility changed to: " + document.visibilityState);
@@ -294,13 +144,7 @@
 
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
-          	
-          	//sendMsg("name", name);
-          	//console.log("- Sending /name "+name);
-          	//sendName();
-
         };
-
     }
 
     function checkWSStateAndReconnectIfNecessary(wsReadyState) {
@@ -319,199 +163,40 @@
                 connectToWS();
                 break;
         }
-
     }
 
     function setStage(_stage, standbyMsg) {
 		stage = _stage;
         switch(parseInt(stage)) {
             case -1:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Referendum";
-            	document.getElementById("msg-standby").innerHTML = "";
-            	document.getElementById("img-result").src = "";
-            	document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "none";
-				document.getElementById("imgResultDiv").style.display = "none";
-            	document.getElementById("avatar-div-id").style.display = "none";
-                document.getElementById("btn-click-look").style.display = "none";
-                break;
-            case 0:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Analyzing your selfie";
-            	document.getElementById("img-result").src = "";
-                document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "";
-				document.getElementById("imgResultDiv").style.display = "";
-            	document.getElementById("avatar-div-id").style.display = "none";
-            	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
-					setStage(1,'');
-				}, 3000);
-                break;
-            case 1:
-                document.getElementById("section-bottom").style.display = "";
-                document.getElementById("section-standBy").style.display = "";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Access Denied";
-            	document.getElementById("img-result").src = "";
-                document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "none";
-				document.getElementById("imgResultDiv").style.display = "none";
-            	document.getElementById("avatar-div-id").style.display = "";
-            	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
-					window.location.href = '/#main';
-				}, 5000);
-                break;
-            case 2:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "";
-                document.getElementById("section-top").style.display = "none";
-                document.getElementById("msg-standby").innerHTML = "And again";
-            	document.getElementById("img-result").src = "";
-                document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "none";
-				document.getElementById("imgResultDiv").style.display = "none";
-            	document.getElementById("avatar-div-id").style.display = "none";
-            	document.getElementById("btn-click-look").style.display = "none";
-                break;
-            case 3:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Good<br/>Your saliva is being analyzed";
-            	document.getElementById("img-result").src = "";
-                document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "";
-				document.getElementById("imgResultDiv").style.display = "";
-            	document.getElementById("avatar-div-id").style.display = "none";
-            	document.getElementById("btn-click-look").style.display = "none";
-                setTimeout(function() {
-					setStage(4,'');
-				}, 5000);
-                break;
-            case 4:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Analysis of your Microbiota population";
-            	document.getElementById("btn-click-look").innerHTML = "Biosync";
-                document.getElementById("msg-standby").innerHTML = "";
-                var rnd = Math.round(Math.random()*42);
-                var str = "img/micro_"+rnd+".jpg";
-                document.getElementById("img-result").src = str;
-				document.getElementById("img-result").style.display = "";
-                document.getElementById("img-loading").style.display = "none";
-				document.getElementById("imgResultDiv").style.display = "";
-            	document.getElementById("avatar-div-id").style.display = "none";
-            	document.getElementById("btn-click-look").style.display = "";
-                break;
-            case 5:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Looking for a complementary microbiota";
-            	document.getElementById("img-result").src = "";
-                document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "";
-				document.getElementById("imgResultDiv").style.display = "";
-            	document.getElementById("avatar-div-id").style.display = "none";
-            	document.getElementById("btn-click-look").style.display = "none";
-                break;
-            case 6:
-                document.getElementById("section-bottom").style.display = "";
-                document.getElementById("section-standBy").style.display = "";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Your healing solution";
-            	document.getElementById("msg-standby").innerHTML = "";
-            	document.getElementById("img-result").src = "";
-                document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "none";
-				document.getElementById("imgResultDiv").style.display = "none";
-            	document.getElementById("avatar-div-id").style.display = "";
-            	document.getElementById("btn-click-look").innerHTML = "";
-                document.getElementById("btn-click-look").style.display = "none";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM<br/>A.I";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Which human political protocol would you propose ?"+
+                "<br/>"+
+                "<br/><input type='radio' name='A.I' value='1'>&nbsp;&nbsp;anarchy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</input>"+
+                "<br/><input type='radio' name='A.I' value='2'>&nbsp;&nbsp;democracy&nbsp;&nbsp;</input>"+
+                "<br/><input type='radio' name='A.I' value='3'>&nbsp;&nbsp;spirituality&nbsp;&nbsp;&nbsp;</input>"+
+                "<br/><input type='radio' name='A.I' value='4'>&nbsp;&nbsp;totalitarism</input>"+
+                "<br/><input type='radio' name='A.I' value='5'>&nbsp;&nbsp;other</input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
+                "</div>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "bottom";
+                document.getElementById("next-btn").style.display = "";
                 break;
         }
             
     }
     
-        /* Onload */
+    /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
         // Buttons
-        document.getElementById("btn-click-look").onclick = onClick;
-        
-        /*
-    	window.onscroll = function (event) {
-    		event.preventDefault();
-    		
-			setTimeout(function() {
-
-				// Run the callback
-				//console.log( 'Scrolling has stopped.' );
-				if (document.body.scrollTop > 15) {
-					switch (stage) {
-						case 0:
-							setStage(1,'');
-							break;
-						case 1:
-							setStage(2,'');
-							break;
-						case 2:
-							setStage(3,'');
-							break;
-						default:
-							break;
-					}
-				}
-			}, 500);
-    	
-    	};//*/
-    	
-    	/*
-    	window.ondblclick = function (event) {
-    		event.preventDefault();
-    		switch (stage) {
-				case 0:
-					setStage(1,'');
-					break;
-				case 1:
-					setStage(2,'');
-					break;
-				case 2:
-					setStage(3,'');
-					break;
-				default:
-					break;
-			}
-    	}//*/
-		
-		if (window.File && window.FileReader && window.FormData) {
-
-            document.getElementById("btn-click-photo-os").onchange = function (event) {
-
-                // Resize image and upload
-                resizeAndUpload();
-
-            };
-
-        } else {
-            alert("File upload is not supported!");
-        }
+        document.getElementById("next-btn").onclick = onClick;
 		
 		connectToWS();
         
-        var temp = location.search.substring(1).split("=");
-    	name = decodeURIComponent(temp[1]);
-    	document.getElementById("name").innerHTML = name;
-    	
-    	setStage(-1);
+        setStage(-1);
     });
 
     </script>
@@ -526,47 +211,23 @@
     </nav>
 
     <!-- Section -->
-    <section id="section-top" style="padding-top:30px; display:none" class="container content-section text-center" style="padding:0;">
-        
+    <section id="section-top" style="padding-top:30px" class="container content-section text-center" style="padding:0;">
         <h1><span id="msg-top"></span></h1>
-        
-        <div class="row">
-
-			<div id="avatar-div-id" class="avatar-div" style="display:none">
-				<canvas></canvas>
-			</div>
-            <div id="imgResultDiv" style="display:none"><!--class="col-lg-12" style=""-->
-                <img id="img-result" src="" style="display:none"></img>
-                <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
-            </div>
-
-            <div class="col-lg-12">
-                <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
-                <div id="btn-click-look"  class="btn btn-lg btn-click-look">TAKE A<br>PHOTO</div>
-                
-            </div>            
-			
-			<div id="section-bottom" style="display: none;">
-				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
-					WARNING !<br/>
-					A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.<br/></br>
-					You will be redirected to the home page.
-				</p>
-			</div>
-        </div>
-        
-
-
     </section>
 
-    <section id="section-standBy" style="" class="container content-section text-center" style="padding:0;">
-        
-        <h1 id="msg-standby"></h1>
+	<section id="section-middle" class="container content-section text-center" style="padding:0;">
+        <h1><span id="msg-middle"></span></h1>
     </section>
 
-	<section style="display:none">
-		<div id="name"></div>
-	</section>
+    <section id="section-bottom" style="" class="container content-section text-center" style="padding:0;">
+        <h1><span id="msg-bottom"></span></h1>
+    </section>
+
+	<br/>
+	
+	<section id="section-btn" class="container content-section text-center" style="padding:0;">
+        <div id="next-btn" class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">NEXT</div>
+    </section>
 
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
