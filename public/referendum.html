@@ -328,7 +328,30 @@
     		case 15:
     			addVote('B.3','mineral_growth',document.querySelector('input[name="B.3"]').value/100.);
     			sendVote('B.3','mineral_vote');
-    			setvote(15);
+    			setvote(16);
+    			break;   		
+    		case 16:
+    			addVote('B.4','vegetal_growth',document.querySelector('input[name="B.4"]').value/100.);
+    			sendVote('B.4','vegetal_vote');
+    			setvote(17);
+    			break;   		
+    		case 17:
+    			addVote('B.5','animal_growth',document.querySelector('input[name="B.5"]').value/100.);
+    			sendVote('B.5','animal_vote');
+    			setvote(18);
+    			break;   		
+    		case 18:
+    			addVote('B.6','human_growth',document.querySelector('input[name="B.6"]').value/100.);
+    			sendVote('B.6','human_vote');
+    			setvote(19);
+    			break;   		
+    		case 19:
+    			addVote('B.7','machine_growth',document.querySelector('input[name="B.7"]').value/100.);
+    			sendVote('B.7','machine_vote');
+    			setvote(20);
+    			break;   		
+    		case 20:
+    			//setvote(21);
     			break;   		
     	}
     }
@@ -424,7 +447,7 @@
                 "<tr><td><input type='radio' name='A.6' value='='/></td><td>=</td></tr>"+
                 "<tr><td><input type='radio' name='A.6' value='>'/></td><td>></td></tr>"+
                 "</table>"+
-                "<br/>to Minerals";
+                "<br/>to <u>Minerals</u>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
@@ -439,7 +462,7 @@
                 "<tr><td><input type='radio' name='A.7' value='='/></td><td>=</td></tr>"+
                 "<tr><td><input type='radio' name='A.7' value='>'/></td><td>></td></tr>"+
                 "</table>"+
-                "<br/>to Vegetals";
+                "<br/>to <u>Vegetals</u>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
@@ -454,7 +477,7 @@
                 "<tr><td><input type='radio' name='A.8' value='='/></td><td>=</td></tr>"+
                 "<tr><td><input type='radio' name='A.8' value='>'/></td><td>></td></tr>"+
                 "</table>"+
-                "<br/>to Animals";
+                "<br/>to <u>Animals</u>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
@@ -469,7 +492,7 @@
                 "<tr><td><input type='radio' name='A.9' value='='/></td><td>=</td></tr>"+
                 "<tr><td><input type='radio' name='A.9' value='>'/></td><td>></td></tr>"+
                 "</table>"+
-                "<br/>to Machines";
+                "<br/>to <u>Machines</u>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
@@ -494,7 +517,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "REFERENDUM A.11";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "I am for the creation of inclusive spaces with"+
+                document.getElementById("msg-middle").innerHTML = "I am for the creation of <u>inclusive</u> spaces with"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td><input type='checkbox' name='A.11a' value='mineral'/></td><td>Minerals</td></tr>"+
                 "<tr><td><input type='checkbox' name='A.11b' value='vegetal'/></td><td>Vegetals</td></tr>"+
@@ -510,7 +533,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "REFERENDUM A.12";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "I am for the creation of exclusive spaces with"+
+                document.getElementById("msg-middle").innerHTML = "I am for the creation of <u>exclusive</u> spaces with"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td><input type='checkbox' name='A.12a' value='mineral'/></td><td>Minerals</td></tr>"+
                 "<tr><td><input type='checkbox' name='A.12b' value='vegetal'/></td><td>Vegetals</td></tr>"+
@@ -565,9 +588,69 @@
 			    document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "REFERENDUM B.3";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Evolution of mineral population in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "Evolution of <u>mineral</u> population in 2120 ?"+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td>shrink&nbsp;&nbsp;</td><td><input type='range' name='B.3' min='0' max='100'></td><td>&nbsp;&nbsp;growth</td></tr>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.3' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 16:
+			    document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM B.4";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Evolution of <u>vegetal</u> population in 2120 ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.4' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 17:
+			    document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM B.5";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Evolution of <u>animal</u> population in 2120 ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.5' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 18:
+			    document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM B.6";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Evolution of <u>human</u> population in 2120 ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.6' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 19:
+			    document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM B.7";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Evolution of <u>machine</u> population in 2120 ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.7' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 20:
+			    document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM B.8";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Evolution of <u>hybrid human/vegetal</u> population in 2120 ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.8' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
                 "</table>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";

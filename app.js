@@ -132,14 +132,14 @@ app.post('/image', upload.single("image"), function (req, res) {
 
 var rawvotes = fs.readFileSync('public/votes.json');
 var votes = JSON.parse(rawvotes);
-var questions = Object.keys(votes)
+/*var questions = Object.keys(votes)
 questions.forEach(function(q) {
 	console.log(q);
 	var answers = Object.keys(votes[q]);
 	answers.forEach(function(ans) {
 		console.log("  "+(votes[q])[ans]+" - "+ans);
 	});
-});
+});//*/
 
 /*----------- vote receive -----------*/
 app.post('/vote', function (req, res) {
@@ -161,20 +161,18 @@ app.post('/vote', function (req, res) {
   	} else {
   		console.log("not found : "+req.body.vote);
   	}
-  	//console.log(votes);
-  	
   } else {
     console.log("* Error: invalid vote received");  
   }
   
-  res.end("ok");
+  res.send("ok");
 })
 
 /*----------- addvote receive -----------*/
 app.post('/addvote', function (req, res) {
   console.log('| Server received /addvote '+req.body.vote);
   if (req.body.vote) {
-  	console.log('- New vote : '+req.body.vote +' '+ req.body.ref +' '+ req.body.value);
+  	console.log('- Add vote : '+req.body.vote +' '+ req.body.ref +' '+ req.body.value);
   	if(votes.hasOwnProperty(req.body.vote))
   	{
   		v = votes[req.body.vote];
@@ -196,7 +194,7 @@ app.post('/addvote', function (req, res) {
     console.log("* Error: invalid vote received");  
   }
   
-  res.end("ok");
+  res.send("ok");
 })
 
 /*------------ CLEAR VOTES ----------*/
@@ -220,21 +218,21 @@ app.post('/clearvotes', function(req, res) {
 		})
 	});
 	
-	res.end("ok");
+	res.send("ok");
 })
 
 /*------------ CLEAR GLOBAL VOTES ----------*/
 app.post('/clearglobalvotes', function(req, res) {
 	console.log('| Server received /clearglobalvotes TODO');	
 	// TODO CLEAR GLOBAL VOTES
-	res.end("ok");
+	res.send("todo");
 })
 
 /*------------ ADD LOCAL VOTES ----------*/
 app.post('/addlocalvotes', function(req, res) {
 	console.log('| Server received /addlocalvotes TODO');	
 	// TODO ADD LOCAL VOTES
-	res.end("ok");
+	res.send("todo");
 })
 
 /*------------ SEND NEXT VOTE ----------*/
@@ -255,33 +253,7 @@ app.post('/nextvote', function(req, res) {
   	}
 	
 	
-	res.end("ok");
-})
-
-/*----------- stage receive -----------*/
-app.post('/stage', function (req, res) {
-  	console.log('| Server received /stage '+req.body.stage);
-  
-  	if(wss)
-  	{
-		currentStage = req.body.stage;
-		currentStandbyMessage = req.body.standbyMsg;
-
-		console.log("- BROADCAST " + currentStage);
-		// Broadcast
-		wss.clients.forEach(function each(client) {
-			client.send(
-				JSON.stringify(
-				{
-					charset : 'utf8mb4', 
-					type: "changeState",
-					stage: currentStage,
-					standbyMsg: currentStandbyMessage
-				}));
-		});
-  	}
-
-  res.end("ok");
+	res.send("ok");
 })
 
 /*----------- WS Server -----------*/

@@ -72,18 +72,35 @@
     "machine": 0
   },
   "B.1": {
-    "earth": 4,
-    "other_planet": 1,
+    "earth": 0,
+    "other_planet": 0,
     "nowhere": 0
   },
   "B.2": {
-    "urban": 1,
-    "rural": 3,
+    "urban": 0,
+    "rural": 0,
     "natural": 0,
     "nowhere": 0
   },
   "B.3": {
-    "mineral_growth": 1.79,
-    "mineral_vote": 6
-  }
+    "mineral_growth": 0.13,
+    "mineral_vote": 1
+  },
+  "B.4": {
+    "vegetal_growth": 0.69,
+    "vegetal_vote": 1
+  },
+  "B.5": {
+    "animal_growth": 0.1,
+    "animal_vote": 2
+  },
+  "B.6": {
+    "human_growth": 1.09,
+    "human_vote": 2
+  },
+  "B.7": {
+    "machine_growth": 1.45,
+    "machine_vote": 2
+  },
+  "B.8": {}
 }
