@@ -50,9 +50,9 @@ app.get('/controller.html',function(req,res){
       res.sendFile(__dirname + "/public/controller.html");
 });
 
-app.get('/address.html',function(req,res){
+/*app.get('/address.html',function(req,res){
       res.sendFile(__dirname + "/public/address.html");
-});
+});//*/
 
 app.get('/votes.json',function(req,res){
       res.sendFile(__dirname + "/public/votes.json");
@@ -132,7 +132,14 @@ app.post('/image', upload.single("image"), function (req, res) {
 
 var rawvotes = fs.readFileSync('public/votes.json');
 var votes = JSON.parse(rawvotes);
-console.log(votes);
+var questions = Object.keys(votes)
+questions.forEach(function(q) {
+	console.log(q);
+	var answers = Object.keys(votes[q]);
+	answers.forEach(function(ans) {
+		console.log("  "+(votes[q])[ans]+" - "+ans);
+	});
+});
 
 /*----------- vote receive -----------*/
 app.post('/vote', function (req, res) {
@@ -161,6 +168,65 @@ app.post('/vote', function (req, res) {
   }
   
   res.end("ok");
+})
+
+/*------------ CLEAR VOTES ----------*/
+app.post('/clearvotes', function(req, res) {
+	console.log('| Server received /clearvotes');	
+	var questions = Object.keys(votes)
+	questions.forEach(function(q) {
+		//console.log(q);
+		var answers = Object.keys(votes[q]);
+		answers.forEach(function(ans) {
+			(votes[q])[ans] = 0;
+			//console.log("  "+(votes[q])[ans]+" - "+ans);
+		});
+		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync('public/votes.json', jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err)
+			} else {
+				console.log('Successfully wrote file')
+			}
+		})
+	});
+	
+	res.end("ok");
+})
+
+/*------------ CLEAR GLOBAL VOTES ----------*/
+app.post('/clearglobalvotes', function(req, res) {
+	console.log('| Server received /clearglobalvotes TODO');	
+	// TODO CLEAR GLOBAL VOTES
+	res.end("ok");
+})
+
+/*------------ ADD LOCAL VOTES ----------*/
+app.post('/addlocalvotes', function(req, res) {
+	console.log('| Server received /addlocalvotes TODO');	
+	// TODO ADD LOCAL VOTES
+	res.end("ok");
+})
+
+/*------------ SEND NEXT VOTE ----------*/
+app.post('/nextvote', function(req, res) {
+	console.log('| Server received /nextvote '+req.body.vote);	
+	
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "nextvote",
+					vote: req.body.vote
+				}));
+		});
+  	}
+	
+	
+	res.end("ok");
 })
 
 /*----------- stage receive -----------*/

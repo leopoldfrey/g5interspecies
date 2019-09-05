@@ -89,23 +89,28 @@
 		//window.location.href = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");
     }
     
-    function next() {
-    	switch(vote){
-    		case 0:
-    			sendVote('A.I',document.querySelector('input[name="A.I"]:checked').value);
-    			setvote(vote+1);
-    			break;
-    		case 1:
-    			sendVote('A.II.1',document.querySelector('input[name="A.II.1"]:checked').value);
-    			setvote(vote+1);
-    			break;
+    function cancelHybrid() {
+    	if(document.querySelector('input[name="A.4e"]').checked) {
+    		document.querySelector('input[name="A.4a"]').checked = false;
+    		document.querySelector('input[name="A.4b"]').checked = false;
+    		document.querySelector('input[name="A.4c"]').checked = false;
+    		document.querySelector('input[name="A.4d"]').checked = false;
+    	}
+    }
+    
+    function checkHybrid() {
+    	if(document.querySelector('input[name="A.4a"]').checked ||
+    		document.querySelector('input[name="A.4b"]').checked ||
+    		document.querySelector('input[name="A.4c"]').checked ||
+    		document.querySelector('input[name="A.4d"]').checked) {
+    		document.querySelector('input[name="A.4e"]').checked = false;	
     	}
     }
 
 	var ws;
-    //const port = location.PORT || 3000;
-	//var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
-    var wsServer = "wss://" + window.location.hostname + "/wss";
+    const port = location.PORT || 3000;
+	var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    //var wsServer = "wss://" + window.location.hostname + "/wss";
     	
     /* -- Web Sockets -- */
     document.addEventListener("visibilitychange", function() {
@@ -138,7 +143,7 @@
         ws.onmessage = function (e) {
             console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
-            if (reply.type == "changeState" || reply.type == "initState") {
+            if (reply.command == "nextvote") {
                 setvote(reply.vote);
             }
         };
@@ -171,38 +176,346 @@
         }
     }
 
-    function setvote(_vote) {
-		vote = _vote;
-        switch(parseInt(vote)) {
+    function next() {
+    	//console.log("NEXT : "+vote);
+		//console.log("NEXT : "+vote+" -- "+parseInt(vote));
+		switch(parseInt(vote)){
+    		case 0:
+    			sendVote('A.1',document.querySelector('input[name="A.1"]:checked').value);
+    			setvote(1);
+    			break;
+    		case 1:
+    			sendVote('A.2',document.querySelector('input[name="A.2"]:checked').value);
+    			setvote(2);
+    			break;
+    		case 2:
+    			sendVote('A.3',document.querySelector('input[name="A.3"]:checked').value);
+    			setvote(3);
+    			break;
+    		case 3:
+    			if(document.querySelector('input[name="A.4a"]').checked)
+    			{
+    				sendVote('A.4',document.querySelector('input[name="A.4a"]').value);
+    			}
+    			if(document.querySelector('input[name="A.4b"]').checked)
+    			{
+    				sendVote('A.4',document.querySelector('input[name="A.4b"]').value);
+    			}
+    			if(document.querySelector('input[name="A.4c"]').checked)
+    			{
+    				sendVote('A.4',document.querySelector('input[name="A.4c"]').value);
+    			}
+    			if(document.querySelector('input[name="A.4d"]').checked)
+    			{
+    				sendVote('A.4',document.querySelector('input[name="A.4d"]').value);
+    			}
+    			if(document.querySelector('input[name="A.4e"]').checked)
+    			{
+    				sendVote('A.4',document.querySelector('input[name="A.4e"]').value);
+    			}
+    			setvote(4);
+    			break;
+    		case 4:
+    			sendVote('A.5',document.querySelector('input[name="A.5"]:checked').value);
+    			setvote(5);
+    			break;
+    		case 5:
+    			sendVote('A.6',document.querySelector('input[name="A.6"]:checked').value);
+    			setvote(6);
+    			break;
+    		case 6:
+    			sendVote('A.7',document.querySelector('input[name="A.7"]:checked').value);
+    			setvote(7);
+    			break;
+    		case 7:
+    			sendVote('A.8',document.querySelector('input[name="A.8"]:checked').value);
+    			setvote(8);
+    			break;
+    		case 8:
+    			sendVote('A.9',document.querySelector('input[name="A.9"]:checked').value);
+    			setvote(9);
+    			break;
+    		case 9:
+    			if(document.querySelector('input[name="A.10a"]').checked)
+    			{
+    				sendVote('A.10',document.querySelector('input[name="A.10a"]').value);
+    			}
+    			if(document.querySelector('input[name="A.10b"]').checked)
+    			{
+    				sendVote('A.10',document.querySelector('input[name="A.10b"]').value);
+    			}
+    			if(document.querySelector('input[name="A.10c"]').checked)
+    			{
+    				sendVote('A.10',document.querySelector('input[name="A.10c"]').value);
+    			}
+    			if(document.querySelector('input[name="A.10d"]').checked)
+    			{
+    				sendVote('A.10',document.querySelector('input[name="A.10d"]').value);
+    			}
+    			if(document.querySelector('input[name="A.10e"]').checked)
+    			{
+    				sendVote('A.10',document.querySelector('input[name="A.10e"]').value);
+    			}
+    			setvote(10);
+    			break;
+    		case 10:
+    			if(document.querySelector('input[name="A.11a"]').checked)
+    			{
+    				sendVote('A.11',document.querySelector('input[name="A.11a"]').value);
+    			}
+    			if(document.querySelector('input[name="A.11b"]').checked)
+    			{
+    				sendVote('A.11',document.querySelector('input[name="A.11b"]').value);
+    			}
+    			if(document.querySelector('input[name="A.11c"]').checked)
+    			{
+    				sendVote('A.11',document.querySelector('input[name="A.11c"]').value);
+    			}
+    			if(document.querySelector('input[name="A.11d"]').checked)
+    			{
+    				sendVote('A.11',document.querySelector('input[name="A.11d"]').value);
+    			}
+    			if(document.querySelector('input[name="A.11e"]').checked)
+    			{
+    				sendVote('A.11',document.querySelector('input[name="A.11e"]').value);
+    			}
+    			setvote(11);
+    			break;
+    		case 11:
+    			if(document.querySelector('input[name="A.12a"]').checked)
+    			{
+    				sendVote('A.12',document.querySelector('input[name="A.12a"]').value);
+    			}
+    			if(document.querySelector('input[name="A.12b"]').checked)
+    			{
+    				sendVote('A.12',document.querySelector('input[name="A.12b"]').value);
+    			}
+    			if(document.querySelector('input[name="A.12c"]').checked)
+    			{
+    				sendVote('A.12',document.querySelector('input[name="A.12c"]').value);
+    			}
+    			if(document.querySelector('input[name="A.12d"]').checked)
+    			{
+    				sendVote('A.12',document.querySelector('input[name="A.12d"]').value);
+    			}
+    			if(document.querySelector('input[name="A.12e"]').checked)
+    			{
+    				sendVote('A.12',document.querySelector('input[name="A.12e"]').value);
+    			}
+    			setvote(12);
+    			break;
+    		case 12:
+    			// DO NOTHING
+    			break;
+    	}
+    }
+    
+	function setvote(_vote) {
+    	vote = _vote;
+        //console.log("SET VOTE : "+_vote+" -- "+vote+" -- "+parseInt(vote));
+		switch(parseInt(vote)) {
             case 0:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM<br/>A.I";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.1";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Which human political protocol would you propose ?"+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td><input type='radio' name='A.I' value='anarchy'/></td><td>Anarchy</td></tr>"+
-                "<tr><td><input type='radio' name='A.I' value='democracy'/></td><td>Democracy</td></tr>"+
-                "<tr><td><input type='radio' name='A.I' value='spirituality'/></td><td>Spirituality</td></tr>"+
-                "<tr><td><input type='radio' name='A.I' value='totalitarism'/></td><td>Totalitarism</td></tr>"+
-                "<tr><td><input type='radio' name='A.I' value='other''/></td><td>Other</td></tr>"+
+                "<tr><td><input type='radio' name='A.1' value='anarchy'/></td><td>Anarchy</td></tr>"+
+                "<tr><td><input type='radio' name='A.1' value='democracy'/></td><td>Democracy</td></tr>"+
+                "<tr><td><input type='radio' name='A.1' value='spirituality'/></td><td>Spirituality</td></tr>"+
+                "<tr><td><input type='radio' name='A.1' value='totalitarism'/></td><td>Totalitarism</td></tr>"+
+                "<tr><td><input type='radio' name='A.1' value='other''/></td><td>Other</td></tr>"+
                 "</table>";
             	document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("msg-bottom").innerHTML = "bottom";
+                document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
                 break;
             case 1:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM<br/>A.II.1";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.2";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "What is a human ?"+
-                "<br/>"+
-                "<br/><input type='radio' name='A.II.1' value='only_intelligent'>the only form of intelligence on earth</input>"+
-                "<br/><input type='radio' name='A.II.1' value='most_intelligent'>the most intelligent form on earth</input>"+
-                "<br/><input type='radio' name='A.II.1' value='another_intelligent'>another form of intelligence on earth</input>"+
-                "<br/><input type='radio' name='A.II.1' value='another_form'>another form of life among several others</input>"+
-                "</div>";
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='A.2' value='only_intelligent'/></td><td>the only form of intelligence on earth</td></tr>"+
+                "<tr><td><input type='radio' name='A.2' value='most_intelligent'/></td><td>the most intelligent form on earth</td></tr>"+
+                "<tr><td><input type='radio' name='A.2' value='another_intelligent'/></td><td>another form of intelligence on earth</td></tr>"+
+                "<tr><td><input type='radio' name='A.2' value='another_form'/></td><td>another form of life among several others</td></tr>"+
+                "</table>";
             	document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("msg-bottom").innerHTML = "bottom";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 2:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.3";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Would you rather prefer to be a"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='A.3' value='mineral'/></td><td>mineral</td></tr>"+
+                "<tr><td><input type='radio' name='A.3' value='vegetal'/></td><td>vegetal</td></tr>"+
+                "<tr><td><input type='radio' name='A.3' value='animal'/></td><td>animal</td></tr>"+
+                "<tr><td><input type='radio' name='A.3' value='human'/></td><td>human</td></tr>"+
+                "<tr><td><input type='radio' name='A.3' value='machine'/></td><td>machine</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 3:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.4";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Would you like to hybridate with a"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='checkbox' name='A.4a' onchange='checkHybrid()' value='mineral'/></td><td>mineral</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.4b' onchange='checkHybrid()' value='vegetal'/></td><td>vegetal</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.4c' onchange='checkHybrid()' value='animal'/></td><td>animal</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.4d' onchange='checkHybrid()' value='machine'/></td><td>machine</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.4e' onchange='cancelHybrid()' value='no'/></td><td>I would prefer not to</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 4:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.5";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Would you agree with the project of changing the notion of individu to nodividu* ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='A.5' value='yes'/></td><td>yes</td></tr>"+
+                "<tr><td><input type='radio' name='A.5' value='no'/></td><td>no</td></tr>"+
+                "</table>"+
+                "</br></br>* nodividu is an entity who can’t be taught without his environment.";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 5:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.6";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Humans are "+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='A.6' value='<'/></td><td><</td></tr>"+
+                "<tr><td><input type='radio' name='A.6' value='='/></td><td>=</td></tr>"+
+                "<tr><td><input type='radio' name='A.6' value='>'/></td><td>></td></tr>"+
+                "</table>"+
+                "<br/>to Minerals";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 6:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.7";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Humans are "+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='A.7' value='<'/></td><td><</td></tr>"+
+                "<tr><td><input type='radio' name='A.7' value='='/></td><td>=</td></tr>"+
+                "<tr><td><input type='radio' name='A.7' value='>'/></td><td>></td></tr>"+
+                "</table>"+
+                "<br/>to Vegetals";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 7:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.8";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Humans are "+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='A.8' value='<'/></td><td><</td></tr>"+
+                "<tr><td><input type='radio' name='A.8' value='='/></td><td>=</td></tr>"+
+                "<tr><td><input type='radio' name='A.8' value='>'/></td><td>></td></tr>"+
+                "</table>"+
+                "<br/>to Animals";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+			case 8:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.9";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Humans are "+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='A.9' value='<'/></td><td><</td></tr>"+
+                "<tr><td><input type='radio' name='A.9' value='='/></td><td>=</td></tr>"+
+                "<tr><td><input type='radio' name='A.9' value='>'/></td><td>></td></tr>"+
+                "</table>"+
+                "<br/>to Machines";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+			case 9:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.10";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Humans are dependant on"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='checkbox' name='A.10a' value='mineral'/></td><td>Minerals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.10b' value='vegetal'/></td><td>Vegetals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.10c' value='animal'/></td><td>Animals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.10d' value='human'/></td><td>Humans</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.10e' value='machine'/></td><td>Machines</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+			case 10:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.11";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "I am for the creation of inclusive spaces with"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='checkbox' name='A.11a' value='mineral'/></td><td>Minerals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.11b' value='vegetal'/></td><td>Vegetals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.11c' value='animal'/></td><td>Animals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.11d' value='human'/></td><td>Humans</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.11e' value='machine'/></td><td>Machines</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+			case 11:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM A.12";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "I am for the creation of exclusive spaces with"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='checkbox' name='A.12a' value='mineral'/></td><td>Minerals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.12b' value='vegetal'/></td><td>Vegetals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.12c' value='animal'/></td><td>Animals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.12d' value='human'/></td><td>Humans</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.12e' value='machine'/></td><td>Machines</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            default:
+			case 12:
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Thanks for your participation in this referendum.<br/><br/>Please stay connected.";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "none";
+                break;
+            case 13:
+			    document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM B.1";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "OK";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
                 break;
         }
@@ -217,7 +530,15 @@
 		
 		connectToWS();
         
-        setvote(0);
+        var temp = location.search.substring(1).split("=");
+    	vote = decodeURIComponent(temp[1]);
+    	
+    	if(vote == "undefined")
+    		vote = 0;
+    	
+    	//console.log("VOTE :: "+vote);
+    	
+        setvote(vote);
     });
 
     </script>

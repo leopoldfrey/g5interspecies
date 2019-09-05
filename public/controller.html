@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Biosync Match Application</title>
+    <title>G5 Controller</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -22,7 +22,7 @@
         color: gray;
         border: 1px solid lightgray;
         height: 40px;
-        width: 140px;
+        /*width: 140px;*/
         /*position: fixed;*/
         bottom: 40px;
         margin-right: auto;
@@ -32,60 +32,14 @@
         /*color: rgba(255, 255, 255, 0.2)*/
     }
     </style>
-</head>
-
-	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-		<!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
     
-    </nav>
-
-    <!-- Section -->
-    <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
-    
-    <div style="width:50%; margin: auto">
-    
-		<button class="btn btn-lg btn-click-look" onclick="setStage(-1)">Selfie</button><br/>
-		<button class="btn btn-lg btn-click-look" onclick="setStage(0)">Scroll</button><br/>
-		<!--button class="btn btn-lg btn-click-look" onclick="setStage(1)">Again</button>
-		<button class="btn btn-lg btn-click-look" onclick="setStage(2)">And again</button-->
-		<button class="btn btn-lg btn-click-look" onclick="setStage(3)">Saliva</button><br/>
-		<button class="btn btn-lg btn-click-look" onclick="setStage(4)">Microbiota</button><br/>
-		<button class="btn btn-lg btn-click-look" onclick="setStage(5)">Looking</button><br/>
-		<button class="btn btn-lg btn-click-look" onclick="sendGetUsers()">Get Users</button><br/><br/>
-		<button class="btn btn-lg btn-click-look" onclick="sendMatchmake()">Match</button><br/>
-		<button class="btn btn-lg btn-click-look" onclick="sendAlone()">Alone</button>
-	</div>
-	
-	</section>
-	
-	<section id="section-user" class="container content-section text-center" style="padding:20px;">
-    
-    <div style="width:50%; margin: auto">
-    Users ready<br/>
-    <ul id="user-list">
-    </ul>
-		
-	</div>
-	
-	</section>
-	
-	<section id="section-standBy" class="container content-section text-center" style="padding:20px;">
-    
-    <div style="width:50%; margin: auto">
-    
-		<button class="btn btn-lg btn-click-look" onclick="sendClearUsers()">Clear Users</button><br/><br/> 
-	</div>
-	
-	</section>
-	
-	<script>
+    <script>
 
 	const port = location.PORT || 3000;
 
 	var ws;
-    //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
-    var wsServer = "wss://" + window.location.hostname + "/wss";
+    var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    //var wsServer = "wss://" + window.location.hostname + "/wss";
 	//document.write("Socket Server : "+wsServer);
    	document.addEventListener("DOMContentLoaded", function(event) {
     	
@@ -106,7 +60,7 @@
 		ws.onmessage = function (e) {
 			console.log("- Received message: " + e.data);
 			
-			var reply = JSON.parse(e.data);
+			/*var reply = JSON.parse(e.data);
             if (reply.type == "match" || reply.type == "initState") {
             	var ul = document.getElementById("user-list");
   				var li = document.createElement("li");
@@ -121,139 +75,70 @@
     				li.appendChild(document.createTextNode(reply.userArray[i]));
     				list.appendChild(li);
     			}
-            }
+            }//*/
 		};
 
     });
-
-
-	/*function setClientsWS(stage) {
-
-		if (!ws) {
-			console.log("* No ws connection!");
-			return;
-		}
-
-		messageToSend = "";
-
-		if (stage == 0) {
-			messageToSend = document.getElementById("text-to-send").innerHTML;
-		}
-
-		ws.send(JSON.stringify({
-			type:"broadcast", 
-			stage: stage,
-			standbyMsg: messageToSend
-		}));
-	}//*/
 	
-	function setStage(_stage) {
-
-		messageToSend = "";
-
-		if (_stage == 0) {
-			messageToSend = document.getElementById("text-to-send").innerHTML;
+	function sendClearVotes() {
+		if(confirm("Clear votes ?")) {
+			$.post("/clearvotes",{type:"clearvotes"}, function(data){
+				if(data==="ok") {
+					console.log("- Success sending clearvotes");
+				}
+			});
 		}
-
-		$.post("/stage",{type:"broadcast", stage: _stage, standbyMsg: messageToSend}, function(data){
-            if(data==="ok") {
-                console.log("- Success sending stage");
-              }
-          });
-
-	}
-		
-	function sendMatchmake() {
-        $.post("/matchmake",{type:"matchmake"}, function(data){
-            if(data==="ok") {
-                console.log("- Success sending matchmake");
-              }
-          });
-          
-        //setClientsWS(6);
-		
-		var list = document.getElementById("user-list");
-    	list.innerHTML = "";
-    	
-    	sendGetUsers();
     }
-    	
-    function sendAlone() {
-        $.post("/alone",{type:"alone"}, function(data){
-            if(data==="ok") {
-                console.log("- Success sending alone");
-              }
-          });
-          
-        //setClientsWS(6);
-		
-		var list = document.getElementById("user-list");
-    	list.innerHTML = "";
-    	
-    	sendGetUsers();
-    }
-    	
-	function sendGetUsers() {
-        $.post("/getusers",{type:"getusers"}, function(data){
-            if(data==="ok") {
-                console.log("- Success sending getusers");
-              }
-          });
+    
+    function sendClearGlobalVotes() {
+		if(confirm("Clear global votes ?")) {
+			$.post("/clearglobalvotes",{type:"clearglobalvotes"}, function(data){
+				if(data==="ok") {
+					console.log("- Success sending clearglobalvotes");
+				}
+			});
+		}
     }
 	
-	function sendClearUsers() {
-        $.post("/clearusers",{type:"clearusers"}, function(data){
-            if(data==="ok") {
-                console.log("- Success sending clearusers");
-              }
-          });
+	function sendAddVotes() {
+		if(confirm("Add local votes to global ?")) {
+			$.post("/addlocalvotes",{type:"addvotes"}, function(data){
+				if(data==="ok") {
+					console.log("- Success sending addlocalvotes");
+				}
+			});
+		}
     }
-	
-	/*function sendMatch() {
-		if (!ws) {
-			console.log("* No ws connection!");
-			return;
-		}
 
-		ws.send(JSON.stringify({
-			type:"matchmake"
-		}));
-		
-		//setClientsWS(6);
-		
-		var list = document.getElementById("user-list");
-    	list.innerHTML = "";
-            	
-	}
-	
-	function getUsers() {
-		if (!ws) {
-			console.log("* No ws connection!");
-			return;
-		}
+	function sendNextVote() {
+		$.post("/nextVote",{vote:"13"}, function(data){
+			if(data==="ok") {
+				console.log("- Success sending nextVote");
+			}
+		});
+    }
 
-		ws.send(JSON.stringify({
-			type:"getusers"
-		}));
-	}
-	
-	function clearUsers() {
-		if (!ws) {
-			console.log("* No ws connection!");
-			return;
-		}
-
-		ws.send(JSON.stringify({
-			type:"clearusers"
-		}));
-		
-		var list = document.getElementById("user-list");
-    	list.innerHTML = "";
-	}//*/
-	
 	</script>
 	
-	    <!-- jQuery -->
+</head>
+
+	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+		<!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
+    </nav>
+
+    <!-- Section -->
+    <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
+    	<div style="width:50%; margin: auto">
+			<button class="btn btn-lg btn-click-look" onclick="sendNextVote()">Next Vote</button><br/>
+			<br/>
+			<button class="btn btn-lg btn-click-look" onclick="sendClearVotes()">Clear Votes</button><br/>
+			<button class="btn btn-lg btn-click-look" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
+			<button class="btn btn-lg btn-click-look" onclick="sendAddVotes()">Add Local Votes To Global Votes</button><br/>
+		</div>
+	</section>
+	
+	<!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
 
     <!-- Plugin JavaScript -->

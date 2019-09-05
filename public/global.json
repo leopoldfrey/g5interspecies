@@ -36,39 +36,25 @@
     ">": 0
   },
   "A.7": {
-    "<": 2,
+    "<": 0,
     "=": 0,
     ">": 0
   },
   "A.8": {
-    "<": 1,
+    "<": 0,
     "=": 0,
-    ">": 1
+    ">": 0
   },
   "A.9": {
-    "<": 1,
+    "<": 0,
     "=": 0,
-    ">": 1
+    ">": 0
   },
   "A.10": {
-    "mineral": 1,
-    "vegetal": 1,
-    "animal": 1,
-    "human": 1,
-    "machine": 1
-  },
-  "A.11": {
-    "mineral": 1,
-    "vegetal": 1,
-    "animal": 1,
-    "human": 0,
-    "machine": 1
-  },
-  "A.12": {
     "mineral": 0,
     "vegetal": 0,
     "animal": 0,
-    "human": 1,
-    "machine": 2
+    "human": 0,
+    "machine": 0
   }
 }
