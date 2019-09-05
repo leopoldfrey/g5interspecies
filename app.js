@@ -170,6 +170,35 @@ app.post('/vote', function (req, res) {
   res.end("ok");
 })
 
+/*----------- addvote receive -----------*/
+app.post('/addvote', function (req, res) {
+  console.log('| Server received /addvote '+req.body.vote);
+  if (req.body.vote) {
+  	console.log('- New vote : '+req.body.vote +' '+ req.body.ref +' '+ req.body.value);
+  	if(votes.hasOwnProperty(req.body.vote))
+  	{
+  		v = votes[req.body.vote];
+  		v[req.body.ref] = (parseFloat(v[req.body.ref]) + parseFloat(req.body.value));
+  		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync('public/votes.json', jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err)
+			} else {
+				console.log('Successfully wrote file')
+			}
+		})
+  	} else {
+  		console.log("not found : "+req.body.vote);
+  	}
+  	//console.log(votes);
+  	
+  } else {
+    console.log("* Error: invalid vote received");  
+  }
+  
+  res.end("ok");
+})
+
 /*------------ CLEAR VOTES ----------*/
 app.post('/clearvotes', function(req, res) {
 	console.log('| Server received /clearvotes');	

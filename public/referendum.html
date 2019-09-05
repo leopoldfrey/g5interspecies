@@ -79,14 +79,20 @@
 	}
 
 	function sendVote(_vote, _value) {
-
         $.post("/vote",{vote: _vote, value: _value}, function(data){
         	if(data==="ok") {
                 console.log("- Success sending vote");
-              }
-          });
-
-		//window.location.href = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");
+            }
+        });
+    }
+    
+    function addVote(_vote, _ref, _value) {
+    	console.log("ADD VOTE : "+_vote+" / "+_ref+" / "+_value);
+        $.post("/addvote",{vote: _vote, ref: _ref, value: _value}, function(data){
+        	if(data==="ok") {
+                console.log("- Success sending addvote");
+            }
+        });
     }
     
     function cancelHybrid() {
@@ -182,8 +188,7 @@
     }
 
     function next() {
-    	//console.log("NEXT : "+vote);
-		//console.log("NEXT : "+vote+" -- "+parseInt(vote));
+    	console.log("NEXT : "+parseInt(vote));
 		switch(parseInt(vote)){
     		case 0:
     			sendVote('A.1',document.querySelector('input[name="A.1"]:checked').value);
@@ -312,12 +317,25 @@
     		case 12:
     			// DO NOTHING
     			break;
+    		case 13:
+    			sendVote('B.1',document.querySelector('input[name="B.1"]:checked').value);
+    			setvote(14);
+    			break;
+    		case 14:
+    			sendVote('B.2',document.querySelector('input[name="B.2"]:checked').value);
+    			setvote(15);
+    			break;   		
+    		case 15:
+    			addVote('B.3','mineral_growth',document.querySelector('input[name="B.3"]').value/100.);
+    			sendVote('B.3','mineral_vote');
+    			setvote(15);
+    			break;   		
     	}
     }
     
 	function setvote(_vote) {
     	vote = _vote;
-        //console.log("SET VOTE : "+_vote+" -- "+vote+" -- "+parseInt(vote));
+        console.log("SET VOTE : "+parseInt(vote));
 		switch(parseInt(vote)) {
             case 0:
                 document.getElementById("section-top").style.display = "";
@@ -518,7 +536,39 @@
 			    document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "REFERENDUM B.1";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "OK";
+                document.getElementById("msg-middle").innerHTML = "Where will the human live in 2120 ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='B.1' value='earth'/></td><td>on earth</td></tr>"+
+                "<tr><td><input type='radio' name='B.1' value='other_planet'/></td><td>on another planet</td></tr>"+
+                "<tr><td><input type='radio' name='B.1' value='nowhere'/></td><td>nowhere</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 14:
+			    document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM B.2";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Where will the human live in 2120 ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td><input type='radio' name='B.2' value='urban'/></td><td>in a urban environment</td></tr>"+
+                "<tr><td><input type='radio' name='B.2' value='rural'/></td><td>in a rural environment</td></tr>"+
+                "<tr><td><input type='radio' name='B.2' value='natural'/></td><td>in a natural environment</td></tr>"+
+                "<tr><td><input type='radio' name='B.2' value='nowhere'/></td><td>nowhere</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+                break;
+            case 15:
+			    document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "REFERENDUM B.3";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "Evolution of mineral population in 2120 ?"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>shrink&nbsp;&nbsp;</td><td><input type='range' name='B.3' min='0' max='100'></td><td>&nbsp;&nbsp;growth</td></tr>"+
+                "</table>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";

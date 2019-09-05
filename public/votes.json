@@ -36,39 +36,54 @@
     ">": 0
   },
   "A.7": {
-    "<": 2,
+    "<": 0,
     "=": 0,
     ">": 0
   },
   "A.8": {
-    "<": 1,
+    "<": 0,
     "=": 0,
-    ">": 1
+    ">": 0
   },
   "A.9": {
-    "<": 1,
+    "<": 0,
     "=": 0,
-    ">": 1
+    ">": 0
   },
   "A.10": {
-    "mineral": 1,
-    "vegetal": 1,
-    "animal": 1,
-    "human": 1,
-    "machine": 1
+    "mineral": 0,
+    "vegetal": 0,
+    "animal": 0,
+    "human": 0,
+    "machine": 0
   },
   "A.11": {
-    "mineral": 1,
-    "vegetal": 1,
-    "animal": 1,
+    "mineral": 0,
+    "vegetal": 0,
+    "animal": 0,
     "human": 0,
-    "machine": 1
+    "machine": 0
   },
   "A.12": {
     "mineral": 0,
     "vegetal": 0,
     "animal": 0,
-    "human": 1,
-    "machine": 2
+    "human": 0,
+    "machine": 0
+  },
+  "B.1": {
+    "earth": 4,
+    "other_planet": 1,
+    "nowhere": 0
+  },
+  "B.2": {
+    "urban": 1,
+    "rural": 3,
+    "natural": 0,
+    "nowhere": 0
+  },
+  "B.3": {
+    "mineral_growth": 1.79,
+    "mineral_vote": 6
   }
 }
