@@ -61,7 +61,6 @@
     "mineral": 0,
     "vegetal": 0,
     "animal": 0,
-    "human": 0,
     "machine": 0
   },
   "A.12": {
@@ -83,24 +82,58 @@
     "nowhere": 0
   },
   "B.3": {
-    "mineral_growth": 0.13,
-    "mineral_vote": 1
+    "mineral_growth": 0,
+    "mineral_vote": 0
   },
   "B.4": {
-    "vegetal_growth": 0.69,
-    "vegetal_vote": 1
+    "vegetal_growth": 0,
+    "vegetal_vote": 0
   },
   "B.5": {
-    "animal_growth": 0.1,
-    "animal_vote": 2
+    "animal_growth": 0,
+    "animal_vote": 0
   },
   "B.6": {
-    "human_growth": 1.09,
-    "human_vote": 2
+    "human_growth": 0,
+    "human_vote": 0
   },
   "B.7": {
-    "machine_growth": 1.45,
-    "machine_vote": 2
+    "machine_growth": 0,
+    "machine_vote": 0
   },
-  "B.8": {}
+  "B.8": {
+    "mineral_hybrid": 0,
+    "vegetal_hybrid": 0,
+    "animal_hybrid": 0,
+    "machine_hybrid": 0,
+    "hybrid_vote": 0
+  },
+  "B.9": {
+    "temperature_growth": 0,
+    "temperature_vote": 0
+  },
+  "B.10": {
+    "pollution_growth": 0,
+    "pollution_vote": 0
+  },
+  "B.11": {
+    "violence_growth": 0,
+    "violence_vote": 0
+  },
+  "B.12": {
+    "equality_growth": 0,
+    "equality_vote": 0
+  },
+  "B.13": {
+    "freedom_growth": 0,
+    "freedom_vote": 0
+  },
+  "B.14": {
+    "knowledge_growth": 0,
+    "knowledge_vote": 0
+  },
+  "B.15": {
+    "language_growth": 0,
+    "language_vote": 0
+  }
 }

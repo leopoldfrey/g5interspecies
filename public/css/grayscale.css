@@ -7,7 +7,7 @@ body {
   width: 100%;
   height: 100%;
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 100;
+  font-weight: 400;
   color: black;
   background-color: white;
 }
@@ -24,7 +24,7 @@ h6 {
   margin: 0 0 35px;
   text-transform: uppercase;
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 100;
+  font-weight: 400;
   /*font-weight: 700;*/
   letter-spacing: 1px;
 }
@@ -58,8 +58,27 @@ a:focus {
   color: #1d9b6c;
 }
 input[type="radio"] {
-	margin: 0px 8px;
+	margin: 10px;
+	/*width:2em;
+	height:2em;*/
+	-ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+    transform: scale(1.5);
 }
+input[type="checkbox"] {
+	margin: 10px;
+	/*width:2em;
+	height:2em;*/
+	-ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+    transform: scale(1.5);
+
+}
+td, tr {
+	padding: 8px;
+	text-align: left;
+}
+
 .light {
   font-weight: 400;
 }
@@ -287,6 +306,22 @@ input[type="radio"] {
   /*background-color: #42DCA3;*/
   background-color: white;
 }
+.btn-click-look {
+	background-color: white;
+	color: black;
+	border: 1px solid lightgray;
+	height: 40px;
+	font-weight: 400;
+	/*width: 140px;*/
+	/*position: fixed;*/
+	bottom: 40px;
+	margin-right: auto;
+	margin-left: auto;
+	margin: 10px;
+	font-size: 15px;
+	/*color: rgba(255, 255, 255, 0.2)*/
+}
+
 ul.banner-social-buttons {
   margin-top: 0;
 }

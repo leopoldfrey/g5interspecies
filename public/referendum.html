@@ -120,7 +120,7 @@
     //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
     
     // HEROKU
-    var wsServer = "wss://" + window.location.hostname + "/wss";
+	var wsServer = "wss://" + window.location.hostname + "/wss";
 
     	
     /* -- Web Sockets -- */
@@ -351,8 +351,48 @@
     			setvote(20);
     			break;   		
     		case 20:
-    			//setvote(21);
-    			break;   		
+    			addVote('B.8','mineral_hybrid',document.querySelector('input[name="B.8a"]').value/100.);
+    			addVote('B.8','vegetal_hybrid',document.querySelector('input[name="B.8b"]').value/100.);
+    			addVote('B.8','animal_hybrid',document.querySelector('input[name="B.8c"]').value/100.);
+    			addVote('B.8','machine_hybrid',document.querySelector('input[name="B.8d"]').value/100.);
+    			sendVote('B.8','hybrid_vote');
+    			setvote(21);
+    			break; 
+    		case 21:
+    			addVote('B.9','temperature_growth',document.querySelector('input[name="B.9"]').value/100.);
+    			sendVote('B.9','temperature_vote');
+    			setvote(22);
+    			break;  
+    		case 22:
+    			addVote('B.10','pollution_growth',document.querySelector('input[name="B.10"]').value/100.);
+    			sendVote('B.10','pollution_vote');
+    			setvote(23);
+    			break;  
+    		case 23:
+    			addVote('B.11','violence_growth',document.querySelector('input[name="B.11"]').value/100.);
+    			sendVote('B.11','violence_vote');
+    			setvote(24);
+    			break;  
+    		case 24:
+    			addVote('B.12','equality_growth',document.querySelector('input[name="B.12"]').value/100.);
+    			sendVote('B.12','equality_vote');
+    			setvote(25);
+    			break;  
+    		case 25:
+    			addVote('B.13','freedom_growth',document.querySelector('input[name="B.13"]').value/100.);
+    			sendVote('B.13','freedom_vote');
+    			setvote(26);
+    			break;  
+    		case 26:
+    			addVote('B.14','knowledge_growth',document.querySelector('input[name="B.14"]').value/100.);
+    			sendVote('B.14','knowledge_vote');
+    			setvote(27);
+    			break;  
+    		case 27:
+    			addVote('B.15','language_growth',document.querySelector('input[name="B.15"]').value/100.);
+    			sendVote('B.15','language_vote');
+    			setvote(28);
+    			break;
     	}
     }
     
@@ -362,7 +402,7 @@
 		switch(parseInt(vote)) {
             case 0:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.1";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Which human political protocol would you propose ?"+
                 "<br/><br/><table style='margin:auto'>"+
@@ -378,7 +418,7 @@
                 break;
             case 1:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.2";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "What is a human ?"+
                 "<br/><br/><table style='margin:auto'>"+
@@ -393,7 +433,7 @@
                 break;
             case 2:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.3";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Would you rather prefer to be a"+
                 "<br/><br/><table style='margin:auto'>"+
@@ -409,7 +449,7 @@
                 break;
             case 3:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.4";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Would you like to hybridate with a"+
                 "<br/><br/><table style='margin:auto'>"+
@@ -425,7 +465,7 @@
                 break;
             case 4:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.5";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Would you agree with the project of changing the notion of individu to nodividu* ?"+
                 "<br/><br/><table style='margin:auto'>"+
@@ -439,13 +479,13 @@
                 break;
             case 5:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.6";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Humans are "+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td><input type='radio' name='A.6' value='<'/></td><td><</td></tr>"+
-                "<tr><td><input type='radio' name='A.6' value='='/></td><td>=</td></tr>"+
-                "<tr><td><input type='radio' name='A.6' value='>'/></td><td>></td></tr>"+
+                "<tr><td><input type='radio' name='A.6' value='<'/></td><td>inferior</td></tr>"+
+                "<tr><td><input type='radio' name='A.6' value='='/></td><td>equal</td></tr>"+
+                "<tr><td><input type='radio' name='A.6' value='>'/></td><td>superior</td></tr>"+
                 "</table>"+
                 "<br/>to <u>Minerals</u>";
             	document.getElementById("section-bottom").style.display = "none";
@@ -454,13 +494,13 @@
                 break;
             case 6:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.7";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Humans are "+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td><input type='radio' name='A.7' value='<'/></td><td><</td></tr>"+
-                "<tr><td><input type='radio' name='A.7' value='='/></td><td>=</td></tr>"+
-                "<tr><td><input type='radio' name='A.7' value='>'/></td><td>></td></tr>"+
+                "<tr><td><input type='radio' name='A.7' value='<'/></td><td>inferior</td></tr>"+
+                "<tr><td><input type='radio' name='A.7' value='='/></td><td>equal</td></tr>"+
+                "<tr><td><input type='radio' name='A.7' value='>'/></td><td>superior</td></tr>"+
                 "</table>"+
                 "<br/>to <u>Vegetals</u>";
             	document.getElementById("section-bottom").style.display = "none";
@@ -469,13 +509,13 @@
                 break;
             case 7:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.8";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Humans are "+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td><input type='radio' name='A.8' value='<'/></td><td><</td></tr>"+
-                "<tr><td><input type='radio' name='A.8' value='='/></td><td>=</td></tr>"+
-                "<tr><td><input type='radio' name='A.8' value='>'/></td><td>></td></tr>"+
+                "<tr><td><input type='radio' name='A.8' value='<'/></td><td>inferior</td></tr>"+
+                "<tr><td><input type='radio' name='A.8' value='='/></td><td>equal</td></tr>"+
+                "<tr><td><input type='radio' name='A.8' value='>'/></td><td>superior</td></tr>"+
                 "</table>"+
                 "<br/>to <u>Animals</u>";
             	document.getElementById("section-bottom").style.display = "none";
@@ -484,13 +524,13 @@
                 break;
 			case 8:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.9";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Humans are "+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td><input type='radio' name='A.9' value='<'/></td><td><</td></tr>"+
-                "<tr><td><input type='radio' name='A.9' value='='/></td><td>=</td></tr>"+
-                "<tr><td><input type='radio' name='A.9' value='>'/></td><td>></td></tr>"+
+                "<tr><td><input type='radio' name='A.9' value='<'/></td><td>inferior</td></tr>"+
+                "<tr><td><input type='radio' name='A.9' value='='/></td><td>equal</td></tr>"+
+                "<tr><td><input type='radio' name='A.9' value='>'/></td><td>superior</td></tr>"+
                 "</table>"+
                 "<br/>to <u>Machines</u>";
             	document.getElementById("section-bottom").style.display = "none";
@@ -499,7 +539,7 @@
                 break;
 			case 9:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.10";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
                 document.getElementById("msg-middle").innerHTML = "Humans are dependant on"+
                 "<br/><br/><table style='margin:auto'>"+
@@ -515,15 +555,14 @@
                 break;
 			case 10:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.11";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "I am for the creation of <u>inclusive</u> spaces with"+
+                document.getElementById("msg-middle").innerHTML = "I vote for the creation of <u>inclusive</u> spaces between humans and "+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td><input type='checkbox' name='A.11a' value='mineral'/></td><td>Minerals</td></tr>"+
                 "<tr><td><input type='checkbox' name='A.11b' value='vegetal'/></td><td>Vegetals</td></tr>"+
                 "<tr><td><input type='checkbox' name='A.11c' value='animal'/></td><td>Animals</td></tr>"+
-                "<tr><td><input type='checkbox' name='A.11d' value='human'/></td><td>Humans</td></tr>"+
-                "<tr><td><input type='checkbox' name='A.11e' value='machine'/></td><td>Machines</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.11d' value='machine'/></td><td>Machines</td></tr>"+
                 "</table>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
@@ -531,9 +570,9 @@
                 break;
 			case 11:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM A.12";
+                document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "I am for the creation of <u>exclusive</u> spaces with"+
+                document.getElementById("msg-middle").innerHTML = "I vote for the creation of <u>exclusive</u> spaces of existence for "+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td><input type='checkbox' name='A.12a' value='mineral'/></td><td>Minerals</td></tr>"+
                 "<tr><td><input type='checkbox' name='A.12b' value='vegetal'/></td><td>Vegetals</td></tr>"+
@@ -548,18 +587,18 @@
             default:
 			case 12:
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM";
+                document.getElementById("msg-top").innerHTML = "Thank you for<br/>your participation<br/>in this REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Thanks for your participation in this referendum.<br/><br/>Please stay connected.";
+                document.getElementById("msg-middle").innerHTML = "Please stay connected.";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "none";
                 break;
             case 13:
 			    document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM B.1";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Where will the human live in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "In 2120, humans will live :"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td><input type='radio' name='B.1' value='earth'/></td><td>on earth</td></tr>"+
                 "<tr><td><input type='radio' name='B.1' value='other_planet'/></td><td>on another planet</td></tr>"+
@@ -571,9 +610,9 @@
                 break;
             case 14:
 			    document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM B.2";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Where will the human live in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "In 2120, humans will live :"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td><input type='radio' name='B.2' value='urban'/></td><td>in a urban environment</td></tr>"+
                 "<tr><td><input type='radio' name='B.2' value='rural'/></td><td>in a rural environment</td></tr>"+
@@ -586,9 +625,9 @@
                 break;
             case 15:
 			    document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM B.3";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Evolution of <u>mineral</u> population in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>mineral</u> population will :"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.3' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
                 "</table>";
@@ -598,9 +637,9 @@
                 break;
             case 16:
 			    document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM B.4";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Evolution of <u>vegetal</u> population in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>vegetal</u> population will :"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.4' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
                 "</table>";
@@ -610,9 +649,9 @@
                 break;
             case 17:
 			    document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM B.5";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Evolution of <u>animal</u> population in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>animal</u> population will :"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.5' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
                 "</table>";
@@ -622,9 +661,9 @@
                 break;
             case 18:
 			    document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM B.6";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Evolution of <u>human</u> population in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>human</u> population will :"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.6' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
                 "</table>";
@@ -634,9 +673,9 @@
                 break;
             case 19:
 			    document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM B.7";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Evolution of <u>machine</u> population in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>machine</u> population will :"+
                 "<br/><br/><table style='margin:auto'>"+
                 "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.7' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
                 "</table>";
@@ -646,16 +685,112 @@
                 break;
             case 20:
 			    document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "REFERENDUM B.8";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Evolution of <u>hybrid human/vegetal</u> population in 2120 ?"+
+                document.getElementById("msg-middle").innerHTML = "In 2120, humans will hybridise with :"+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.8' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "<tr><td><input type='range' name='B.8a' min='0' max='100'></td><td>&nbsp;&nbsp;Minerals</td></tr>"+
+                "<tr><td><input type='range' name='B.8b' min='0' max='100'></td><td>&nbsp;&nbsp;Vegetals</td></tr>"+
+                "<tr><td><input type='range' name='B.8c' min='0' max='100'></td><td>&nbsp;&nbsp;Animals</td></tr>"+
+                "<tr><td><input type='range' name='B.8d' min='0' max='100'></td><td>&nbsp;&nbsp;Machines</td></tr>"+
                 "</table>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
                 break;
+            case 21:
+            	document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>temperature</u> will :"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.9' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+				break;
+			case 22:
+            	document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>pollution</u> will :"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.10' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+				break;
+			case 23:
+            	document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>violence</u> will :"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.11' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+				break;
+			case 24:
+            	document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>equality</u> will :"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.12' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+				break;
+			case 25:
+            	document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>freedom</u> will :"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.13' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+				break;
+			case 26:
+            	document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>knowledge</u> will :"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.14' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+				break;
+			case 27:
+            	document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "YOUR PARTICIPATION<br/>TO THE FUTURE";
+            	document.getElementById("section-middle").style.display = "";
+                document.getElementById("msg-middle").innerHTML = "In 2120, <u>language</u> will :"+
+                "<br/><br/><table style='margin:auto'>"+
+                "<tr><td>decrease&nbsp;&nbsp;</td><td><input type='range' name='B.15' min='0' max='100'></td><td>&nbsp;&nbsp;increase</td></tr>"+
+                "</table>";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "";
+				break;
+			case 28:
+            	document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Thank you for<br/>YOUR PARTICIPATION<br/>TO THE FUTURE";
+            	document.getElementById("section-middle").style.display = "none";
+                document.getElementById("msg-middle").innerHTML = "";
+            	document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("msg-bottom").innerHTML = "";
+                document.getElementById("next-btn").style.display = "none";
+				break;
         }
             
     }

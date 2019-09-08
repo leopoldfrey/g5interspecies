@@ -22,116 +22,29 @@
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
 
-    <style>
-    .btn-click-look {
-        background-color: white;
-        color: gray;
-        border: 1px solid lightgray;
-        height: 40px;
-        /*position: fixed;*/
-        bottom: 40px;
-        margin-right: auto;
-        margin-left: auto;
-        font-size: 15px;
-        /*color: rgba(255, 255, 255, 0.2)*/
-    }
-    </style>
-
     <script>
 
 	stage = -1;
-					
 
-    function setStage(_stage, standbyMsg) {
+    function setStage(_stage) {
 		stage = _stage;
         switch(parseInt(stage)) {
             case -1:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Chemical Identification";
-            	document.getElementById("msg-standby").innerHTML = "Scroll with your tongue";
-            	document.getElementById("img-result").src = "";
-            	document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "none";
-				document.getElementById("imgResultDiv").style.display = "none";
-            	document.getElementById("avatar-div-id").style.display = "none";
-                document.getElementById("btn-click-look").style.display = "none";
-                break;
-            case 0:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Analyzing your saliva";
-            	document.getElementById("img-result").src = "";
-                document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "";
-				document.getElementById("imgResultDiv").style.display = "";
-            	document.getElementById("avatar-div-id").style.display = "none";
-            	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
-					setStage(1,'');
-				}, 3000);
-                break;
-            case 1:
-                document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Access Denied";
-                document.getElementById("msg-standby").innerHTML = "WARNING !<br/>A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.</br></br>You will be redirected to the home page.";
-				document.getElementById("img-result").src = "none";
-                document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
-				document.getElementById("imgResultDiv").style.display = "none";
-            	document.getElementById("avatar-div-id").style.display = "none";
-            	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
-					window.location.href = '/#main';
-				}, 5000);
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("msg-standby").innerHTML = "WARNING !<br/>You have used a human fingertip to enter this page.<br/><br/>A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.";
                 break;
         }
             
     }
     
-        /* Onload */
+    /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
-        window.onscroll = function (event) {
-    		event.preventDefault();
-    		
-    		setTimeout(function() {
-
-				// Run the callback
-				//console.log( 'Scrolling has stopped.' );
-				if (document.body.scrollTop > 15) {
-					switch (stage) {
-						case -1:
-							setStage(0,'');
-							break;
-						case 0:
-							setStage(1,'');
-							break;
-						case 1:
-							setStage(2,'');
-							break;
-						case 2:
-							setStage(3,'');
-							break;
-						default:
-							break;
-					}
-				}
-			}, 200);
-    	
-    	};//*/
-    	
-    	
-    	window.ondblclick = function (event) {
-    		event.preventDefault();
-    		setStage(stage+1,'');
-    	}
-		
-		setStage(-1);
+        setStage(-1);
     });
 
     </script>
@@ -147,45 +60,21 @@
 
     <!-- Section -->
     <section id="section-top" style="padding-top:30px; display:none" class="container content-section text-center" style="padding:0;">
-        
         <h1><span id="msg-top"></span></h1>
-        
-        <div class="row">
-
-			<div id="avatar-div-id" class="avatar-div" style="display:none">
-				<canvas></canvas>
-			</div>
-            <div id="imgResultDiv" style="display:none"><!--class="col-lg-12" style=""-->
-                <img id="img-result" src="" style="display:none"></img>
-                <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
-            </div>
-
-            <div class="col-lg-12">
-                <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
-                <div id="btn-click-look"  class="btn btn-lg btn-click-look">TAKE A<br>PHOTO</div>
-                
-            </div>            
-			
-			<div id="section-bottom" style="display: none;">
-				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
-					
-				</p>
-			</div>
-        </div>
-        
-
-
+        <br/>
+        <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
     </section>
 
-    <section id="section-standBy" style="" class="container content-section text-center" style="padding:0;">
-        
-        <h1 id="msg-standby"></h1>
+    <section id="section-standBy" style="" class="container text-center" style="padding:0;">
+        <h1><span id="msg-standby"></span></h1>
     </section>
-
-	<br/>
-
+	
+	<section id="section-bottom" style="" class="container content-section text-center" style="padding:0;">
+        <h1><span id="msg-bottom"></span></h1>
+    </section>
+	
 	<section id="section-btn" class="container content-section text-center" style="padding:0;">
-        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">ABANDON</div>
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">GO BACK</div>
     </section>
 
     <!-- jQuery -->

@@ -26,18 +26,6 @@
     <script src="js/load-image.all.min.js"></script>
     
     <style>
-    .btn-click-look {
-        background-color: white;
-        color: gray;
-        border: 1px solid lightgray;
-        height: 40px;
-        /*position: fixed;*/
-        bottom: 40px;
-        margin-right: auto;
-        margin-left: auto;
-        font-size: 15px;
-        /*color: rgba(255, 255, 255, 0.2)*/
-    }
     
     #img-loading {
     	/*position: relative;
@@ -210,15 +198,13 @@
 
     }
 
-    function setStage(_stage, standbyMsg) {
+    function setStage(_stage) {
 		stage = _stage;
         switch(parseInt(stage)) {
             case -1:
                 document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Identification";
-            	document.getElementById("msg-standby").innerHTML = "";
             	document.getElementById("img-result").src = "";
             	document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
@@ -226,10 +212,10 @@
             	document.getElementById("avatar-div-id").style.display = "";
             	document.getElementById("btn-click-look").innerHTML = "Take a selfie";
                 document.getElementById("btn-click-look").style.display = "";
+                document.getElementById("btn-click-look2").style.display = "none";
                 break;
             case 0:
                 document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Analyzing your selfie";
             	document.getElementById("img-result").src = "";
@@ -238,13 +224,13 @@
 				document.getElementById("imgResultDiv").style.display = "";
             	document.getElementById("avatar-div-id").style.display = "none";
             	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
-					setStage(1,'');
+            	document.getElementById("btn-click-look2").style.display = "none";
+                setTimeout(function() {
+					setStage(1);
 				}, 3000);
                 break;
             case 1:
                 document.getElementById("section-bottom").style.display = "";
-                document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Access Granted";
             	document.getElementById("img-result").src = "";
@@ -253,9 +239,8 @@
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "";
             	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
-					window.location.href = '/referendum.html';
-				}, 5000);
+            	document.getElementById("btn-click-look2").innerHTML = "GO TO THE REFERENDUM";
+                document.getElementById("btn-click-look2").style.display = "";
                 break;
         }
             
@@ -308,32 +293,28 @@
                 <img id="img-result" src="" style="display:none"></img>
                 <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
             </div>
-
-            <div class="col-lg-12">
-                <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
-                <div id="btn-click-look"  class="btn btn-lg btn-click-look">TAKE A<br>PHOTO</div>
-                
-            </div>            
-			
+            
 			<div id="section-bottom" style="display: none;">
 				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
 					You are now able to vote
 				</p>
 			</div>
+            
+            <div class="col-lg-12">
+                <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
+                <div id="btn-click-look"  class="btn btn-lg btn-click-look"></div>
+                <div id="btn-click-look2"  class="btn btn-lg btn-click-look" onclick="window.location.href = '/referendum.html';"></div>
+            </div>            
+			
+			
         </div>
         
-
-
     </section>
 
-    <section id="section-standBy" style="" class="container content-section text-center" style="padding:0;">
-        <h1 id="msg-standby"></h1>
-    </section>
-
-	<br/>
+    <br/>
 
 	<section id="section-btn" class="container content-section text-center" style="padding:0;">
-        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">ABANDON</div>
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">GO BACK</div>
     </section>
 
     <!-- jQuery -->

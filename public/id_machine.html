@@ -21,22 +21,7 @@
     <!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
-    
-    <style>
-    .btn-click-look {
-        background-color: white;
-        color: gray;
-        border: 1px solid lightgray;
-        height: 40px;
-        /*position: fixed;*/
-        bottom: 40px;
-        margin-right: auto;
-        margin-left: auto;
-        font-size: 15px;
-        /*color: rgba(255, 255, 255, 0.2)*/
-    }
-    </style>
-    
+
     <script>
 
 	stage = -1;
@@ -47,31 +32,31 @@
 			console.log("OK");
 			document.getElementById("msg-bottom").innerHTML = "TRUE";
 			setTimeout(function() {
-					setStage(0,'');
+					setStage(0);
 				}, 1000);
 		} else if (r == "1000101111011001") {
 			console.log("OK");
 			document.getElementById("msg-bottom").innerHTML = "TRUE";
 			setTimeout(function() {
-					setStage(1,'');
+					setStage(1);
 				}, 1000);
 		} else if (r == "01010111011010000111") {
 			console.log("OK");
 			document.getElementById("msg-bottom").innerHTML = "TRUE";
 			setTimeout(function() {
-					setStage(2,'');
+					setStage(2);
 				}, 1000);
 		} else {
 			console.log("NOT OK : \""+r+"\"");
 			document.getElementById("msg-bottom").innerHTML = "FALSE";
 			setTimeout(function() {
-					setStage(6,'');
+					setStage(6);
 				}, 2000);
 		}
 		
 	}
 				
-    function setStage(_stage, standbyMsg) {
+    function setStage(_stage) {
 		stage = _stage;
         switch(parseInt(stage)) {
             case -1:
@@ -80,7 +65,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Binary Identification 1";
             	document.getElementById("msg-middle").style = "text-transform: none";
-            	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0x 010011010010<br/> + 0x 100100101001<br/>&nbsp;=&nbsp;0x&nbsp;<input type='text' id='result' style='text-align:right' value='' onchange='checkSum()' size='16'></input>";
+            	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0b 010011010010<br/> + 0b 100100101001<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right' value='' onchange='checkSum()' size='16'></input>";
             	document.getElementById("msg-bottom").innerHTML = "";
                 break;
             case 0:
@@ -89,7 +74,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Binary Identification 2";
             	document.getElementById("msg-middle").style = "text-transform: none";
-            	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0x 001100000111001<br/> + 0x 010110111010000<br/>&nbsp;=&nbsp;0x&nbsp;<input type='text' id='result' style='text-align:right' value='' onchange='checkSum()' size='20'></input>";
+            	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0b 001100000111001<br/> + 0b 010110111010000<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right' value='' onchange='checkSum()' size='20'></input>";
             	document.getElementById("msg-bottom").innerHTML = "";
                 break;
             case 1:
@@ -98,7 +83,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Binary Identification 3";
             	document.getElementById("msg-middle").style = "text-transform: none";
-            	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0x 00011110001001000000<br/> + 0x 00111001010001000111<br/>&nbsp;=&nbsp;0x&nbsp;<input type='text' id='result' style='text-align:right' value='' onchange='checkSum()' size='28'></input>";
+            	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0b 00011110001001000000<br/> + 0b 00111001010001000111<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right' value='' onchange='checkSum()' size='28'></input>";
             	document.getElementById("msg-bottom").innerHTML = "";
                 break;
             case 2:
@@ -107,11 +92,8 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Access Denied";
             	document.getElementById("msg-middle").style = "text-transform: uppercase";
-            	document.getElementById("msg-middle").innerHTML = "WARNING !<br/>This referendum is for human only.</br></br>You will be redirected to the home page.";
+            	document.getElementById("msg-middle").innerHTML = "WARNING !<br/>This referendum is for human only.";
             	document.getElementById("msg-bottom").innerHTML = "";
-                setTimeout(function() {
-					window.location.href = '/#main';
-				}, 5000);
 				break;
             case 3:
                 break;
@@ -121,19 +103,11 @@
                 break;
             case 6:
                 document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-middle").style.display = "";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Access Denied";
-                document.getElementById("msg-standby").innerHTML = "WARNING !<br/>A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.</br></br>You will be redirected to the home page.";
-				document.getElementById("img-result").src = "none";
-                document.getElementById("img-result").style.display = "none";
-                document.getElementById("img-loading").style.display = "none";
-				document.getElementById("imgResultDiv").style.display = "none";
-            	document.getElementById("avatar-div-id").style.display = "none";
-            	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
-					window.location.href = '/#main';
-				}, 5000);
+                document.getElementById("msg-middle").innerHTML = "WARNING !<br/>A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.";
+				document.getElementById("msg-bottom").innerHTML = "";
 				break;
         }
             
@@ -161,16 +135,16 @@
         <h1><span id="msg-top"></span></h1>
     </section>
 
-	<section id="section-middle" class="container content-section text-center" style="padding:0;">
+	<section id="section-middle" class="container text-center" style="padding:0;">
         <h1><span id="msg-middle"></span></h1>
     </section>
 
-    <section id="section-bottom" style="" class="container content-section text-center" style="padding:0;">
+    <section id="section-bottom" style="" class="container text-center" style="padding:0;">
         <h1 id="msg-bottom"></h1>
     </section>
 
 	<section id="section-btn" class="container content-section text-center" style="padding:0;">
-        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">ABANDON</div>
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">GO BACK</div>
     </section>
 
     <!-- jQuery -->

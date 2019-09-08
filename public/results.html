@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>G5 Controller</title>
+    <title>G5 Results</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -23,10 +23,10 @@
     const port = location.PORT || 3000;
 
     // LOCAL
-    //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
     
     // HEROKU
-    var wsServer = "wss://" + window.location.hostname + "/wss";
+    //var wsServer = "wss://" + window.location.hostname + "/wss";
 	
 	document.addEventListener("DOMContentLoaded", function(event) {
     	

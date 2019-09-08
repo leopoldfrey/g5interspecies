@@ -26,19 +26,6 @@
     <script src="js/load-image.all.min.js"></script>
     
     <style>
-    .btn-click-look {
-        background-color: white;
-        color: gray;
-        border: 1px solid lightgray;
-        height: 40px;
-        /*position: fixed;*/
-        bottom: 40px;
-        margin-right: auto;
-        margin-left: auto;
-        font-size: 15px;
-        /*color: rgba(255, 255, 255, 0.2)*/
-    }
-    
     #img-loading {
     	/*position: relative;
 		top: 50%;
@@ -178,7 +165,7 @@
             console.log("* Error, image not loaded");
         }
         setTimeout(function(){
-            setStage(0,'');
+            setStage(0);
         }, 1500);
     	
     }
@@ -211,15 +198,13 @@
 
     }
 
-    function setStage(_stage, standbyMsg) {
+    function setStage(_stage) {
 		stage = _stage;
         switch(parseInt(stage)) {
             case -1:
                 document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Identification";
-            	document.getElementById("msg-standby").innerHTML = "";
             	document.getElementById("img-result").src = "";
             	document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
@@ -230,7 +215,6 @@
                 break;
             case 0:
                 document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Analyzing your selfie";
             	document.getElementById("img-result").src = "";
@@ -240,12 +224,11 @@
             	document.getElementById("avatar-div-id").style.display = "none";
             	document.getElementById("btn-click-look").style.display = "none";
             	setTimeout(function() {
-					setStage(1,'');
+					setStage(1);
 				}, 3000);
                 break;
             case 1:
                 document.getElementById("section-bottom").style.display = "";
-                document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Access Denied";
             	document.getElementById("img-result").src = "";
@@ -254,9 +237,6 @@
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "";
             	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
-					window.location.href = '/#main';
-				}, 5000);
                 break;
         }
             
@@ -319,8 +299,7 @@
 			<div id="section-bottom" style="display: none;">
 				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
 					WARNING !<br/>
-					A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.<br/></br>
-					You will be redirected to the home page.
+					A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.
 				</p>
 			</div>
         </div>
@@ -329,15 +308,8 @@
 
     </section>
 
-    <section id="section-standBy" style="" class="container content-section text-center" style="padding:0;">
-        
-        <h1 id="msg-standby"></h1>
-    </section>
-
-	<br/>
-
-	<section id="section-btn" class="container content-section text-center" style="padding:0;">
-        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">ABANDON</div>
+   <section id="section-btn" class="container content-section text-center" style="padding:0;">
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">GO BACK</div>
     </section>
 
 	<!-- jQuery -->

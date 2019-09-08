@@ -58,6 +58,19 @@ app.get('/votes.json',function(req,res){
       res.sendFile(__dirname + "/public/votes.json");
 });
 
+app.get('/radar.html',function(req,res){
+      res.sendFile(__dirname + "/public/radar.html");
+});
+
+app.get('/radar-skip-points.html',function(req,res){
+      res.sendFile(__dirname + "/public/radar-skip-points.html");
+});
+
+app.get('/results.html',function(req,res){
+      res.sendFile(__dirname + "/public/results.html");
+});
+
+app.use('/scripts', express.static(__dirname + '/node_modules/chart.js/dist/'));
 
 /*----------- Static Files -----------*/
 app.use('/vendor', express.static('public/vendor'));
@@ -235,9 +248,9 @@ app.post('/addlocalvotes', function(req, res) {
 	res.send("todo");
 })
 
-/*------------ SEND NEXT VOTE ----------*/
-app.post('/nextvote', function(req, res) {
-	console.log('| Server received /nextvote '+req.body.vote);	
+/*------------ GOTO VOTE ----------*/
+app.post('/gotoVote', function(req, res) {
+	console.log('| Server received /gotoVote '+req.body.vote);	
 	
 	if(wss)
   	{
@@ -251,7 +264,6 @@ app.post('/nextvote', function(req, res) {
 				}));
 		});
   	}
-	
 	
 	res.send("ok");
 })
