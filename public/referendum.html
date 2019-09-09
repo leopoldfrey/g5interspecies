@@ -154,7 +154,26 @@
     			setvote(4);
     			break;
     		case 4:
-    			sendVote('A.5',document.querySelector('input[name="A.5"]:checked').value);
+    			if(document.querySelector('input[name="A.5a"]').checked)
+    			{
+    				sendVote('A.5',document.querySelector('input[name="A.5a"]').value);
+    			}
+    			if(document.querySelector('input[name="A.5b"]').checked)
+    			{
+    				sendVote('A.5',document.querySelector('input[name="A.5b"]').value);
+    			}
+    			if(document.querySelector('input[name="A.5c"]').checked)
+    			{
+    				sendVote('A.5',document.querySelector('input[name="A.5c"]').value);
+    			}
+    			if(document.querySelector('input[name="A.5d"]').checked)
+    			{
+    				sendVote('A.5',document.querySelector('input[name="A.5d"]').value);
+    			}
+    			if(document.querySelector('input[name="A.5e"]').checked)
+    			{
+    				sendVote('A.5',document.querySelector('input[name="A.5e"]').value);
+    			}
     			setvote(5);
     			break;
     		case 5:
@@ -174,26 +193,7 @@
     			setvote(9);
     			break;
     		case 9:
-    			if(document.querySelector('input[name="A.10a"]').checked)
-    			{
-    				sendVote('A.10',document.querySelector('input[name="A.10a"]').value);
-    			}
-    			if(document.querySelector('input[name="A.10b"]').checked)
-    			{
-    				sendVote('A.10',document.querySelector('input[name="A.10b"]').value);
-    			}
-    			if(document.querySelector('input[name="A.10c"]').checked)
-    			{
-    				sendVote('A.10',document.querySelector('input[name="A.10c"]').value);
-    			}
-    			if(document.querySelector('input[name="A.10d"]').checked)
-    			{
-    				sendVote('A.10',document.querySelector('input[name="A.10d"]').value);
-    			}
-    			if(document.querySelector('input[name="A.10e"]').checked)
-    			{
-    				sendVote('A.10',document.querySelector('input[name="A.10e"]').value);
-    			}
+    			sendVote('A.10',document.querySelector('input[name="A.10"]:checked').value);
     			setvote(10);
     			break;
     		case 10:
@@ -391,12 +391,14 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Would you agree with the project of changing the notion of individual to nodividual* ?"+
+                document.getElementById("msg-middle").innerHTML = "Humans are dependant on"+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td><input type='radio' name='A.5' value='yes'/></td><td>yes</td></tr>"+
-                "<tr><td><input type='radio' name='A.5' value='no'/></td><td>no</td></tr>"+
-                "</table>"+
-                "</br></br>* nodividual is an entity who can’t be taught without his environment.";
+                "<tr><td><input type='checkbox' name='A.5a' value='mineral'/></td><td>Minerals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.5b' value='vegetal'/></td><td>Vegetals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.5c' value='animal'/></td><td>Animals</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.5d' value='human'/></td><td>Humans</td></tr>"+
+                "<tr><td><input type='checkbox' name='A.5e' value='machine'/></td><td>Machines</td></tr>"+
+                "</table>";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
@@ -465,19 +467,17 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";
-                document.getElementById("msg-middle").innerHTML = "Humans are dependant on"+
+                document.getElementById("msg-middle").innerHTML = "Would you agree with the project of changing the notion of individual to nondividual* ?"+
                 "<br/><br/><table style='margin:auto'>"+
-                "<tr><td><input type='checkbox' name='A.10a' value='mineral'/></td><td>Minerals</td></tr>"+
-                "<tr><td><input type='checkbox' name='A.10b' value='vegetal'/></td><td>Vegetals</td></tr>"+
-                "<tr><td><input type='checkbox' name='A.10c' value='animal'/></td><td>Animals</td></tr>"+
-                "<tr><td><input type='checkbox' name='A.10d' value='human'/></td><td>Humans</td></tr>"+
-                "<tr><td><input type='checkbox' name='A.10e' value='machine'/></td><td>Machines</td></tr>"+
-                "</table>";
+                "<tr><td><input type='radio' name='A.10' value='yes'/></td><td>yes</td></tr>"+
+                "<tr><td><input type='radio' name='A.10' value='no'/></td><td>no</td></tr>"+
+                "</table>"+
+                "</br></br>* nondividual is an entity who can’t be taught without his environment.";
             	document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("msg-bottom").innerHTML = "";
                 document.getElementById("next-btn").style.display = "";
                 break;
-			case 10:
+            case 10:
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "HUMAN REFERENDUM";
             	document.getElementById("section-middle").style.display = "";

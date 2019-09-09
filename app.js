@@ -206,7 +206,9 @@ app.post('/clearvotes', function(req, res) {
 		//console.log(q);
 		var answers = Object.keys(votes[q]);
 		answers.forEach(function(ans) {
-			(votes[q])[ans] = 0;
+			if(ans != 'type') {
+				(votes[q])[ans] = 0;
+			}
 			//console.log("  "+(votes[q])[ans]+" - "+ans);
 		});
 		jsonString = JSON.stringify(votes, null, 2);

@@ -17,7 +17,7 @@
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
     
-    <script src="/scripts/Chart.min.js"></script>
+    <script src="/scripts/Chart.js"></script>
 	<script src="/js/utils.js"></script>
 	<script src="js/ws.js"></script>
     
@@ -79,37 +79,31 @@
 	var data;
 	var ksize = 0;
 	var curR = 0;
+	var myRadar;
     
     var colorNames = Object.keys(window.chartColors);
 	var color = Chart.helpers.color;
+
 	var config = {
-		type: 'radar',
+		type: 'bar',
 		data: {
 			labels: [],
 			datasets: []
 		},
 		options: {
-			responsive: true,
 			legend: {
-				display: false,
-				position: 'bottom',
+				display: false
 			},
 			title: {
-				display: false,
-				text: 'Chart.js Radar Chart'
-			},
-			scale: {
-				display: true,
-				ticks: {
-					beginAtZero: true
-				}
+				display: false
 			}
 		}
 	};
-
-	window.onload = function() {
-		window.myRadar = new Chart(document.getElementById('canvas'), config);
-	};
+	
+	/*window.onload = function() {
+		//config.options = optionsRadar;
+		window.
+	};//*/
 							
 	//usage:
 	function loadVotes() {
@@ -134,8 +128,7 @@
     
     function loadRes(key) {
     	//console.log("loadRes : "+key+" "+curR);
-    	document.getElementById("curR").value = key;
-		//console.log(data[key]);
+    	//console.log(data[key]);
 		config.data.labels.length = 0;
 		config.data.datasets.length = 0;
 		var colorName = colorNames[config.data.datasets.length % colorNames.length];
@@ -149,40 +142,60 @@
 		}
 		
 		var type = "none";
+		var v = 0.;
+		var t = '';
 		
 		Object.keys(data[key]).forEach(function(res){
 			//console.log(res+" "+data[key][res]);
-			if(res == "type")
-			{
+			if(res == "title") {
+				document.getElementById("curR").value = key + " - " + data[key][res];
+			} else if(res == "type") {
 				type = data[key][res];
+				v = 0.;
 			} else {
 				switch(type) {
 					case "radar":
-						config.type = 'radar';
-						//config.options.scale.display: true;
+						config.type = 'bar';
 						config.data.labels.push(res);
 						newDataset.data.push(data[key][res]);
 						break;
 					case "radar2":
+						if(res.indexOf("vote") != -1)
+						{
+							v = data[key][res];
+						} else {
+							config.type = 'bar';
+							config.data.labels.push(res);
+							newDataset.data.push(data[key][res]/v);
+						}
 						break;
 					case "bar":
 						config.type = 'bar';
-						//config.options.scale.display: false;
 						config.data.labels.push(res);
 						newDataset.data.push(data[key][res]);
 						break;
 					case "bar2":
+						if(res.indexOf("vote") != -1)
+						{
+							v = data[key][res];
+						} else {
+							config.type = 'bar';
+							config.data.labels.push(res);
+							newDataset.data.push(data[key][res]/v);
+						}
 						break;
 				}
 			}
 		});
 	
 		config.data.datasets.push(newDataset);
-		window.myRadar.update();
+		myRadar.update();
 	};
     
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
+
+		myRadar = new Chart(document.getElementById('canvas'), config);
 
         connectToWS();
         
@@ -209,91 +222,11 @@
 		<div style="width:100%">
 			<canvas id="canvas"></canvas>
 		</div>
+		<input id="curR" type="text" class="btn btn-lg btn-click-look" style="width:600px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="prevRes()">Previous Vote</button>
-		<input id="curR" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="nextRes()">Next Vote</button>
 		<br/><button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="loadVotes(); ">Reload Votes</button>
-		<!--button id="randomizeData">Randomize Data</button><br/>
-		<button id="addDataset">Add Dataset</button><br/>
-		<button id="removeDataset">Remove Dataset</button><br/>
-		<button id="addData">Add Data</button><br/>
-		<button id="removeData">Remove Data</button-->
-		
-		<script>
-		    /*var randomScalingFactor = function() {
-				return Math.round(Math.random() * 100);
-			};
 
-			document.getElementById('randomizeData').addEventListener('click', function() {
-				config.data.datasets.forEach(function(dataset) {
-					dataset.data = dataset.data.map(function() {
-						return randomScalingFactor();
-					});
-				});
-
-				window.myRadar.update();
-			});
-
-			var colorNames = Object.keys(window.chartColors);
-			document.getElementById('addDataset').addEventListener('click', function() {
-				var colorName = colorNames[config.data.datasets.length % colorNames.length];
-				var newColor = window.chartColors[colorName];
-
-				var newDataset = {
-					label: 'Dataset ' + config.data.datasets.length,
-					borderColor: newColor,
-					backgroundColor: color(newColor).alpha(0.2).rgbString(),
-					pointBackgroundColor: newColor,
-					data: [],
-				};
-
-				for (var index = 0; index < config.data.labels.length; ++index) {
-					newDataset.data.push(randomScalingFactor());
-				}
-
-				config.data.datasets.push(newDataset);
-				window.myRadar.update();
-			});
-
-			document.getElementById('addData').addEventListener('click', function() {
-				if (config.data.datasets.length > 0) {
-					config.data.labels.push('dataset #' + config.data.labels.length);
-
-					config.data.datasets.forEach(function(dataset) {
-						dataset.data.push(randomScalingFactor());
-					});
-
-					window.myRadar.update();
-				}
-			});
-
-			document.getElementById('removeDataset').addEventListener('click', function() {
-				config.data.datasets.splice(0, 1);
-				window.myRadar.update();
-			});
-
-			document.getElementById('removeData').addEventListener('click', function() {
-				config.data.labels.pop(); // remove the label first
-
-				config.data.datasets.forEach(function(dataset) {
-					dataset.data.pop();
-				});
-
-				window.myRadar.update();
-			});//*/
-		</script>
-		
-		<!--input id="curV" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(0)">Referendum</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendPrevVote()">Previous Vote</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendNextVote()">Next Vote</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(13)">Future</button><br/>
-		<br/>
-		<br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendClearVotes()">Clear Votes</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendAddVotes()">Add Local To Global</button><br/>
-		-->
 	</section>
 	
 	<!-- jQuery -->
