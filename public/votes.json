@@ -1,139 +1,166 @@
 {
   "A.1": {
-    "anarchy": 0,
-    "democracy": 0,
-    "spirituality": 0,
-    "totalitarism": 0,
-    "other": 0
+    "type": "radar",
+    "anarchy": 6,
+    "democracy": 34,
+    "spirituality": 2,
+    "totalitarism": 15,
+    "other": 12
   },
   "A.2": {
+    "type": "radar",
     "only_intelligent": 0,
-    "most_intelligent": 0,
+    "most_intelligent": 2,
     "another_intelligent": 0,
-    "another_form": 0
+    "another_form": 1
   },
   "A.3": {
+    "type": "radar",
     "mineral": 0,
-    "vegetal": 0,
-    "animal": 0,
-    "human": 0,
+    "vegetal": 1,
+    "animal": 1,
+    "human": 1,
     "machine": 0
   },
   "A.4": {
+    "type": "radar",
     "mineral": 0,
-    "vegetal": 0,
-    "animal": 0,
-    "machine": 0,
-    "no": 0
+    "vegetal": 1,
+    "animal": 1,
+    "machine": 1,
+    "no": 2
   },
   "A.5": {
-    "yes": 0,
-    "no": 0
+    "type": "bar",
+    "yes": 1,
+    "no": 1
   },
   "A.6": {
+    "type": "radar",
     "<": 0,
-    "=": 0,
-    ">": 0
+    "=": 1,
+    ">": 1
   },
   "A.7": {
+    "type": "radar",
     "<": 0,
     "=": 0,
-    ">": 0
+    ">": 2
   },
   "A.8": {
-    "<": 0,
-    "=": 0,
+    "type": "radar",
+    "<": 1,
+    "=": 1,
     ">": 0
   },
   "A.9": {
-    "<": 0,
+    "type": "radar",
+    "<": 1,
     "=": 0,
-    ">": 0
+    ">": 1
   },
   "A.10": {
-    "mineral": 0,
-    "vegetal": 0,
-    "animal": 0,
-    "human": 0,
-    "machine": 0
+    "type": "radar",
+    "mineral": 2,
+    "vegetal": 2,
+    "animal": 2,
+    "human": 2,
+    "machine": 1
   },
   "A.11": {
-    "mineral": 0,
-    "vegetal": 0,
-    "animal": 0,
+    "type": "radar",
+    "mineral": 2,
+    "vegetal": 2,
+    "animal": 1,
     "machine": 0
   },
   "A.12": {
-    "mineral": 0,
-    "vegetal": 0,
-    "animal": 0,
+    "type": "radar",
+    "mineral": 1,
+    "vegetal": 1,
+    "animal": 1,
     "human": 0,
-    "machine": 0
+    "machine": 1
   },
   "B.1": {
-    "earth": 0,
-    "other_planet": 0,
+    "type": "radar",
+    "earth": 2,
+    "other_planet": 1,
     "nowhere": 0
   },
   "B.2": {
+    "type": "radar",
     "urban": 0,
-    "rural": 0,
-    "natural": 0,
+    "rural": 2,
+    "natural": 1,
     "nowhere": 0
   },
   "B.3": {
-    "mineral_growth": 0,
-    "mineral_vote": 0
+    "type": "bar2",
+    "mineral_growth": 0.51,
+    "mineral_vote": 3
   },
   "B.4": {
-    "vegetal_growth": 0,
-    "vegetal_vote": 0
+    "type": "bar2",
+    "vegetal_growth": 1.62,
+    "vegetal_vote": 3
   },
   "B.5": {
-    "animal_growth": 0,
-    "animal_vote": 0
+    "type": "bar2",
+    "animal_growth": 1.35,
+    "animal_vote": 3
   },
   "B.6": {
-    "human_growth": 0,
-    "human_vote": 0
+    "type": "bar2",
+    "human_growth": 1.83,
+    "human_vote": 3
   },
   "B.7": {
-    "machine_growth": 0,
-    "machine_vote": 0
+    "type": "bar2",
+    "machine_growth": 1.4100000000000001,
+    "machine_vote": 3
   },
   "B.8": {
-    "mineral_hybrid": 0,
-    "vegetal_hybrid": 0,
-    "animal_hybrid": 0,
-    "machine_hybrid": 0,
-    "hybrid_vote": 0
+    "type": "radar2",
+    "mineral_hybrid": 2.6399999999999997,
+    "vegetal_hybrid": 1.3199999999999998,
+    "animal_hybrid": 0.96,
+    "machine_hybrid": 0.86,
+    "hybrid_vote": 3
   },
   "B.9": {
-    "temperature_growth": 0,
-    "temperature_vote": 0
+    "type": "bar2",
+    "temperature_growth": 2.35,
+    "temperature_vote": 3
   },
   "B.10": {
-    "pollution_growth": 0,
-    "pollution_vote": 0
+    "type": "bar2",
+    "pollution_growth": 1.98,
+    "pollution_vote": 3
   },
   "B.11": {
-    "violence_growth": 0,
-    "violence_vote": 0
+    "type": "bar2",
+    "violence_growth": 2.5999999999999996,
+    "violence_vote": 3
   },
   "B.12": {
-    "equality_growth": 0,
-    "equality_vote": 0
+    "type": "bar2",
+    "equality_growth": 2.13,
+    "equality_vote": 3
   },
   "B.13": {
-    "freedom_growth": 0,
-    "freedom_vote": 0
+    "type": "bar2",
+    "freedom_growth": 2.43,
+    "freedom_vote": 3
   },
   "B.14": {
-    "knowledge_growth": 0,
-    "knowledge_vote": 0
+    "type": "bar2",
+    "knowledge_growth": 2.17,
+    "knowledge_vote": 3
   },
   "B.15": {
-    "language_growth": 0,
-    "language_vote": 0
+    "type": "bar2",
+    "language_growth": 1.6,
+    "language_vote": 2
   }
 }

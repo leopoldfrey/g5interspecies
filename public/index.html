@@ -33,11 +33,11 @@
     
     <script>
 
-	function selspecie() {
-		v = document.getElementById("select_specie").value
+	function selspecies() {
+		v = document.getElementById("select_species").value
 		if(v != "")
 		{
-			console.log("Selspecie " + v);
+			console.log("Selspecies " + v);
 			window.location.href = '/id_'+v+'.html';
 		}
 	}
@@ -144,8 +144,8 @@
 			<br/>
 			<!--form id="idform" action="biosync.html" method="GET"-->
 				<div class="row">
-					<select id="select_specie" name="specie" onchange="selspecie()">
-						<option value="">Select your specie...</option>
+					<select id="select_species" name="species" onchange="selspecies()">
+						<option value="">Select your species...</option>
 						<option value="mineral">MINERAL</option>
 						<option value="vegetal">VEGETAL</option>
 						<option value="animal">ANIMAL</option>
@@ -155,7 +155,7 @@
 				</div>
 				<br/>
 				<!--div class="row">
-					<button id="btn-login" class="btn btn-click" onclick="sendspecie()">ENTER</button>
+					<button id="btn-login" class="btn btn-click" onclick="sendspecies()">ENTER</button>
 				</div-->
 				<br/>
 				<br/>
