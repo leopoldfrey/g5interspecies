@@ -124,19 +124,6 @@ app.post('/image', upload.single("image"), function (req, res) {
                    message: 'File uploaded successfully',
                    filename: req.file.originalname
               };
-
-              /*wss.clients.forEach(function each(client) {
-                if (client !== wss && client.readyState === WebSocket.OPEN) {
-                  console.log("Sending new img upload");
-                  client.send(
-                    JSON.stringify(
-                    {
-                      type: "newimage",
-                      stage: currentStage,
-                      standbyMsg: file
-                    }));
-                }
-              });//*/
           }
           res.end( JSON.stringify( response ) );
        });
@@ -145,6 +132,7 @@ app.post('/image', upload.single("image"), function (req, res) {
 
 var rawvotes = fs.readFileSync('public/votes.json');
 var votes = JSON.parse(rawvotes);
+var curVote = -1;
 /*var questions = Object.keys(votes)
 questions.forEach(function(q) {
 	console.log(q);
@@ -252,6 +240,8 @@ app.post('/addlocalvotes', function(req, res) {
 app.post('/gotoVote', function(req, res) {
 	console.log('| Server received /gotoVote '+req.body.vote);	
 	
+	curVote = req.body.vote;
+	
 	if(wss)
   	{
 		wss.clients.forEach(function each(client) {
@@ -260,12 +250,38 @@ app.post('/gotoVote', function(req, res) {
 				{
 					charset : 'utf8mb4', 
 					command: "nextvote",
-					vote: req.body.vote
+					vote: curVote
 				}));
 		});
   	}
 	
 	res.send("ok");
+})
+
+/*------------ I AM NEW WHERE TO ----------*/
+app.post('/iAmNewWheteTo', function(req, res) {
+	console.log('| Server received /iAmNewWheteTo');
+	if(curVote >= 13)	
+		res.send(curVote);
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "users",
+					users: wss.clients.size
+				}));
+		});
+  	}
+})
+
+/*------------ GET USERS ----------*/
+app.post('/getUsers', function(req, res) {
+	console.log('| Server received /getUsers');
+	//console.log(wss.clients.size);
+	res.send(""+wss.clients.size);
 })
 
 /*----------- WS Server -----------*/
@@ -277,9 +293,6 @@ const wss = new WebSocketServer({
 
 wss.closeTimeout = 180 * 1000;
 
-var currentStage = -1;
-var currentStandbyMessage = "Take a Selfie";
-
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     console.log('| WebSocket received : %s', message);
@@ -287,26 +300,6 @@ wss.on('connection', function connection(ws) {
     var msg = JSON.parse(message);
     
     switch(msg.type) {
-		case "broadcast":
-        	currentStage = msg.stage;
-        	currentStandbyMessage = msg.standbyMsg;
-
-	        console.log("- BROADCAST " + msg.stage);
-			// Broadcast
-    	    wss.clients.forEach(function each(client) {
-				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					//console.log("Sending: " + currentStage);
-					client.send(
-						JSON.stringify(
-						{
-							charset : 'utf8mb4', 
-							type: "changeState",
-							stage: currentStage,
-							standbyMsg: currentStandbyMessage
-						}));
-				}
-        	});
-			break;
   		default:
   			console.log('* ignored : '+msg.type);
   			break;

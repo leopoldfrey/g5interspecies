@@ -17,56 +17,43 @@
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
     
+    <script src="js/ws.js"></script>
+
     <script>
 
-	var ws;
-    const port = location.PORT || 3000;
+	var v = 0;
 
-    // LOCAL
-    //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
-    
-    // HEROKU
-    var wsServer = "wss://" + window.location.hostname + "/wss";
-	
-	document.addEventListener("DOMContentLoaded", function(event) {
-    	
-    	// Connect to websocket server
+	function connectToWS() {
+        // Connect to websocket server
         ws = new WebSocket(wsServer);
 
-    	ws.onopen = function (event) {
-          //exampleSocket.send("Here's some text that the server is urgently awaiting!"); 
-          console.log("- Connected to ws server");
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if(reply.command == "users") {
+            	document.getElementById("curU").value = reply.users;
+            }
         };
 
         // Log errors
-		ws.onerror = function (error) {
-		  console.error("* WebSocket Error " + error);
-		};
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
 
-		// Log messages from the server
-		ws.onmessage = function (e) {
-			console.log("- Received message: " + e.data);
-			
-			/*var reply = JSON.parse(e.data);
-            if (reply.type == "match" || reply.type == "initState") {
-            	var ul = document.getElementById("user-list");
-  				var li = document.createElement("li");
- 				li.appendChild(document.createTextNode(reply.stage));
- 				ul.appendChild(li);
-            } else if (reply.type == "users") {
-            	var list = document.getElementById("user-list");
-            	list.innerHTML = "";
-            	for(var i = 0 ; i < reply.userArray.length ; i++)
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            $.post("/iAmNewWheteTo",{}, function(data){
+				if(data)
 				{
-					var li = document.createElement("li");
-    				li.appendChild(document.createTextNode(reply.userArray[i]));
-    				list.appendChild(li);
-    			}
-            }//*/
-		};
-
-    });
-	
+					console.log("| Success sending iAmNewWheteTo");
+					v = data;
+					document.getElementById("curV").value = v;
+				}
+			});
+        };
+    }
+    		
 	function sendClearVotes() {
 		if(confirm("Clear votes ?")) {
 			$.post("/clearvotes",{type:"clearvotes"}, function(data){
@@ -96,9 +83,7 @@
 			});
 		}
     }
-
-	var v = 0;
-
+    
 	function sendNextVote() {
 		gotoVote(v+1 <= 28 ? v+1 : 28);
     }
@@ -116,6 +101,22 @@
 			}
 		});
     }
+    
+    function getUsers() {
+    	$.post("/getUsers",{}, function(data){
+			if(data) {
+				console.log("- Success sending getUsers");
+				document.getElementById("curU").value = data;
+			}
+		});
+    }
+    
+    document.addEventListener("DOMContentLoaded", function(event) {
+    	
+    	// Connect to websocket server
+    	connectToWS();
+
+    });
 
 	</script>
 	
@@ -128,18 +129,20 @@
 
     <!-- Section -->
     <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
-    	<!--div style="width:50%; margin: auto"-->
-			<input id="curV" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
-			<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(0)">Referendum</button><br/>
-			<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendPrevVote()">Previous Vote</button><br/>
-			<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendNextVote()">Next Vote</button><br/>
-			<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(13)">Future</button><br/>
-			<br/>
-			<br/>
-			<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendClearVotes()">Clear Votes</button><br/>
-			<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
-			<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendAddVotes()">Add Local To Global</button><br/>
-		<!--/div-->
+		<input id="curV" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(0)">Referendum</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendPrevVote()">Previous Vote</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendNextVote()">Next Vote</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(13)">Future</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(28)">End</button><br/>
+		<br/>
+		<br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(-1)">Reset Server</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendClearVotes()">Clear Votes</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendAddVotes()">Add Local To Global</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="getUsers()">Get Users</button><br/>
+		<input id="curU" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
 	</section>
 	
 	<!-- jQuery -->

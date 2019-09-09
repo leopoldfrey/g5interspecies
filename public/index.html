@@ -29,6 +29,8 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+	<script src="js/ws.js"></script>
+    
     <script>
 
 	function selspecie() {
@@ -39,6 +41,49 @@
 			window.location.href = '/id_'+v+'.html';
 		}
 	}
+    
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "nextvote") {
+            	if(reply.vote != -1)
+	                window.location.href = '/referendum.html?vote='+reply.vote;
+            } else if(reply.command == "users") {
+            	//
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            $.post("/iAmNewWheteTo",{}, function(data){
+				if(data)
+				{
+					console.log("| Success sending iAmNewWheteTo");
+					//console.log("| Received : "+data);
+					if(data == 13) {
+						window.location.href = '/referendum.html?vote=13';
+					}
+					
+				}
+			});
+        };
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+        connectToWS();
+        
+    });
 
     </script>
 

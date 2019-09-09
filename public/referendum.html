@@ -25,6 +25,8 @@
     <!-- Img processing from phone -->
     <script src="js/load-image.all.min.js"></script>
     
+    <script src="js/ws.js"></script>
+    
     <style>
     .btn-click-look {
         background-color: white;
@@ -111,80 +113,6 @@
     		document.querySelector('input[name="A.4d"]').checked) {
     		document.querySelector('input[name="A.4e"]').checked = false;	
     	}
-    }
-
-	var ws;
-    const port = location.PORT || 3000;
-
-    // LOCAL
-    //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
-    
-    // HEROKU
-	var wsServer = "wss://" + window.location.hostname + "/wss";
-
-    	
-    /* -- Web Sockets -- */
-    document.addEventListener("visibilitychange", function() {
-        //console.log("Visibility changed to: " + document.visibilityState);
-        if(document.visibilityState == "visible" ) {
-            checkWSStateAndReconnectIfNecessary(ws.readyState);
-
-            // Check again in one second
-            setTimeout(function(){
-                checkWSStateAndReconnectIfNecessary(ws.readyState);
-            }, 3000);
-        }
-    });
-
-    document.addEventListener("onfocus", function() {
-        //console.log("Gained focus");
-        checkWSStateAndReconnectIfNecessary(ws.readyState);
-
-        // Check again in one second
-        setTimeout(function(){
-            checkWSStateAndReconnectIfNecessary(ws.readyState);
-        }, 3000);
-    });
-
-    function connectToWS() {
-        // Connect to websocket server
-        ws = new WebSocket(wsServer);
-
-        // Log messages from the server
-        ws.onmessage = function (e) {
-            console.log("| WS Received message: " + e.data);
-            var reply = JSON.parse(e.data);
-            if (reply.command == "nextvote") {
-                setvote(reply.vote);
-            }
-        };
-
-        // Log errors
-        ws.onerror = function (error) {
-            console.error("WebSocket Error " + error.stack);
-        };
-
-        ws.onopen = function (event) {
-            console.log("- Connected to ws server");
-        };
-    }
-
-    function checkWSStateAndReconnectIfNecessary(wsReadyState) {
-        switch(wsReadyState) {
-            case ws.CONNECTING:
-                console.log("- WebSocket Connecting...");
-                break;
-            case ws.OPEN:
-                console.log("- WebSocket Open :)");
-                break;
-            case ws.CLOSING:
-                console.log("- WebSocket Closing...");
-                break;
-            case ws.CLOSED:
-                console.log("* WebSocket Closed :(");
-                connectToWS();
-                break;
-        }
     }
 
     function next() {
@@ -789,6 +717,40 @@
 				break;
         }
             
+    }
+    
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "nextvote") {
+            	if(reply.vote != -1)
+	                setvote(reply.vote);
+            } else if(reply.command == "users") {
+            	//
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            $.post("/iAmNewWheteTo",{}, function(data){
+				if(data) {
+					console.log("| Success sending iAmNewWheteTo");
+					if(data == 13) {
+						setvote(13);
+					}
+				}
+			});
+        };
     }
     
     /* Onload */
