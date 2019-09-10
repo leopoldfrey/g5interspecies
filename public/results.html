@@ -42,11 +42,16 @@
         // Log messages from the server
         ws.onmessage = function (e) {
             console.log("| WS Received message: " + e.data);
-            /*var reply = JSON.parse(e.data);
-            if (reply.command == "nextvote") {
-            	if(reply.vote != -1)
-	                setvote(reply.vote);
-            }//*/
+            var reply = JSON.parse(e.data);
+            if(reply.command == "sendOSC") {
+            	console.log("| WS Received OSC message " + reply.address + ". Propagating to WS2");
+            	//sendOSC(reply.address, reply.args);
+            	if(reply.address == "/chart/prev") {
+            		prevRes();
+            	} else if(reply.address == "/chart/next") {
+            		nextRes();
+            	}
+            }
         };
 
         // Log errors
@@ -135,7 +140,7 @@
 		readTextFile(file, function(text){
 			data = JSON.parse(text);
 			ksize = Object.keys(data).length;
-			console.log("- Loading "+file+" done : "+ksize+" results");	
+			//console.log("- Loading "+file+" done : "+ksize+" results");	
 			loadRes(Object.keys(data)[curR]);
 		});
 	}
@@ -247,10 +252,11 @@
 		<div style="width:100%">
 			<canvas id="canvas"></canvas>
 		</div>
+		<!--
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color: black; color: lightgray" onclick="prevRes()">Previous Vote</button>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color: black; color: lightgray" onclick="nextRes()">Next Vote</button>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color: black; color: lightgray" onclick="loadVotes(); ">Reload Votes</button>
-
+		-->
 	</section>
 	
 	<!-- jQuery -->
