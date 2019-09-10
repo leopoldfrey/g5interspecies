@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>G5 Results</title>
+    <title>G5 Rocio</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,15 +20,7 @@
     <script src="/scripts/Chart.js"></script>
 	<script src="/js/utils.js"></script>
 	<script src="js/ws.js"></script>
-    
-    <style>
-		canvas {
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			-ms-user-select: none;
-		}
-	</style>
-	
+    	
 	<script>
 
 	    function connectToWS() {
@@ -53,12 +45,9 @@
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
             $.post("/iAmNewWheteTo",{}, function(data){
-				/*if(data) {
+				if(data == "ok") {
 					console.log("| Success sending iAmNewWheteTo");
-					if(data == 13) {
-						setvote(13);
-					}
-				}//*/
+				}
 			});
         };
     }
@@ -79,33 +68,16 @@
 	var data;
 	var ksize = 0;
 	var curR = 0;
-	var myRadar;
-    
-    var colorNames = Object.keys(window.chartColors);
-	var color = Chart.helpers.color;
-
-	var config = {
-		type: 'bar',
-		data: {
-			labels: [],
-			datasets: []
-		},
-		options: {
-			legend: {
-				display: false
-			},
-			title: {
-				display: false
-			}
-		}
-	};
 	
 	function loadVotes() {
 		readTextFile(file, function(text){
+			document.getElementById('result').innerHTML = "";
 			data = JSON.parse(text);
 			ksize = Object.keys(data).length;
 			console.log("- Loading "+file+" done : "+ksize+" results");	
-			loadRes(Object.keys(data)[curR]);
+			Object.keys(data).forEach(function(res){
+				loadRes(res);
+			});
 		});
 	}
 	
@@ -121,83 +93,91 @@
 		loadRes(Object.keys(data)[curR]);
 	} 
     
-    function loadRes(key) {
-    	//console.log("loadRes : "+key+" "+curR);
-    	//console.log(data[key]);
-		config.data.labels.length = 0;
-		config.data.datasets.length = 0;
-		var colorName = colorNames[config.data.datasets.length % colorNames.length];
-		var newColor = window.chartColors[colorName];
-		var newDataset = {
-			label: key,
-			borderColor: newColor,
-			backgroundColor: color(newColor).alpha(0.2).rgbString(),
-			pointBackgroundColor: newColor,
-			data: [],
-		}
-		
-		var type = "none";
+	function loadRes(key) {
+    	
+    	//document.getElementById('result').innerHTML = "";
+    	
+    	var type = "none";
 		var v = 0.;
 		var t = '';
+		var vals = [];
+		var sum = 0.;
+		var d = 0.;
 		
 		Object.keys(data[key]).forEach(function(res){
-			//console.log(res+" "+data[key][res]);
 			if(res == "title") {
-				document.getElementById("curR").innerHTML = key + " - " + data[key][res];
+				title = document.createElement('div');
+				title.style = "margin:20px; background-color:white; border:0px; text-align:center; color:gray";
+				title.appendChild(document.createTextNode(key + " - " + data[key][res]));
+				document.getElementById('result').appendChild(title);
 			} else if(res == "type") {
 				type = data[key][res];
 				v = 0.;
 			} else {
 				switch(type) {
+					case "bar":
 					case "radar":
-						config.type = 'bar';
-						config.data.labels.push(res);
-						newDataset.data.push(data[key][res]);
+						//console.log(res+ " - " + (data[key])[res]);
+						vals.push({label:res, value:(data[key])[res]});
+						sum += data[key][res];
 						break;
+					case "bar2":
 					case "radar2":
 						if(res.indexOf("vote") != -1)
 						{
-							v = data[key][res];
+							sum = 1;
+							d = data[key][res];
 						} else {
-							config.type = 'radar';
-							config.data.labels.push(res);
-							newDataset.data.push(data[key][res]/v*2.-1.);
-						}
-						break;
-					case "bar":
-						config.type = 'bar';
-						config.data.labels.push(res);
-						newDataset.data.push(data[key][res]);
-						break;
-					case "bar2":
-						if(res.indexOf("vote") != -1)
-						{
-							v = data[key][res];
-						} else {
-							config.type = 'bar';
-							config.data.labels.push(res);
-							console.log("Value : "+res+" "+(data[key][res]/v*2.-1.));
-							newDataset.data.push(data[key][res]/v*2.-1.);
+							if(d == 0)
+								sum = 0;
+							else {
+								vals.push({label:res, value:((data[key])[res]/d*2.-1.)});
+							}//sum += ;
 						}
 						break;
 				}
 			}
 		});
-	
-		config.data.datasets.push(newDataset);
-		myRadar.update(0);
+		
+		table = document.createElement("table");
+		table.style = 'margin: auto';
+		document.getElementById('result').appendChild(table);
+		Object.keys(vals).forEach(function(k){
+			if(sum != 0) {
+				tr = document.createElement("tr");
+				vals[k].value = (vals[k].value / sum) * 100.;
+				//console.log(vals[k].label + " -> " + vals[k].value.toFixed(2) + "%");
+				td = document.createElement("td");
+				td.style = 'text-align: right; width: 200px';
+				td.appendChild(document.createTextNode(vals[k].label));
+				tr.appendChild(td);
+				td2 = document.createElement("td");
+				td2.style = 'text-align: left; width: 200px';
+				td2.appendChild(document.createTextNode(vals[k].value.toFixed()+" %"));
+				tr.appendChild(td2);
+				table.appendChild(tr);
+			} else {
+				tr = document.createElement("tr");
+				td = document.createElement("td");
+				td.style = 'text-align: center; width: 300px';
+				t = document.createTextNode("No votes");
+				td.appendChild(t);
+				tr.appendChild(td);
+				table.appendChild(tr);
+				//d.appendChild(t);
+				//document.getElementById('result').appendChild(d);
+			}
+		});
 	};
     
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
-		myRadar = new Chart(document.getElementById('canvas'), config);
-
-        connectToWS();
+		connectToWS();
         
         loadVotes();
-
-		setInterval(loadVotes, 500);
+        
+        setInterval(loadVotes, 500);
 
     });
 
@@ -206,20 +186,13 @@
 </head>
 
 	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="">
-		<!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
-    </nav>
-
-    <!-- Section -->
-    <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
-		<div id="curR" style="margin-top:15px; margin-bottom: 25px; background-color:white; border:0px; text-align:center; color:gray"></div>
-		<div style="width:100%">
-			<canvas id="canvas"></canvas>
-		</div>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="prevRes()">Previous Vote</button>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="nextRes()">Next Vote</button>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="loadVotes(); ">Reload Votes</button>
-
+	<!-- Section -->
+    <button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 0px auto; text-align:center; padding: 0px;" onclick="loadVotes(); ">Refresh</button>
+	<section id="section-standBy" class="container content-section text-center" style="padding:20px;">
+		<div id="result" style="margin-bottom: 20px; background-color:white; border:0px; text-align:center; color:black"></div>
+		<!--button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; margin: 0px;" onclick="prevRes()">Previous Vote</button>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; margin: 0px;" onclick="nextRes()">Next Vote</button>
+		<br/-->
 	</section>
 	
 	<!-- jQuery -->

@@ -50,20 +50,12 @@ app.get('/controller.html',function(req,res){
       res.sendFile(__dirname + "/public/controller.html");
 });
 
-/*app.get('/address.html',function(req,res){
-      res.sendFile(__dirname + "/public/address.html");
-});//*/
-
 app.get('/votes.json',function(req,res){
       res.sendFile(__dirname + "/public/votes.json");
 });
 
-app.get('/radar.html',function(req,res){
-      res.sendFile(__dirname + "/public/radar.html");
-});
-
-app.get('/radar-skip-points.html',function(req,res){
-      res.sendFile(__dirname + "/public/radar-skip-points.html");
+app.get('/rocio.html',function(req,res){
+      res.sendFile(__dirname + "/public/rocio.html");
 });
 
 app.get('/results.html',function(req,res){
@@ -206,7 +198,7 @@ app.post('/clearvotes', function(req, res) {
 		//console.log(q);
 		var answers = Object.keys(votes[q]);
 		answers.forEach(function(ans) {
-			if(ans != 'type') {
+			if(ans != 'type' && ans != 'title') {
 				(votes[q])[ans] = 0;
 			}
 			//console.log("  "+(votes[q])[ans]+" - "+ans);
