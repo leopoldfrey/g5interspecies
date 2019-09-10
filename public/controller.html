@@ -17,7 +17,8 @@
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
     
-    <script src="js/ws.js"></script>
+	<script src="js/ws.js"></script>
+    <script src="js/ws2.js"></script>
 
     <script>
 
@@ -29,10 +30,13 @@
 
         // Log messages from the server
         ws.onmessage = function (e) {
-            console.log("| WS Received message: " + e.data);
+            //console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
-            if(reply.command == "users") {
-            	document.getElementById("curU").value = reply.users;
+            
+            // PROPAGATE LOCAL OSC
+            if(reply.command == "sendOSC") {
+            	console.log("| WS Received OSC message " + reply.address + ". Propagating to WS2");
+            	sendOSC(reply.address, reply.args);
             }
         };
 
@@ -54,6 +58,29 @@
         };
     }
     		
+    function connectToWS2() {
+        // Connect to websocket server
+        ws2 = new WebSocket(wsServer2);
+
+        // Log messages from the server
+        ws2.onmessage = function (e) {
+            console.log("| WS2 Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if(reply.command == "users") {
+            	//document.getElementById("curU").value = reply.users;
+            }
+        };
+
+        // Log errors
+        ws2.onerror = function (error) {
+            console.error("* WS2 WebSocket Error " + error.stack);
+        };
+
+        ws2.onopen = function (event) {
+            console.log("- Connected to ws2 server");
+        };
+    }
+    
 	function sendClearVotes() {
 		if(confirm("Clear votes ?")) {
 			$.post("/clearvotes",{type:"clearvotes"}, function(data){
@@ -115,9 +142,29 @@
     	
     	// Connect to websocket server
     	connectToWS();
+        connectToWS2();
 
     });
 
+	function sendOSC(_address, _args) {
+		console.log("- Send OSC : "+_address);
+		ws2.send(
+			JSON.stringify(
+			{
+				type:"sendOSC",
+				address:_address,
+				args:_args
+			})
+			, function (err) {
+				if (err) {
+					console.log("* Error sending sendOSC to WS2");
+				} else {
+					console.log("| Success sending sendOSC to WS2");
+				}  
+			}
+		);
+	}
+    
 	</script>
 	
 </head>
@@ -143,6 +190,8 @@
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendAddVotes()">Add Local To Global</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="getUsers()">Get Users</button><br/>
 		<input id="curU" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendOSC('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))">Prev Chart</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendOSC('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">Next Chart</button><br/>
 	</section>
 	
 	<!-- jQuery -->

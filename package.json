@@ -1,5 +1,5 @@
 {
-  "name": "erg-server",
+  "name": "G5-server",
   "version": "0.0.1",
   "scripts": {
     "start": "node app.js"

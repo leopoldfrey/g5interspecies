@@ -278,6 +278,25 @@ app.post('/getUsers', function(req, res) {
 	res.send(""+wss.clients.size);
 })
 
+/*------------ SEND OSC ------------*/
+app.post('/sendOSC', function(req, res) {
+	console.log('| Server received /sendOSC');
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "sendOSC",
+					address: req.body.address,
+					args: req.body.args
+				}));
+		});
+  	}
+  	res.send("ok");
+})
+
 /*----------- WS Server -----------*/
 
 const wss = new WebSocketServer({

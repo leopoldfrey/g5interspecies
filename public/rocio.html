@@ -17,19 +17,17 @@
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
     
-    <script src="/scripts/Chart.js"></script>
-	<script src="/js/utils.js"></script>
-	<script src="js/ws.js"></script>
-    	
+    <script src="js/ws.js"></script>
+		
 	<script>
 
-	    function connectToWS() {
+	function connectToWS() {
         // Connect to websocket server
         ws = new WebSocket(wsServer);
 
         // Log messages from the server
         ws.onmessage = function (e) {
-            console.log("| WS Received message: " + e.data);
+            //console.log("| WS Received message: " + e.data);
             /*var reply = JSON.parse(e.data);
             if (reply.command == "nextvote") {
             	if(reply.vote != -1)
@@ -74,7 +72,7 @@
 			document.getElementById('result').innerHTML = "";
 			data = JSON.parse(text);
 			ksize = Object.keys(data).length;
-			console.log("- Loading "+file+" done : "+ksize+" results");	
+			//console.log("- Loading "+file+" done : "+ksize+" results");	
 			Object.keys(data).forEach(function(res){
 				loadRes(res);
 			});
@@ -169,6 +167,17 @@
 			}
 		});
 	};
+	
+	function sendOSC(_address, _args) {
+		console.log("sendOSC : "+_address);
+		
+		$.post("/sendOSC",{address:_address, args:_args}, function(data){
+			if(data == "ok")
+			{
+				console.log("| Success sending /sendOSC to WS");
+			}
+		});
+	}
     
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
@@ -187,7 +196,9 @@
 
 	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="background-color: black; color: white">
 	<!-- Section -->
-    <button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 0px auto; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="loadVotes(); ">Refresh</button>
+    <!--button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 0px auto; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="loadVotes(); ">Refresh</button-->
+	<button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 5px; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="sendOSC('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))">&nbsp;<&nbsp;</button>
+	<button class="btn btn-lg btn-click-look" style="position: fixed; top: 50px; margin: 5px; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="sendOSC('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">&nbsp;>&nbsp;</button>
 	<section id="section-standBy" class="container content-section text-center" style="padding:20px;">
 		<div id="result" style="margin-bottom: 20px; border:0px; text-align:center;"></div>
 		<!--button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; margin: 0px;" onclick="prevRes()">Previous Vote</button>
