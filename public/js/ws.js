@@ -2,7 +2,7 @@
 	var wsServer;
     const port = location.PORT || 3000;
     
-    if(window.location.hostname == "localhost") {
+    if(window.location.hostname == "localhost" || window.location.hostname == "192.168.3.11") {
     	console.log("Websocket to localhost : "+window.location.hostname);
     	// LOCAL
     	wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";

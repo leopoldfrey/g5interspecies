@@ -46,30 +46,30 @@
   "A.6": {
     "title": "Humans towards Minerals",
     "type": "radar",
-    "<": 1,
     "=": 0,
-    ">": 1
+    ">": 1,
+    "<": 1
   },
   "A.7": {
     "title": "Humans towards Vegetals",
     "type": "radar",
-    "<": 1,
     "=": 0,
-    ">": 0
+    ">": 0,
+    "<": 1
   },
   "A.8": {
     "title": "Humans towards Animals",
     "type": "radar",
-    "<": 1,
     "=": 0,
-    ">": 0
+    ">": 0,
+    "<": 1
   },
   "A.9": {
     "title": "Humans towards Machines",
     "type": "radar",
-    "<": 1,
     "=": 0,
-    ">": 0
+    ">": 0,
+    "<": 1
   },
   "A.10": {
     "title": "Changing the notion of individual to nondividual",

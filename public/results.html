@@ -17,6 +17,10 @@
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
     
+	<!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
     <script src="/scripts/Chart.js"></script>
 	<script src="/js/utils.js"></script>
 	<script src="js/ws.js"></script>
@@ -84,8 +88,12 @@
     var colorNames = Object.keys(window.chartColors);
 	var color = Chart.helpers.color;
 
+	Chart.defaults.global.defaultColor = 'white';
+	Chart.defaults.global.defaultFontColor = 'white';
+	Chart.defaults.global.defaultFontSize = 20;
+
 	var config = {
-		type: 'bar',
+		type: 'radar',
 		data: {
 			labels: [],
 			datasets: []
@@ -96,7 +104,30 @@
 			},
 			title: {
 				display: false
-			}
+			},
+			scale: {
+				ticks: {
+            		beginAtZero: true,
+            		callback: function() {return ""},
+            		backdropColor: "rgba(0, 0, 0, 0)",
+            		stepSize: 1
+        		},
+        		gridLines: {
+        			color: "lightgray",
+        		},
+        		angleLines: {
+        			color: "lightgray",
+        		},
+				pointLabels: {
+      				color: "lightgray",
+      				defaultFontStyle: "uppercase",
+      				fontSize: 20
+    			}
+			}/*,
+			scales: {
+              xAxes: [{gridLines: { color: "#131c2b" }}],
+              yAxes: [{gridLines: { color: "#131c2b" }}]
+            }//*/
 		}
 	};
 	
@@ -150,8 +181,8 @@
 			} else {
 				switch(type) {
 					case "radar":
-						config.type = 'bar';
-						config.data.labels.push(res);
+						config.type = 'radar';
+						config.data.labels.push(res.toUpperCase());
 						newDataset.data.push(data[key][res]);
 						break;
 					case "radar2":
@@ -159,14 +190,14 @@
 						{
 							v = data[key][res];
 						} else {
-							config.type = 'bar';
-							config.data.labels.push(res);
+							config.type = 'radar';
+							config.data.labels.push(res.toUpperCase());
 							newDataset.data.push(data[key][res]/v*2.-1.);
 						}
 						break;
 					case "bar":
 						config.type = 'bar';
-						config.data.labels.push(res);
+						config.data.labels.push(res.toUpperCase());
 						newDataset.data.push(data[key][res]);
 						break;
 					case "bar2":
@@ -175,7 +206,7 @@
 							v = data[key][res];
 						} else {
 							config.type = 'bar';
-							config.data.labels.push(res);
+							config.data.labels.push(res.toUpperCase());
 							console.log("Value : "+res+" "+(data[key][res]/v*2.-1.));
 							newDataset.data.push(data[key][res]/v*2.-1.);
 						}
@@ -205,20 +236,20 @@
 	
 </head>
 
-	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="">
+	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="background-color: black;">
 		<!-- Navigation -->
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
     </nav>
 
     <!-- Section -->
     <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
-		<div id="curR" style="margin-top:15px; margin-bottom: 25px; background-color:white; border:0px; text-align:center; color:gray"></div>
+		<h1 id="curR" style="margin-top:15px; margin-bottom: 25px; background-color:black; border:0px; text-align:center; color:lightgray;"></h1>
 		<div style="width:100%">
 			<canvas id="canvas"></canvas>
 		</div>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="prevRes()">Previous Vote</button>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="nextRes()">Next Vote</button>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="loadVotes(); ">Reload Votes</button>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color: black; color: lightgray" onclick="prevRes()">Previous Vote</button>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color: black; color: lightgray" onclick="nextRes()">Next Vote</button>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color: black; color: lightgray" onclick="loadVotes(); ">Reload Votes</button>
 
 	</section>
 	

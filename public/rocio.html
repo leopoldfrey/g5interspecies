@@ -107,7 +107,7 @@
 		Object.keys(data[key]).forEach(function(res){
 			if(res == "title") {
 				title = document.createElement('div');
-				title.style = "margin:20px; background-color:white; border:0px; text-align:center; color:gray";
+				title.style = "margin:20px; background-color:black; border:solid 1px gray; text-align:center; color:white; text-transform: uppercase;";
 				title.appendChild(document.createTextNode(key + " - " + data[key][res]));
 				document.getElementById('result').appendChild(title);
 			} else if(res == "type") {
@@ -185,11 +185,11 @@
 	
 </head>
 
-	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="">
+	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="background-color: black; color: white">
 	<!-- Section -->
-    <button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 0px auto; text-align:center; padding: 0px;" onclick="loadVotes(); ">Refresh</button>
+    <button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 0px auto; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="loadVotes(); ">Refresh</button>
 	<section id="section-standBy" class="container content-section text-center" style="padding:20px;">
-		<div id="result" style="margin-bottom: 20px; background-color:white; border:0px; text-align:center; color:black"></div>
+		<div id="result" style="margin-bottom: 20px; border:0px; text-align:center;"></div>
 		<!--button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; margin: 0px;" onclick="prevRes()">Previous Vote</button>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; margin: 0px;" onclick="nextRes()">Next Vote</button>
 		<br/-->
