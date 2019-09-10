@@ -146,6 +146,15 @@
 
     });
 
+	function sendOSC2(_address, _args) {
+		$.post("/sendOSC",{address:_address, args:_args}, function(data){
+			if(data == "ok")
+			{
+				console.log("| Success sending /sendOSC to WS");
+			}
+		});
+	}
+
 	function sendOSC(_address, _args) {
 		console.log("- Send OSC : "+_address);
 		ws2.send(
@@ -190,8 +199,8 @@
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendAddVotes()">Add Local To Global</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="getUsers()">Get Users</button><br/>
 		<input id="curU" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendOSC('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))">Prev Chart</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendOSC('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">Next Chart</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendOSC2('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))">Prev Chart</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendOSC2('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">Next Chart</button><br/>
 	</section>
 	
 	<!-- jQuery -->
