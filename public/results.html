@@ -96,6 +96,7 @@
 	Chart.defaults.global.defaultColor = 'white';
 	Chart.defaults.global.defaultFontColor = 'white';
 	Chart.defaults.global.defaultFontSize = 20;
+	Chart.defaults.global.defaultFontFamily = 'Avenir Next';
 
 	var config = {
 		type: 'radar',
@@ -140,26 +141,22 @@
 		readTextFile(file, function(text){
 			data = JSON.parse(text);
 			ksize = Object.keys(data).length;
-			//console.log("- Loading "+file+" done : "+ksize+" results");	
+			//console.log("- Loading "+file+" done : "+ksize+" results");
 			loadRes(Object.keys(data)[curR]);
 		});
 	}
 	
 	function prevRes() {
 		curR = (curR - 1 >= 0 ? curR - 1 : 0);
-		//console.log("PrevRes : "+curR+" - "+Object.keys(data)[curR]);
 		loadRes(Object.keys(data)[curR]);
 	}
 	
     function nextRes() {
     	curR = (curR + 1 < ksize - 1 ? curR + 1 : ksize - 1);
-		//console.log("NextRes : "+curR+" - "+Object.keys(data)[curR]);
 		loadRes(Object.keys(data)[curR]);
 	} 
     
     function loadRes(key) {
-    	//console.log("loadRes : "+key+" "+curR);
-    	//console.log(data[key]);
 		config.data.labels.length = 0;
 		config.data.datasets.length = 0;
 		var colorName = colorNames[config.data.datasets.length % colorNames.length];
@@ -171,11 +168,11 @@
 			pointBackgroundColor: newColor,
 			data: [],
 		}
-		
+	
 		var type = "none";
 		var v = 0.;
 		var t = '';
-		
+	
 		Object.keys(data[key]).forEach(function(res){
 			//console.log(res+" "+data[key][res]);
 			if(res == "title") {
@@ -212,14 +209,14 @@
 						} else {
 							config.type = 'bar';
 							config.data.labels.push(res.toUpperCase());
-							console.log("Value : "+res+" "+(data[key][res]/v*2.-1.));
+							//console.log("Value : "+res+" "+(data[key][res]/v*2.-1.));
 							newDataset.data.push(data[key][res]/v*2.-1.);
 						}
 						break;
 				}
 			}
 		});
-	
+
 		config.data.datasets.push(newDataset);
 		myRadar.update(0);
 	};
@@ -249,7 +246,7 @@
     <!-- Section -->
     <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
 		<h1 id="curR" style="margin-top:15px; margin-bottom: 25px; background-color:black; border:0px; text-align:center; color:lightgray;"></h1>
-		<div style="width:100%">
+		<div id='divCanvas' style="width:100%">
 			<canvas id="canvas"></canvas>
 		</div>
 		<!--
