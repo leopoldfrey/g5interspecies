@@ -178,29 +178,32 @@
 	
 </head>
 
-	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="background-color: black">
 		<!-- Navigation -->
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
     </nav>
 
     <!-- Section -->
     <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
-		<input id="curV" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(0)">Referendum</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendPrevVote()">Previous Vote</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendNextVote()">Next Vote</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(13)">Future</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(28)">End</button><br/>
+		<input id="curV" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray; background-color:black;" disabled="disabled"/><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(0)">Referendum</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="sendPrevVote()"><<</button>
+		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="sendNextVote()">>></button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(13)">Future</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(28)">End</button><br/>
 		<br/>
 		<br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="gotoVote(-1)">Reset Server</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendClearVotes()">Clear Votes</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendAddVotes()">Add Local To Global</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="getUsers()">Get Users</button><br/>
-		<input id="curU" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray;" disabled="disabled"/><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendOSC2('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))">Prev Chart</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center;" onclick="sendOSC2('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">Next Chart</button><br/>
+		<input type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:white; background-color:black;" disabled="disabled" value="Charts"/><br/>
+		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="sendOSC2('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))"><<</button>
+		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="sendOSC2('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">>></button><br/>
+		<br/>
+		<br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(-1)">Reset Server</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendClearVotes()">Clear Votes</button><br/>
+		<!--button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendAddVotes()">Add Local To Global</button><br/-->
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="getUsers()">Get Users</button><br/>
+		<input id="curU" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; background-color:black; color: gray;" disabled="disabled"/><br/>
 	</section>
 	
 	<!-- jQuery -->
