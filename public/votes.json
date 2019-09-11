@@ -2,7 +2,7 @@
   "A.1": {
     "title": "Which human political protocol would you propose ?",
     "type": "radar",
-    "anarchy": 4,
+    "anarchy": 5,
     "democracy": 6,
     "spirituality": 2,
     "totalitarism": 3,
@@ -14,14 +14,14 @@
     "only_intelligent": 1,
     "most_intelligent": 5,
     "another_intelligent": 5,
-    "another_form": 5
+    "another_form": 6
   },
   "A.3": {
     "title": "Would you rather prefer to be a",
     "type": "radar",
     "mineral": 1,
     "vegetal": 3,
-    "animal": 3,
+    "animal": 4,
     "human": 6,
     "machine": 3
   },
@@ -31,7 +31,7 @@
     "mineral": 3,
     "vegetal": 3,
     "animal": 5,
-    "machine": 4,
+    "machine": 5,
     "no": 7
   },
   "A.5": {
@@ -41,49 +41,49 @@
     "vegetal": 8,
     "animal": 9,
     "human": 8,
-    "machine": 9
+    "machine": 10
   },
   "A.6": {
     "title": "Humans towards Minerals",
     "type": "radar",
     "=": 1,
     ">": 7,
-    "<": 6
+    "<": 7
   },
   "A.7": {
     "title": "Humans towards Vegetals",
     "type": "radar",
     "=": 1,
     ">": 6,
-    "<": 6
+    "<": 7
   },
   "A.8": {
     "title": "Humans towards Animals",
     "type": "radar",
     "=": 2,
     ">": 7,
-    "<": 4
+    "<": 5
   },
   "A.9": {
     "title": "Humans towards Machines",
     "type": "radar",
     "=": 1,
     ">": 6,
-    "<": 6
+    "<": 7
   },
   "A.11": {
     "title": "Creation of inclusive spaces between humans and",
     "type": "radar",
     "mineral": 7,
-    "vegetal": 6,
-    "animal": 9,
+    "vegetal": 7,
+    "animal": 10,
     "machine": 4
   },
   "A.10": {
     "title": "Changing the notion of individual to nondividual",
     "type": "bar",
     "yes": 5,
-    "no": 8
+    "no": 9
   },
   "A.12": {
     "title": "Creation of exclusive spaces of existence for",
@@ -97,7 +97,7 @@
   "B.1": {
     "title": "Humans will live",
     "type": "radar",
-    "earth": 1,
+    "earth": 2,
     "other_planet": 0,
     "nowhere": 0
   },
@@ -105,89 +105,89 @@
     "title": "Humans will live",
     "type": "radar",
     "urban": 0,
-    "rural": 1,
+    "rural": 2,
     "natural": 0,
     "nowhere": 0
   },
   "B.3": {
     "title": "Mineral population evolution",
     "type": "bar2",
-    "mineral_vote": 1,
-    "mineral_growth": 0.79
+    "mineral_vote": 2,
+    "mineral_growth": 1.05
   },
   "B.4": {
     "title": "Vegetal population evolution",
     "type": "bar2",
-    "vegetal_vote": 1,
-    "vegetal_growth": 0.71
+    "vegetal_vote": 2,
+    "vegetal_growth": 0.99
   },
   "B.5": {
     "title": "Animal population evolution",
     "type": "bar2",
-    "animal_vote": 1,
-    "animal_growth": 0.69
+    "animal_vote": 2,
+    "animal_growth": 0.85
   },
   "B.6": {
     "title": "Human population evolution",
     "type": "bar2",
-    "human_vote": 1,
-    "human_growth": 0.73
+    "human_vote": 2,
+    "human_growth": 0.79
   },
   "B.7": {
     "title": "Machines population evolution",
     "type": "bar2",
-    "machine_vote": 1,
-    "machine_growth": 0.76
+    "machine_vote": 2,
+    "machine_growth": 1.67
   },
   "B.8": {
     "title": "Hybridization evolution",
     "type": "radar2",
-    "hybrid_vote": 3,
-    "mineral_hybrid": 0.81,
-    "vegetal_hybrid": 0.3,
-    "animal_hybrid": 0.56,
-    "machine_hybrid": 1.78
+    "hybrid_vote": 4,
+    "mineral_hybrid": 0.8700000000000001,
+    "vegetal_hybrid": 0.49,
+    "animal_hybrid": 0.76,
+    "machine_hybrid": 2.64
   },
   "B.9": {
     "title": "Temperature evolution",
     "type": "bar2",
-    "temperature_vote": 4,
-    "temperature_growth": 1.24
+    "temperature_vote": 5,
+    "temperature_growth": 2.1799999999999997
   },
   "B.10": {
     "title": "Pollution evolution",
     "type": "bar2",
-    "pollution_vote": 4,
-    "pollution_growth": 2.36
+    "pollution_vote": 5,
+    "pollution_growth": 3.17
   },
   "B.11": {
     "title": "Violence evolution",
     "type": "bar2",
-    "violence_vote": 3,
-    "violence_growth": 2.13
+    "violence_vote": 4,
+    "violence_growth": 2.81
   },
   "B.12": {
     "title": "Equality evolution",
     "type": "bar2",
-    "equality_vote": 2,
-    "equality_growth": 1.3
+    "equality_vote": 3,
+    "equality_growth": 1.67
   },
   "B.13": {
     "title": "Freedom evolution",
     "type": "bar2",
-    "freedom_vote": 2,
-    "freedom_growth": 0.76
+    "freedom_vote": 3,
+    "freedom_growth": 0.99
   },
   "B.14": {
     "title": "Knowledge evolution",
     "type": "bar2",
-    "knowledge_vote": 2,
-    "knowledge_growth": 1.3
+    "knowledge_vote": 3,
+    "knowledge_growth": 1.72
   },
   "B.15": {
     "title": "Language evolution",
     "type": "bar2",
-    "language_vote": 2,
-    "language_growth": 1.33
+    "language_vote": 3,
+    "language_growth": 1.3800000000000001
   }
 }
