@@ -8,8 +8,8 @@ body {
   height: 100%;
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
-  color: white;
-  background-color: black;
+  color: black;
+  background-color: white;
 }
 html {
   width: 100%;
@@ -80,6 +80,7 @@ input[type=range][orient=vertical]
     -webkit-appearance: slider-vertical; /* WebKit */
     height: 180px;
 }
+
 td, tr {
 	padding: 8px;
 	text-align: left;
@@ -313,8 +314,8 @@ td, tr {
   background-color: white;
 }
 .btn-click-look {
-	background-color: black;
-	color: white;
+	background-color: transparent;
+	color: black;
 	border: 1px solid lightgray;
 	height: 40px;
 	font-weight: 400;

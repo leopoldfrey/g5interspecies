@@ -26,7 +26,6 @@
     <script src="js/load-image.all.min.js"></script>
     
     <style>
-    
     #img-loading {
     	/*position: relative;
 		top: 50%;
@@ -93,8 +92,9 @@
     
     <script>
 
+
 	stage = -1;
-				
+    
     function onClick() {
 		switch (stage) {
 			case -1:
@@ -106,6 +106,7 @@
 	}
 
 /* Utility function to convert a canvas to a BLOB */
+
     var dataURLToBlob = function(dataURL) {
       //console.log("DataURLToBlob")
         var BASE64_MARKER = ';base64,';
@@ -130,7 +131,6 @@
 
         return new Blob([uInt8Array], {type: contentType});
     }
-    /* End Utility function to convert a canvas to a BLOB      */
 
     // https://www.codeforest.net/html5-image-upload-resize-and-crop
 
@@ -165,7 +165,7 @@
             console.log("* Error, image not loaded");
         }
         setTimeout(function(){
-            setStage(0,'');
+            setStage(0);
         }, 1500);
     	
     }
@@ -210,37 +210,33 @@
                 document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "";
-            	document.getElementById("btn-click-look").innerHTML = "Prenez un selfie";
+            	document.getElementById("btn-click-look").innerHTML = "Take a selfie";
                 document.getElementById("btn-click-look").style.display = "";
-                document.getElementById("btn-click-look2").style.display = "none";
                 break;
             case 0:
                 document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Analyse de votre selfie";
+                document.getElementById("msg-top").innerHTML = "Analyzing your selfie";
             	document.getElementById("img-result").src = "";
                 document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "";
 				document.getElementById("imgResultDiv").style.display = "";
             	document.getElementById("avatar-div-id").style.display = "none";
             	document.getElementById("btn-click-look").style.display = "none";
-            	document.getElementById("btn-click-look2").style.display = "none";
-                setTimeout(function() {
+            	setTimeout(function() {
 					setStage(1);
 				}, 3000);
                 break;
             case 1:
                 document.getElementById("section-bottom").style.display = "";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Accès Autorisé";
+                document.getElementById("msg-top").innerHTML = "Access Denied";
             	document.getElementById("img-result").src = "";
                 document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "";
             	document.getElementById("btn-click-look").style.display = "none";
-            	document.getElementById("btn-click-look2").innerHTML = "Allez au référendum";
-                document.getElementById("btn-click-look2").style.display = "";
                 break;
         }
             
@@ -264,7 +260,7 @@
         } else {
             alert("File upload is not supported!");
         }
-		
+        
     	setStage(-1);
     });
 
@@ -293,31 +289,30 @@
                 <img id="img-result" src="" style="display:none"></img>
                 <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
             </div>
-            
-			<div id="section-bottom" style="display: none;">
-				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
-					Vous pouvez désormais voter
-				</p>
-			</div>
-            
+
             <div class="col-lg-12">
                 <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
-                <div id="btn-click-look"  class="btn btn-lg btn-click-look"></div>
-                <div id="btn-click-look2"  class="btn btn-lg btn-click-look" onclick="window.location.href = '/referendum.html';"></div>
+                <div id="btn-click-look"  class="btn btn-lg btn-click-look">TAKE A<br>PHOTO</div>
+                
             </div>            
 			
-			
+			<div id="section-bottom" style="display: none;">
+				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
+					WARNING !<br/>
+					A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.
+				</p>
+			</div>
         </div>
         
+
+
     </section>
 
-    <br/>
-
-	<section id="section-btn" class="container content-section text-center" style="padding:0;">
-        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">RETOUR À L'ACCUEIL</div>
+   <section id="section-btn" class="container content-section text-center" style="padding:0;">
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">GO BACK</div>
     </section>
 
-    <!-- jQuery -->
+	<!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->

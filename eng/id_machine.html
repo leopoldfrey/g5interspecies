@@ -63,36 +63,36 @@
                 document.getElementById("section-bottom").style.display = "";
                 document.getElementById("section-middle").style.display = "";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Identification Binaire 1";
+                document.getElementById("msg-top").innerHTML = "Binary Identification 1";
             	document.getElementById("msg-middle").style = "text-transform: none";
             	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0b 010011010010<br/> + 0b 100100101001<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right; color:black;' value='' onchange='checkSum()' size='16'></input>";
-            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Valider</div>";
+            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Enter</div>";
                 break;
             case 0:
                 document.getElementById("section-bottom").style.display = "";
                 document.getElementById("section-middle").style.display = "";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Identification Binaire 2";
+                document.getElementById("msg-top").innerHTML = "Binary Identification 2";
             	document.getElementById("msg-middle").style = "text-transform: none";
             	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0b 001100000111001<br/> + 0b 010110111010000<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right; color:black;' value='' onchange='checkSum()' size='20'></input>";
-            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Valider</div>";
+            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Enter</div>";
                 break;
             case 1:
                 document.getElementById("section-bottom").style.display = "";
                 document.getElementById("section-middle").style.display = "";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Identification Binaire 3";
+                document.getElementById("msg-top").innerHTML = "Binary Identification 3";
             	document.getElementById("msg-middle").style = "text-transform: none";
             	document.getElementById("msg-middle").innerHTML = "&nbsp;&nbsp;&nbsp;0b 00011110001001000000<br/> + 0b 00111001010001000111<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right; color:black;' value='' onchange='checkSum()' size='28'></input>";
-            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Valider</div>";
+            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Enter</div>";
                 break;
             case 2:
                 document.getElementById("section-bottom").style.display = "";
                 document.getElementById("section-middle").style.display = "";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Accès Refusé";
+                document.getElementById("msg-top").innerHTML = "Access Denied";
             	document.getElementById("msg-middle").style = "text-transform: uppercase";
-            	document.getElementById("msg-middle").innerHTML = "ATTENTION !<br/>Ce référendum est réservé aux humains.";
+            	document.getElementById("msg-middle").innerHTML = "WARNING !<br/>This referendum is for human only.";
             	document.getElementById("msg-bottom").innerHTML = "";
 				break;
             case 3:
@@ -105,8 +105,8 @@
                 document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-middle").style.display = "";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Accès Refusé";
-                document.getElementById("msg-middle").innerHTML = "ATTENTION !<br/>Une personne reconnue coupable de vol d’identité<br/>peut être condamnée à cinq ans de prison<br/>et à une amende maximale de 75.000€.";
+                document.getElementById("msg-top").innerHTML = "Access Denied";
+                document.getElementById("msg-middle").innerHTML = "WARNING !<br/>A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.";
 				document.getElementById("msg-bottom").innerHTML = "";
 				break;
         }
@@ -144,7 +144,7 @@
     </section>
 
 	<section id="section-btn" class="container content-section text-center" style="padding:0;">
-        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">Retour à l'accueil</div>
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">GO BACK</div>
     </section>
 
     <!-- jQuery -->

@@ -22,6 +22,10 @@ app.get('/',function(req,res){
       res.sendFile(__dirname + "/public/index.html");
 });
 
+app.get('/index.html',function(req,res){
+      res.sendFile(__dirname + "/public/index.html");
+});
+
 app.get('/id_animal.html',function(req,res){
       res.sendFile(__dirname + "/public/id_animal.html");
 });
@@ -52,6 +56,10 @@ app.get('/controller.html',function(req,res){
 
 app.get('/votes.json',function(req,res){
       res.sendFile(__dirname + "/public/votes.json");
+});
+
+app.get('/backup.json',function(req,res){
+      res.sendFile(__dirname + "/public/backup.json");
 });
 
 app.get('/rocio.html',function(req,res){
