@@ -4,7 +4,7 @@
     "type": "radar",
     "anarchy": 5,
     "democracy": 6,
-    "spirituality": 2,
+    "spirituality": 3,
     "totalitarism": 3,
     "other": 4
   },
@@ -13,7 +13,7 @@
     "type": "radar",
     "only_intelligent": 1,
     "most_intelligent": 5,
-    "another_intelligent": 5,
+    "another_intelligent": 6,
     "another_form": 6
   },
   "A.3": {
@@ -22,7 +22,7 @@
     "mineral": 1,
     "vegetal": 3,
     "animal": 4,
-    "human": 6,
+    "human": 7,
     "machine": 3
   },
   "A.4": {
@@ -32,7 +32,7 @@
     "vegetal": 3,
     "animal": 5,
     "machine": 5,
-    "no": 7
+    "no": 8
   },
   "A.5": {
     "title": "Humans are dependant on",
@@ -97,7 +97,7 @@
   "B.1": {
     "title": "Humans will live",
     "type": "radar",
-    "earth": 2,
+    "earth": 3,
     "other_planet": 0,
     "nowhere": 0
   },
@@ -112,71 +112,71 @@
   "B.3": {
     "title": "Mineral population evolution",
     "type": "bar2",
-    "mineral_vote": 2,
-    "mineral_growth": 1.05
+    "mineral_vote": 5,
+    "mineral_growth": 2.55
   },
   "B.4": {
     "title": "Vegetal population evolution",
     "type": "bar2",
-    "vegetal_vote": 2,
-    "vegetal_growth": 0.99
+    "vegetal_vote": 5,
+    "vegetal_growth": 2.49
   },
   "B.5": {
     "title": "Animal population evolution",
     "type": "bar2",
-    "animal_vote": 2,
-    "animal_growth": 0.85
+    "animal_vote": 5,
+    "animal_growth": 2.35
   },
   "B.6": {
     "title": "Human population evolution",
     "type": "bar2",
-    "human_vote": 2,
-    "human_growth": 0.79
+    "human_vote": 5,
+    "human_growth": 2.29
   },
   "B.7": {
     "title": "Machines population evolution",
     "type": "bar2",
-    "machine_vote": 2,
-    "machine_growth": 1.67
+    "machine_vote": 5,
+    "machine_growth": 3.17
   },
   "B.8": {
     "title": "Hybridization evolution",
     "type": "radar2",
-    "hybrid_vote": 4,
-    "mineral_hybrid": 0.8700000000000001,
-    "vegetal_hybrid": 0.49,
-    "animal_hybrid": 0.76,
-    "machine_hybrid": 2.64
+    "hybrid_vote": 6,
+    "mineral_hybrid": 1.87,
+    "vegetal_hybrid": 1.49,
+    "animal_hybrid": 1.76,
+    "machine_hybrid": 3.64
   },
   "B.9": {
     "title": "Temperature evolution",
     "type": "bar2",
-    "temperature_vote": 5,
-    "temperature_growth": 2.1799999999999997
+    "temperature_vote": 7,
+    "temperature_growth": 3.1799999999999997
   },
   "B.10": {
     "title": "Pollution evolution",
     "type": "bar2",
-    "pollution_vote": 5,
-    "pollution_growth": 3.17
+    "pollution_vote": 7,
+    "pollution_growth": 4.17
   },
   "B.11": {
     "title": "Violence evolution",
     "type": "bar2",
-    "violence_vote": 4,
-    "violence_growth": 2.81
+    "violence_vote": 6,
+    "violence_growth": 3.81
   },
   "B.12": {
     "title": "Equality evolution",
     "type": "bar2",
-    "equality_vote": 3,
-    "equality_growth": 1.67
+    "equality_vote": 4,
+    "equality_growth": 2.17
   },
   "B.13": {
     "title": "Freedom evolution",
     "type": "bar2",
-    "freedom_vote": 3,
-    "freedom_growth": 0.99
+    "freedom_vote": 4,
+    "freedom_growth": 1.49
   },
   "B.14": {
     "title": "Knowledge evolution",

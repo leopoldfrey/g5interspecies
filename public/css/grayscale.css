@@ -8,8 +8,8 @@ body {
   height: 100%;
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: black;
 }
 html {
   width: 100%;
@@ -73,6 +73,12 @@ input[type="checkbox"] {
     -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
     transform: scale(1.5);
 
+}
+input[type=range][orient=vertical]
+{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    height: 180px;
 }
 td, tr {
 	padding: 8px;
@@ -288,7 +294,7 @@ td, tr {
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   border-radius: 0;
-  color: rgba(255, 255, 255, 0.2);
+  color: white;/*rgba(255, 255, 255, 0.2);*/
 }
 .btn-default {
   /*border: 1px solid #42DCA3;*/
@@ -307,8 +313,8 @@ td, tr {
   background-color: white;
 }
 .btn-click-look {
-	background-color: white;
-	color: black;
+	background-color: black;
+	color: white;
 	border: 1px solid lightgray;
 	height: 40px;
 	font-weight: 400;
