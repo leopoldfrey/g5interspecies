@@ -49,32 +49,32 @@
     "machine": 31
   },
   "A.6": {
-    "title-ENG": "Relationships _ Domination _ Minerals",
-    "title-FR": "Rapports _ Domination _ Minéraux",
+    "title-ENG": "Relationships _ Domination _ Mineral",
+    "title-FR": "Rapports _ Domination _ Minéral",
     "type": "radar",
     "equal": 13,
     "superior": 24,
     "inferior": 7
   },
   "A.7": {
-    "title-ENG": "Relationships _ Domination _ Vegetals",
-    "title-FR": "Rapports _ Domination _ Végétaux",
+    "title-ENG": "Relationships _ Domination _ Vegetal",
+    "title-FR": "Rapports _ Domination _ Végétal",
     "type": "radar",
     "equal": 10,
     "superior": 22,
     "inferior": 7
   },
   "A.8": {
-    "title-ENG": "Relationships _ Domination _ Animals",
-    "title-FR": "Rapports _ Domination _ Animaux",
+    "title-ENG": "Relationships _ Domination _ Animal",
+    "title-FR": "Rapports _ Domination _ Animal",
     "type": "radar",
     "equal": 20,
     "superior": 7,
     "inferior": 5
   },
   "A.9": {
-    "title-ENG": "Relationships _ Domination _ Machines",
-    "title-FR": "Rapports _ Domination _ Machines",
+    "title-ENG": "Relationships _ Domination _ Machine",
+    "title-FR": "Rapports _ Domination _ Machine",
     "type": "radar",
     "equal": 1,
     "superior": 16,
