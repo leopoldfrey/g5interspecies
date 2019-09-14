@@ -206,7 +206,7 @@ app.post('/clearvotes', function(req, res) {
 		//console.log(q);
 		var answers = Object.keys(votes[q]);
 		answers.forEach(function(ans) {
-			if(ans != 'type' && ans != 'title') {
+			if(ans != 'type' && ans != 'title' && ans != 'title-FR' && ans != 'title-ENG') {
 				(votes[q])[ans] = 0;
 			}
 			//console.log("  "+(votes[q])[ans]+" - "+ans);
