@@ -194,7 +194,7 @@ app.post('/addvote', function (req, res) {
   } else {
     console.log("* Error: invalid vote received");  
   }
-  
+
   res.send("ok");
 })
 
