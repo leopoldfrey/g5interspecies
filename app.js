@@ -130,37 +130,45 @@ app.post('/image', upload.single("image"), function (req, res) {
    });
 });
 
-var rawvotes = fs.readFileSync('public/votes.json');
+var fileName = 'public/votes.json';
+var rawvotes = fs.readFileSync(fileName);
 var votes = JSON.parse(rawvotes);
 var curVote = -1;
-/*var questions = Object.keys(votes)
-questions.forEach(function(q) {
-	console.log(q);
-	var answers = Object.keys(votes[q]);
-	answers.forEach(function(ans) {
-		console.log("  "+(votes[q])[ans]+" - "+ans);
-	});
-});//*/
+var lang = 'fr';
+var referendum = 'present';
 
-/*----------- vote receive -----------*/
-app.post('/vote', function (req, res) {
-  console.log('| Server received /vote '+req.body.vote);
+/*----------- newVote receive -----------*/
+app.post('/newVote', function (req, res) {
+  console.log('| Server received /newVote '+req.body.vote);
   if (req.body.vote) {
-  	console.log('- New vote : '+req.body.vote +' '+ req.body.value);
-  	if(votes.hasOwnProperty(req.body.vote))
+  	console.log('- New vote : '+req.body.ref +' '+req.body.vote +' '+ req.body.value);
+  	if(votes.hasOwnProperty(req.body.ref))
   	{
-  		v = votes[req.body.vote];
-  		v[req.body.value]+=1;
+  		ref = votes[req.body.ref]['content'];
+  		ref.forEach(function(q) {
+  			if(q['id'] == req.body.vote)
+  			{
+  				q['options'].forEach(function(o) {
+  					if(o['id'] == req.body.value)
+  					{
+  						//console.log("HOURRAY");
+  						o['votes'] += 1;
+  					}
+  				});
+  			}
+  		});
   		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync('public/votes.json', jsonString, err => {
+  		fs.writeFileSync(fileName, jsonString, err => {
 			if (err) {
-				console.log('Error writing file', err)
+				console.log('Error writing file', err);
 			} else {
-				console.log('Successfully wrote file')
+				console.log('Successfully wrote file');
 			}
-		})
+		});
+		//console.log("DONE");
+  			
   	} else {
-  		console.log("not found : "+req.body.vote);
+  		console.log("not found : "+req.body.ref);
   	}
   } else {
     console.log("* Error: invalid vote received");  
@@ -170,7 +178,76 @@ app.post('/vote', function (req, res) {
 })
 
 /*----------- addvote receive -----------*/
-app.post('/addvote', function (req, res) {
+app.post('/addVote', function (req, res) {
+  console.log('| Server received /addVote '+req.body.vote);
+  if (req.body.vote) {
+  	console.log('- Add vote : '+req.body.ref +' '+req.body.vote +' '+ req.body.value);
+  	if(votes.hasOwnProperty(req.body.ref))
+  	{
+  		ref = votes[req.body.ref]['content'];
+  		ref.forEach(function(q) {
+  			if(q['id'] == req.body.vote)
+  			{
+  				q['votes'] += 1;
+  				q['growth'] += parseFloat(req.body.value);
+  			}
+  		});
+  		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync(fileName, jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err);
+			} else {
+				console.log('Successfully wrote file');
+			}
+		});
+  	} else {
+  		console.log("not found : "+req.body.ref);
+  	}
+  } else {
+    console.log("* Error: invalid vote received");  
+  }
+  res.send("ok");
+})
+
+/*----------- addvoteMulti receive -----------*/
+app.post('/addVoteMulti', function (req, res) {
+  console.log('| Server received /addVoteMulti '+req.body.vote);
+  if (req.body.vote) {
+  	console.log('- Add vote multi : '+req.body.ref +' '+req.body.id+' '+req.body.vote +' '+ req.body.value);
+  	if(votes.hasOwnProperty(req.body.ref))
+  	{
+  		ref = votes[req.body.ref]['content'];
+  		ref.forEach(function(q) {
+  			if(q['id'] == req.body.id)
+  			{
+  				q['options'].forEach(function(o) {
+  					if(o['id'] == req.body.vote)
+  					{
+  						o['votes'] += 1;
+  						o['growth'] += parseFloat(req.body.value);
+  					}
+  				});
+  			}
+  		});
+  		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync(fileName, jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err);
+			} else {
+				console.log('Successfully wrote file');
+			}
+		});
+  	} else {
+  		console.log("not found : "+req.body.ref);
+  	}
+  } else {
+    console.log("* Error: invalid vote received");  
+  }
+  res.send("ok");
+})
+
+/*----------- addvote receive -----------*/
+/*app.post('/addvote', function (req, res) {
   console.log('| Server received /addvote '+req.body.vote);
   if (req.body.vote) {
   	console.log('- Add vote : '+req.body.vote +' '+ req.body.ref +' '+ req.body.value);
@@ -196,54 +273,99 @@ app.post('/addvote', function (req, res) {
   }
 
   res.send("ok");
+})//*/
+
+/*----------- setLang receive -----------*/
+app.post('/setLang', function (req, res) {
+	console.log('| Server received /setLang '+req.body.lang);
+	lang = req.body.lang;
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "setLang",
+					lang: lang
+				}));
+		});
+  	}
+	res.send("ok");
+})
+
+/*----------- setReferendum receive -----------*/
+app.post('/setReferendum', function (req, res) {
+	console.log('| Server received /setReferendum '+req.body.referendum);
+	referendum = req.body.referendum;
+	curVote = -1;
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "setReferendum",
+					referendum: referendum,
+					vote: curVote
+				}));
+		});
+  	}
+	res.send("ok");
 })
 
 /*------------ CLEAR VOTES ----------*/
-app.post('/clearvotes', function(req, res) {
-	console.log('| Server received /clearvotes');	
-	var questions = Object.keys(votes)
+app.post('/clearVotes', function(req, res) {
+	console.log('| Server received /clearVotes');	
+	//console.log('TODO CLEAR VOTES');
+	var questions = Object.keys(votes);
 	questions.forEach(function(q) {
-		//console.log(q);
-		var answers = Object.keys(votes[q]);
-		answers.forEach(function(ans) {
-			if(ans != 'type' && ans != 'title' && ans != 'title-FR' && ans != 'title-ENG') {
-				(votes[q])[ans] = 0;
-			}
-			//console.log("  "+(votes[q])[ans]+" - "+ans);
+		votes[q]['content'].forEach(function(o) {
+			//console.log(o);
+			if(o.hasOwnProperty('votes'))
+				o['votes'] = 0;
+			if(o.hasOwnProperty('growth'))
+				o['growth'] = 0;
+			if(o.hasOwnProperty('options'))
+				o['options'].forEach(function(o) {
+					if(o.hasOwnProperty('votes'))
+						o['votes'] = 0;
+					if(o.hasOwnProperty('growth'))
+						o['growth'] = 0;
+				});
 		});
 		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync('public/votes.json', jsonString, err => {
+  		fs.writeFileSync(fileName, jsonString, err => {
 			if (err) {
 				console.log('Error writing file', err)
 			} else {
 				console.log('Successfully wrote file')
 			}
-		})
+		})//*/
 	});
 	
 	res.send("ok");
 })
 
 /*------------ CLEAR GLOBAL VOTES ----------*/
-app.post('/clearglobalvotes', function(req, res) {
-	console.log('| Server received /clearglobalvotes TODO');	
-	// TODO CLEAR GLOBAL VOTES
+app.post('/clearGlobalVotes', function(req, res) {
+	console.log('| Server received /clearGlobalVotes TODO');	
+	console.log('TODO CLEAR GLOBAL VOTES');
 	res.send("todo");
 })
 
 /*------------ ADD LOCAL VOTES ----------*/
-app.post('/addlocalvotes', function(req, res) {
-	console.log('| Server received /addlocalvotes TODO');	
-	// TODO ADD LOCAL VOTES
+app.post('/addLocalVotes', function(req, res) {
+	console.log('| Server received /addLocalVotes TODO');	
+	console.log('TODO ADD LOCAL VOTES');
 	res.send("todo");
 })
 
 /*------------ GOTO VOTE ----------*/
 app.post('/gotoVote', function(req, res) {
 	console.log('| Server received /gotoVote '+req.body.vote);	
-	
 	curVote = req.body.vote;
-	
 	if(wss)
   	{
 		wss.clients.forEach(function each(client) {
@@ -256,15 +378,13 @@ app.post('/gotoVote', function(req, res) {
 				}));
 		});
   	}
-	
 	res.send("ok");
 })
 
 /*------------ I AM NEW WHERE TO ----------*/
 app.post('/iAmNewWheteTo', function(req, res) {
 	console.log('| Server received /iAmNewWheteTo');
-	if(curVote >= 13)	
-		res.send(curVote);
+	res.send(referendum);
 	if(wss)
   	{
 		wss.clients.forEach(function each(client) {
@@ -272,7 +392,10 @@ app.post('/iAmNewWheteTo', function(req, res) {
 				JSON.stringify(
 				{
 					charset : 'utf8mb4', 
-					command: "users",
+					command: "goto",
+					lang: lang,
+					referendum: referendum,
+					vote: curVote,
 					users: wss.clients.size
 				}));
 		});
@@ -325,8 +448,5 @@ wss.on('connection', function connection(ws) {
   			console.log('* ignored : '+msg.type);
   			break;
     }
-
-
-
   });
 });

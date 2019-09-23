@@ -13,7 +13,10 @@
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Theme CSS -->
+   	<!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+	<!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
     
@@ -27,12 +30,15 @@
 
         // Log messages from the server
         ws.onmessage = function (e) {
-            //console.log("| WS Received message: " + e.data);
-            /*var reply = JSON.parse(e.data);
-            if (reply.command == "nextvote") {
-            	if(reply.vote != -1)
-	                setvote(reply.vote);
-            }//*/
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if(reply.command == "setReferendum") {
+            	referendum = reply.referendum;
+            	loadRes(curR);
+            } else if(reply.command == "setLang") {
+            	lang = reply.lang;
+            	loadRes(curR);
+            }
         };
 
         // Log errors
@@ -62,6 +68,9 @@
 		rawFile.send(null);
 	}
 
+	var referendum = "present";
+	var lang = "fr";
+
 	var file = "/votes.json";
 	var data;
 	var ksize = 0;
@@ -70,103 +79,80 @@
 	function loadVotes() {
 		readTextFile(file, function(text){
 			document.getElementById('result').innerHTML = "";
-			data = JSON.parse(text);
-			ksize = Object.keys(data).length;
-			//console.log("- Loading "+file+" done : "+ksize+" results");	
-			Object.keys(data).forEach(function(res){
-				loadRes(res);
-			});
+			data = JSON.parse(text)[referendum];
+			ksize = Object.keys(data['content']).length;
+			loadRes();		
 		});
 	}
-	
-	function prevRes() {
-		curR = (curR - 1 >= 0 ? curR - 1 : 0);
-		//console.log("PrevRes : "+curR+" - "+Object.keys(data)[curR]);
-		loadRes(Object.keys(data)[curR]);
-	}
-	
-    function nextRes() {
-    	curR = (curR + 1 < ksize - 1 ? curR + 1 : ksize - 1);
-		//console.log("NextRes : "+curR+" - "+Object.keys(data)[curR]);
-		loadRes(Object.keys(data)[curR]);
-	} 
     
-	function loadRes(key) {
+	function loadRes() {
     	
-    	//document.getElementById('result').innerHTML = "";
-    	
-    	var type = "none";
-		var v = 0.;
-		var t = '';
-		var vals = [];
-		var sum = 0.;
-		var d = 0.;
+		data['content'].forEach(function(res){
+			
+			var vals = [];
+			var sum = 0.;
+			var d = 0.;
 		
-		Object.keys(data[key]).forEach(function(res){
-			if(res == "title-ENG") {
-				title = document.createElement('div');
-				title.style = "margin:20px; background-color:black; border:solid 1px gray; text-align:center; color:white; text-transform: uppercase;";
-				title.appendChild(document.createTextNode(key + " - " + data[key][res]));
-				document.getElementById('result').appendChild(title);
-			} else if(res == "title-FR") {
-			} else if(res == "type") {
-				type = data[key][res];
-				v = 0.;
+			//console.log(res);
+			title = document.createElement('div');
+			title.style = "margin:20px; background-color:black; border:solid 1px gray; text-align:center; color:white; text-transform: uppercase;";
+			title.appendChild(document.createTextNode(res['title'][lang]));
+			document.getElementById('result').appendChild(title);
+				
+			var type = res['display']['outWeb'];	
+			
+			if(type == "bar2")
+			{
+				sum = 1;
+				vals.push({label:res['outLabel'][lang].toUpperCase(), value:((res['growth']/res['votes'])*2.-1.)});
 			} else {
-				switch(type) {
-					case "bar":
-					case "radar":
-						//console.log(res+ " - " + (data[key])[res]);
-						vals.push({label:res, value:(data[key])[res]});
-						sum += data[key][res];
-						break;
-					case "bar2":
-					case "radar2":
-						if(res.indexOf("vote") != -1)
-						{
+				res['options'].forEach(function(res){
+					switch(type) {
+						case "radar":
+							vals.push({label:res['outLabel'][lang].toUpperCase(), value:res['votes']});
+							sum += res['votes'];
+							break;
+						case "radar2":
 							sum = 1;
-							d = data[key][res];
-						} else {
-							if(d == 0)
-								sum = 0;
-							else {
-								vals.push({label:res, value:((data[key])[res]/d*2.-1.)});
-							}//sum += ;
+							vals.push({label:res['outLabel'][lang].toUpperCase(), value:(res['growth']/res['votes'])*2.-1.});
+							break;
 						}
-						break;
-				}
+				});
 			}
+			
+			//console.log(vals);
+		
+			table = document.createElement("table");
+			table.style = 'margin: auto';
+			document.getElementById('result').appendChild(table);
+			Object.keys(vals).forEach(function(k){
+				if(sum != 0) {
+					tr = document.createElement("tr");
+					vals[k].value = (vals[k].value / sum) * 100.;
+					//console.log(vals[k].label + " -> " + vals[k].value.toFixed(2) + "%");
+					td = document.createElement("td");
+					td.style = 'text-align: right; width: 200px';
+					td.appendChild(document.createTextNode(vals[k].label));
+					tr.appendChild(td);
+					td2 = document.createElement("td");
+					td2.style = 'text-align: left; width: 200px';
+					td2.appendChild(document.createTextNode(vals[k].value.toFixed()+" %"));
+					tr.appendChild(td2);
+					table.appendChild(tr);
+				} else {
+					tr = document.createElement("tr");
+					td = document.createElement("td");
+					td.style = 'text-align: center; width: 300px';
+					t = document.createTextNode("No votes");
+					td.appendChild(t);
+					tr.appendChild(td);
+					table.appendChild(tr);
+					//d.appendChild(t);
+					//document.getElementById('result').appendChild(d);
+				}
+			});//*/
 		});
 		
-		table = document.createElement("table");
-		table.style = 'margin: auto';
-		document.getElementById('result').appendChild(table);
-		Object.keys(vals).forEach(function(k){
-			if(sum != 0) {
-				tr = document.createElement("tr");
-				vals[k].value = (vals[k].value / sum) * 100.;
-				//console.log(vals[k].label + " -> " + vals[k].value.toFixed(2) + "%");
-				td = document.createElement("td");
-				td.style = 'text-align: right; width: 200px';
-				td.appendChild(document.createTextNode(vals[k].label));
-				tr.appendChild(td);
-				td2 = document.createElement("td");
-				td2.style = 'text-align: left; width: 200px';
-				td2.appendChild(document.createTextNode(vals[k].value.toFixed()+" %"));
-				tr.appendChild(td2);
-				table.appendChild(tr);
-			} else {
-				tr = document.createElement("tr");
-				td = document.createElement("td");
-				td.style = 'text-align: center; width: 300px';
-				t = document.createTextNode("No votes");
-				td.appendChild(t);
-				tr.appendChild(td);
-				table.appendChild(tr);
-				//d.appendChild(t);
-				//document.getElementById('result').appendChild(d);
-			}
-		});
 	};
 	
 	function sendOSC(_address, _args) {
@@ -197,14 +183,10 @@
 
 	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="background-color: black; color: white">
 	<!-- Section -->
-    <!--button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 0px auto; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="loadVotes(); ">Refresh</button-->
-	<button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 5px; width: 50px; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="sendOSC('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))">&nbsp;<&nbsp;</button>
+    <button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 5px; width: 50px; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="sendOSC('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))">&nbsp;<&nbsp;</button>
 	<button class="btn btn-lg btn-click-look" style="position: fixed; top: 50px; margin: 5px; width: 50px; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="sendOSC('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">&nbsp;>&nbsp;</button>
-	<section id="section-standBy" class="container content-section text-center" style="padding:20px;">
+	<section id="section-standBy" class="container-fluid content-section text-center" style="padding:20px;">
 		<div id="result" style="margin-bottom: 20px; border:0px; text-align:center;"></div>
-		<!--button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; margin: 0px;" onclick="prevRes()">Previous Vote</button>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; margin: 0px;" onclick="nextRes()">Next Vote</button>
-		<br/-->
 	</section>
 	
 	<!-- jQuery -->

@@ -18,9 +18,8 @@
     <link href="css/grayscale.css" rel="stylesheet">
     
 	<!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-
+   	<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/> 
+    
     <script src="/scripts/Chart.js"></script>
 	<script src="/js/utils.js"></script>
 	<script src="js/ws.js"></script>
@@ -51,6 +50,12 @@
             	} else if(reply.address == "/chart/next") {
             		nextRes();
             	}
+            } else if(reply.command == "setReferendum") {
+            	referendum = reply.referendum;
+            	loadRes(curR);
+            } else if(reply.command == "setLang") {
+            	lang = reply.lang;
+            	loadRes(curR);
             }
         };
 
@@ -61,14 +66,7 @@
 
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
-            $.post("/iAmNewWheteTo",{}, function(data){
-				/*if(data) {
-					console.log("| Success sending iAmNewWheteTo");
-					if(data == 13) {
-						setvote(13);
-					}
-				}//*/
-			});
+            $.post("/iAmNewWheteTo",{}, function(data){});
         };
     }
     
@@ -84,6 +82,9 @@
 		rawFile.send(null);
 	}
 
+	var referendum = "present";
+	var lang = "fr";
+
 	var file = "/votes.json";
 	var data;
 	var ksize = 0;
@@ -96,7 +97,7 @@
 	Chart.defaults.global.defaultColor = 'white';
 	Chart.defaults.global.defaultFontColor = 'white';
 	Chart.defaults.global.defaultFontSize = 20;
-	Chart.defaults.global.defaultFontFamily = 'Avenir Next';
+	Chart.defaults.global.defaultFontFamily = 'OrkneyRegular';
 
 	var config = {
 		type: 'radar',
@@ -136,24 +137,24 @@
             }//*/
 		}
 	};
-	
+		
 	function loadVotes() {
 		readTextFile(file, function(text){
-			data = JSON.parse(text);
-			ksize = Object.keys(data).length;
+			data = JSON.parse(text)[referendum];
+			ksize = Object.keys(data['content']).length;
 			//console.log("- Loading "+file+" done : "+ksize+" results");
-			loadRes(Object.keys(data)[curR]);
+			loadRes(curR);
 		});
 	}
 	
 	function prevRes() {
 		curR = (curR - 1 >= 0 ? curR - 1 : 0);
-		loadRes(Object.keys(data)[curR]);
+		loadRes(curR);
 	}
 	
     function nextRes() {
     	curR = (curR + 1 < ksize - 1 ? curR + 1 : ksize - 1);
-		loadRes(Object.keys(data)[curR]);
+		loadRes(curR);
 	} 
     
     function loadRes(key) {
@@ -173,50 +174,36 @@
 		var v = 0.;
 		var t = '';
 	
-		Object.keys(data[key]).forEach(function(res){
-			//console.log(res+" "+data[key][res]);
-			if(res == "title-FR") {
-				document.getElementById("curR").innerHTML = /*key + " - " + */data[key][res];
-			} else if(res == "title-ENG") {
-			} else if(res == "type") {
-				type = data[key][res];
-				v = 0.;
-			} else {
+		//console.log("KEY "+key);
+		document.getElementById("curR").innerHTML = data['content'][key]['title'][lang];
+	
+		type = data['content'][key]['display']['outWeb'];
+	
+		//console.log("TYPE : "+type);
+		
+		if(type == "bar2")
+		{
+			config.type = 'bar';
+			config.data.labels.push(data['content'][key]['outLabel'][lang].toUpperCase());
+			newDataset.data.push((data['content'][key]['growth']/data['content'][key]['votes'])*2.-1.);
+		} else {
+			data['content'][key]['options'].forEach(function(res){
 				switch(type) {
 					case "radar":
+						//console.log("label : "+res['outLabel'][lang].toUpperCase());
+						//console.log("votes : "+res['votes']);
 						config.type = 'radar';
-						config.data.labels.push(res.toUpperCase());
-						newDataset.data.push(data[key][res]);
+						config.data.labels.push(res['outLabel'][lang].toUpperCase());
+						newDataset.data.push(res['votes']);
 						break;
 					case "radar2":
-						if(res.indexOf("vote") != -1)
-						{
-							v = data[key][res];
-						} else {
-							config.type = 'radar';
-							config.data.labels.push(res.toUpperCase());
-							newDataset.data.push(data[key][res]/v*2.-1.);
-						}
+						config.type = 'radar';
+						config.data.labels.push(res['outLabel'][lang].toUpperCase());
+						newDataset.data.push((res['growth']/res['votes'])*2.-1.);
 						break;
-					case "bar":
-						config.type = 'bar';
-						config.data.labels.push(res.toUpperCase());
-						newDataset.data.push(data[key][res]);
-						break;
-					case "bar2":
-						if(res.indexOf("vote") != -1)
-						{
-							v = data[key][res];
-						} else {
-							config.type = 'bar';
-							config.data.labels.push(res.toUpperCase());
-							//console.log("Value : "+res+" "+(data[key][res]/v*2.-1.));
-							newDataset.data.push(data[key][res]/v*2.-1.);
-						}
-						break;
-				}
-			}
-		});
+					}
+			});
+		}
 
 		config.data.datasets.push(newDataset);
 		myRadar.update(0);
@@ -245,7 +232,7 @@
     </nav>
 
     <!-- Section -->
-    <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
+    <section id="section-standBy" class="container-fluid content-section text-center" style="padding:20px;">
 		<h1 id="curR" style="margin-top:15px; margin-bottom: 25px; background-color:black; border:0px; text-align:center; color:lightgray;"></h1>
 		<div id='divCanvas' style="width:100%">
 			<canvas id="canvas"></canvas>

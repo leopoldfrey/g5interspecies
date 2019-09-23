@@ -15,8 +15,8 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/> 
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
     <!-- Theme CSS -->
@@ -50,11 +50,12 @@
         ws.onmessage = function (e) {
             console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
-            if (reply.command == "nextvote") {
-            	if(reply.vote != -1)
-	                window.location.href = '/referendum.html?vote='+reply.vote;
-            } else if(reply.command == "users") {
-            	//
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
             }
         };
 
@@ -66,15 +67,8 @@
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
             $.post("/iAmNewWheteTo",{}, function(data){
-				if(data)
-				{
-					console.log("| Success sending iAmNewWheteTo");
-					//console.log("| Received : "+data);
-					if(data == 13) {
-						window.location.href = '/referendum.html?vote=13';
-					}
-					
-				}
+				if(data == "future")
+					window.location.href = '/referendum.html';
 			});
         };
     }
@@ -93,23 +87,18 @@
 
     <!-- Navigation -->
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
-        
     </nav>
 
     <!-- Intro Header -->
-    <header class="intro">
+    <header class="intro container-fluid">
         <div class="intro-body">
-            <div class="container">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h1 class="brand-heading">Coexistence</h1>
-                        <p class="intro-text">Référendum Humain</p>
-                        <a href="#main" class="btn btn-circle page-scroll">
-                            <i class="fa fa-angle-double-down animated"></i>
-                        </a>
-                    </div>
+                    <h1 class="brand-heading">Coexistence</h1>
+                    <p class="intro-text">Référendum Humain</p>
+                    <a href="#main" class="btn btn-circle page-scroll">
+                        <i class="fa fa-angle-double-down animated"></i>
+                    </a>
                 </div>
-            </div>
         </div>
         		<br/>
 				<br/>
@@ -133,16 +122,11 @@
 				<br/>
 				<br/>
     </header>
-    <!-- style="background-image: url('img/logo.jpg'); background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center; 
-  padding-top:30px"-->
-    <section id="main" class="container content-section text-center">
+    <section id="main" class="container-fluid content-section text-center">
         <div class="row">
 			<h2>Référendum</h2>
 			<h1>Identification Requise</h1>
 			<br/>
-			<!--form id="idform" action="biosync.html" method="GET"-->
 				<div class="row">
 					<select id="select_species" name="species" onchange="selspecies()" style="color:black">
 						<option value="">Sélectionnez votre espèce...</option>
@@ -154,9 +138,6 @@
 					</select>
 				</div>
 				<br/>
-				<!--div class="row">
-					<button id="btn-login" class="btn btn-click" onclick="sendspecies()">ENTER</button>
-				</div-->
 				<br/>
 				<br/>
 				<br/>
@@ -197,8 +178,6 @@
 				<br/>
 				<br/>
 				<br/>
-				
-			<!--/form-->
         </div>
     </section>
 

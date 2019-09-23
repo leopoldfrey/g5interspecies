@@ -13,6 +13,10 @@
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+	<!-- Custom Fonts -->
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/> 
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
     <!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
@@ -37,7 +41,23 @@
             if(reply.command == "sendOSC") {
             	console.log("| WS Received OSC message " + reply.address + ". Propagating to WS2");
             	sendOSC(reply.address, reply.args);
-            }
+            } else if(reply.command == "goto") {
+            	document.getElementById("curL").value = reply.lang;
+				document.getElementById("curR").value = reply.referendum;
+				v = parseInt(reply.vote);
+				document.getElementById("curV").value = v;
+				document.getElementById("curU").value = reply.users;
+            } else if(reply.command == "nextvote") {
+            	v = parseInt(reply.vote);
+           		document.getElementById("curV").value = v;
+			} else if(reply.command == "setLang") {
+           		document.getElementById("curL").value = reply.lang;
+			} else if(reply.command == "setReferendum") {
+           		document.getElementById("curR").value = reply.referendum;
+           		v = parseInt(reply.vote);
+           		document.getElementById("curV").value = v;	
+			}
+			
         };
 
         // Log errors
@@ -48,11 +68,10 @@
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
             $.post("/iAmNewWheteTo",{}, function(data){
-				if(data)
-				{
-					console.log("| Success sending iAmNewWheteTo");
-					v = data;
-					document.getElementById("curV").value = v;
+            
+            	if(data=="ok")
+            	{
+            		console.log("| Success sending iAmNewWheteTo");
 				}
 			});
         };
@@ -65,10 +84,6 @@
         // Log messages from the server
         ws2.onmessage = function (e) {
             console.log("| WS2 Received message: " + e.data);
-            var reply = JSON.parse(e.data);
-            if(reply.command == "users") {
-            	//document.getElementById("curU").value = reply.users;
-            }
         };
 
         // Log errors
@@ -83,9 +98,9 @@
     
 	function sendClearVotes() {
 		if(confirm("Clear votes ?")) {
-			$.post("/clearvotes",{type:"clearvotes"}, function(data){
+			$.post("/clearVotes",{type:"clearVotes"}, function(data){
 				if(data==="ok") {
-					console.log("- Success sending clearvotes");
+					console.log("- Success sending clearVotes");
 				}
 			});
 		}
@@ -93,9 +108,9 @@
     
     function sendClearGlobalVotes() {
 		if(confirm("Clear global votes ?")) {
-			$.post("/clearglobalvotes",{type:"clearglobalvotes"}, function(data){
+			$.post("/clearGlobalVotes",{type:"clearGlobalVotes"}, function(data){
 				if(data==="ok") {
-					console.log("- Success sending clearglobalvotes");
+					console.log("- Success sending clearGlobalVotes");
 				}
 			});
 		}
@@ -103,12 +118,30 @@
 	
 	function sendAddVotes() {
 		if(confirm("Add local votes to global ?")) {
-			$.post("/addlocalvotes",{type:"addvotes"}, function(data){
+			$.post("/addLocalVotes",{type:"addVotes"}, function(data){
 				if(data==="ok") {
-					console.log("- Success sending addlocalvotes");
+					console.log("- Success sending addLocalVotes");
 				}
 			});
 		}
+    }
+    
+    function setReferendum(ref)
+    {
+    	$.post("/setReferendum",{referendum:ref}, function(data){
+			if(data==="ok") {
+				console.log("- Success sending setReferendum");
+			}
+		});
+    }
+    
+    function setLang(l)
+    {
+    	$.post("/setLang",{lang:l}, function(data){
+			if(data==="ok") {
+				console.log("- Success sending setLang");
+			}
+		});
     }
     
 	function sendNextVote() {
@@ -184,13 +217,16 @@
     </nav>
 
     <!-- Section -->
-    <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
+    <section id="section-standBy" class="container-fluid content-section text-center" style="padding:20px;">
+		<input id="curL" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray; background-color:black;" disabled="disabled"/><br/>
+		<input id="curR" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray; background-color:black;" disabled="disabled"/><br/>
 		<input id="curV" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray; background-color:black;" disabled="disabled"/><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(0)">Referendum</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="setLang('fr')">FR</button>
+		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="setLang('en')">EN</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="setReferendum('present')">Present</button>
+		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="setReferendum('future')">Future</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="sendPrevVote()"><<</button>
 		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="sendNextVote()">>></button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(13)">Future</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(28)">End</button><br/>
 		<br/>
 		<br/>
 		<input type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:white; background-color:black;" disabled="disabled" value="Charts"/><br/>
@@ -198,7 +234,7 @@
 		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="sendOSC2('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">>></button><br/>
 		<br/>
 		<br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(-1)">Reset Server</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(-1);setReferendum('present');">Reset Server</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendClearVotes()">Clear Votes</button><br/>
 		<!--button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendAddVotes()">Add Local To Global</button><br/-->
