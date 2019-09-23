@@ -1,5 +1,6 @@
 var express     = require("express");
 var http        = require("http");
+//var request		= require("request");
 var serveIndex  = require("serve-index");
 var multer      = require("multer");
 var fs          = require("fs");
@@ -130,12 +131,22 @@ app.post('/image', upload.single("image"), function (req, res) {
    });
 });
 
-var fileName = 'public/votes.json'; //http://www.grabugemusic.fr/g5/votes.json
+var fileName = 'public/votes.json';
 var rawvotes = fs.readFileSync(fileName);
 var votes = JSON.parse(rawvotes);
 var curVote = -1;
 var lang = 'fr';
 var referendum = 'present';
+
+/*
+request('https://www.grabugemusic.fr/g5/votes.json').on('data',(data) => {
+    try{
+		votes = JSON.parse(data);    
+    }
+    catch(error){
+        console.log("ERROR WHILE READING JSON : "+error);
+    }
+});//*/
 
 /*----------- newVote receive -----------*/
 app.post('/newVote', function (req, res) {
