@@ -25,23 +25,15 @@
     <script src="js/load-image.all.min.js"></script>
     
     <style>
+
     #img-loading {
-    	/*position: relative;
+    	position: relative;
 		top: 50%;
-		transform: translate(0%, -50%);//*/
+		transform: translate(0%, -50%);
     }
     
     #img-result {
-        /*width:50%;
-        max-height: 500px;
-        height:auto;//*/
-    	/*margin-left: auto;
-    	margin-right: auto;
-  		position: absolute;
-  		min-width: 400px;
-  		min-height: 100%;//*/
-  		
-  		height:200px;
+        height:200px;
 		min-width:100%;
 		max-width:none;
 		margin: 0 -50%;
@@ -53,35 +45,17 @@
     	width: 200px;
     	height: 200px;
     	text-align: center;
-		
-    	margin: 0 auto;
-  		overflow: hidden;
+		margin: 0 auto;
   		position: relative;
-  		
   		margin-bottom: 40px;
     }
     
     .avatar-div {
-    	/*border-radius: 150px;*/
-		height:200px;
-		width:200px;
-		/*overflow:hidden;*/
-		text-align: center;
-		margin:0 auto;
-  		margin-bottom: 40px;
+    	margin-bottom: 40px;
     }
     
     .avatar-canvas {
-    	/*height:300px;
-		min-width:100%;
-		max-width:none;
-		position: relative;
-		left: 50%;
-	 	top: 50%;
-		transform: translate(-50%, -50%);//*/
-		height:200px;
-		/*width:50%;*/
-		/*max-width:none;*/
+    	height:200px;
 		margin: 0 -50%;
 		border: solid white 10px;
 		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -91,9 +65,8 @@
     
     <script>
 
-
 	stage = -1;
-    
+
     function onClick() {
 		switch (stage) {
 			case -1:
@@ -105,7 +78,6 @@
 	}
 
 /* Utility function to convert a canvas to a BLOB */
-
     var dataURLToBlob = function(dataURL) {
       //console.log("DataURLToBlob")
         var BASE64_MARKER = ';base64,';
@@ -130,6 +102,7 @@
 
         return new Blob([uInt8Array], {type: contentType});
     }
+    /* End Utility function to convert a canvas to a BLOB      */
 
     // https://www.codeforest.net/html5-image-upload-resize-and-crop
 
@@ -201,7 +174,7 @@
 		stage = _stage;
         switch(parseInt(stage)) {
             case -1:
-                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-middle2").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Identification";
             	document.getElementById("img-result").src = "";
@@ -209,11 +182,11 @@
                 document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "";
-            	document.getElementById("btn-click-look").innerHTML = "PRENEZ UN SELFIE";
+            	document.getElementById("btn-click-look").innerHTML = "Prenez un selfie";
                 document.getElementById("btn-click-look").style.display = "";
                 break;
             case 0:
-                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-middle2").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Analyse de votre selfie";
             	document.getElementById("img-result").src = "";
@@ -222,14 +195,14 @@
 				document.getElementById("imgResultDiv").style.display = "";
             	document.getElementById("avatar-div-id").style.display = "none";
             	document.getElementById("btn-click-look").style.display = "none";
-            	setTimeout(function() {
+                setTimeout(function() {
 					setStage(1);
 				}, 3000);
                 break;
             case 1:
-                document.getElementById("section-bottom").style.display = "";
+                document.getElementById("section-middle2").style.display = "";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "ACCÈS REFUSÉ";
+                document.getElementById("msg-top").innerHTML = "Accès refusé";
             	document.getElementById("img-result").src = "";
                 document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
@@ -259,7 +232,7 @@
         } else {
             alert("File upload is not supported!");
         }
-        
+		
     	setStage(-1);
     });
 
@@ -288,30 +261,28 @@
                 <img id="img-result" src="" style="display:none"></img>
                 <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
             </div>
-
-            <div class="col-lg-12">
+            
+			<div class="col-lg-12">
                 <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
-                <div id="btn-click-look"  class="btn btn-lg btn-click-look">PRENDRE UNE<br>PHOTO</div>
-                
+                <div id="btn-click-look"  class="btn btn-lg btn-click-look centered">PRENDRE UNE<br>PHOTO</div>
             </div>            
-			
-			<div id="section-bottom" style="display: none;">
-				<p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
-					ATTENTION !<br/>
-					Une personne reconnue coupable de vol d’identité<br/>peut être condamnée à cinq ans de prison<br/>et à une amende maximale de 75.000€.
-				</p>
-			</div>
-        </div>
-        
+       </div>
+   </section>
 
+	<section id="section-middle2"  class="container-fluid content-section text-center" style="bottom: 80px; position: fixed; display: none;">
+		<h4><span id="msg-bottom" style="font-size:16px;">
+			ATTENTION !<br/>
+			Une personne reconnue coupable de vol d’identité<br/>peut être condamnée à cinq ans de prison<br/>et à une amende maximale de 75.000€.
+		</span></h4>
+        <!--p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
+			</p-->
+	</section>
 
-    </section>
-
-   <section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
+   <section id="section-btn" class="container-fluid content-section text-center centered" style="padding:0;">
         <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">RETOUR À L'ACCUEIL</div>
     </section>
 
-	<!-- jQuery -->
+    <!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->

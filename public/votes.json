@@ -67,7 +67,7 @@
               "en": "Spirituality",
               "fr": "Spiritualité"
             },
-            "votes": 8
+            "votes": 9
           },
           {
             "id": "totalitarism",
@@ -149,7 +149,7 @@
               "en": "another intelligent",
               "fr": "autre intelligence"
             },
-            "votes": 12
+            "votes": 13
           },
           {
             "id": "another_form",
@@ -219,7 +219,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 3
+            "votes": 4
           },
           {
             "id": "human",
@@ -301,7 +301,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 6
+            "votes": 7
           },
           {
             "id": "machine",
@@ -313,7 +313,7 @@
               "en": "machine",
               "fr": "machine"
             },
-            "votes": 4
+            "votes": 5
           },
           {
             "id": "no",
@@ -383,7 +383,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 18
+            "votes": 19
           },
           {
             "id": "human",
@@ -395,7 +395,7 @@
               "en": "human",
               "fr": "humain"
             },
-            "votes": 18
+            "votes": 19
           },
           {
             "id": "machine",
@@ -465,7 +465,7 @@
               "en": "inferior",
               "fr": "inférieur"
             },
-            "votes": 6
+            "votes": 7
           }
         ]
       },
@@ -511,7 +511,7 @@
               "en": "superior",
               "fr": "supérieur"
             },
-            "votes": 4
+            "votes": 5
           },
           {
             "id": "inferior",
@@ -569,7 +569,7 @@
               "en": "superior",
               "fr": "supérieur"
             },
-            "votes": 7
+            "votes": 8
           },
           {
             "id": "inferior",
@@ -627,7 +627,7 @@
               "en": "superior",
               "fr": "supérieur"
             },
-            "votes": 21
+            "votes": 22
           },
           {
             "id": "inferior",
@@ -673,7 +673,7 @@
               "en": "mineral",
               "fr": "minéral"
             },
-            "votes": 15
+            "votes": 16
           },
           {
             "id": "vegetal",
@@ -697,7 +697,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 19
+            "votes": 20
           },
           {
             "id": "machine",
@@ -755,7 +755,7 @@
               "en": "no",
               "fr": "non"
             },
-            "votes": 9
+            "votes": 10
           }
         ]
       }

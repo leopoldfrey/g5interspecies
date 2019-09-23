@@ -2,6 +2,8 @@
 	var wsServer;
     const port = location.PORT || 3000;
     
+    var fileName = "votes.json";
+    
     if(window.location.hostname == "localhost" || window.location.hostname == "192.168.3.11") {
     	console.log("Websocket to localhost : "+window.location.hostname);
     	// LOCAL

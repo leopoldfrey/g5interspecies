@@ -130,7 +130,7 @@ app.post('/image', upload.single("image"), function (req, res) {
    });
 });
 
-var fileName = 'public/votes.json';
+var fileName = 'public/votes.json'; //http://www.grabugemusic.fr/g5/votes.json
 var rawvotes = fs.readFileSync(fileName);
 var votes = JSON.parse(rawvotes);
 var curVote = -1;

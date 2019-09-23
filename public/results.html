@@ -85,7 +85,6 @@
 	var referendum = "present";
 	var lang = "fr";
 
-	var file = "/votes.json";
 	var data;
 	var ksize = 0;
 	var curR = 0;
@@ -139,7 +138,7 @@
 	};
 		
 	function loadVotes() {
-		readTextFile(file, function(text){
+		readTextFile(fileName, function(text){
 			data = JSON.parse(text)[referendum];
 			ksize = Object.keys(data['content']).length;
 			//console.log("- Loading "+file+" done : "+ksize+" results");

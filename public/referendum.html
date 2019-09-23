@@ -38,7 +38,7 @@
 	var referendum = "present";
 	var vote = 0;
 	var lang = "fr";
-		
+	
 	// WEBSOCKET CONNECTION	
     
 	function sendVote(_vote, _value) {
@@ -136,10 +136,10 @@
     	{
     		document.getElementById("section-top").style.display = "";
             document.getElementById("msg-top").innerHTML = votes[referendum]['endTitle'][lang];
-            document.getElementById("section-middle").style.display = "";
-            document.getElementById("msg-middle").innerHTML = votes[referendum]['endMessage'][lang];
-            document.getElementById("section-bottom").style.display = "none";
-            document.getElementById("msg-bottom").innerHTML = "";
+            document.getElementById("section-middle").style.display = "none";
+            document.getElementById("msg-middle").innerHTML = "";
+            document.getElementById("section-bottom").style.display = "";
+            document.getElementById("msg-bottom").innerHTML = votes[referendum]['endMessage'][lang];
             document.getElementById("next-btn").style.display = "none";    
     	} else {
 			id = cv['id'];
@@ -196,10 +196,10 @@
 			document.getElementById("next-btn").style.display = "";
         }
     }
-    
+        
     function loadVotes(v) {
     	console.log("Loading votes...");
-    	$.getJSON("votes.json", function(json) {
+    	$.getJSON(fileName, function(json) {
     		votes = json;
     		console.log("...Done loading votes...");
     		setVote(v);
@@ -229,7 +229,12 @@
             if (reply.command == "goto") {
             	referendum = reply.referendum;
             	lang = reply.lang;
-            	if(reply.vote != -1)
+            	if(lang == 'fr')
+	            	document.getElementById("next-btn").innerHTML = "Suivant";
+	            else if(lang == 'en')
+	            	document.getElementById("next-btn").innerHTML = "Next";
+	            
+	            if(reply.vote != -1)
             		setVote(reply.vote);
             	else
             		setVote(vote);
@@ -242,6 +247,11 @@
             } else if(reply.command == "setLang") {
             	lang = reply.lang;
             	setVote(vote);
+            	if(lang == 'fr')
+	            	document.getElementById("next-btn").innerHTML = "Suivant";
+	            else if(lang == 'en')
+	            	document.getElementById("next-btn").innerHTML = "Next";
+	            	
             } else if(reply.command == "users") {
             	//
             }
@@ -295,19 +305,19 @@
     </nav>
 
     <!-- Section -->
-    <section id="section-top" style="padding-top:30px" class="container-fluid content-section text-center" style="padding:0;">
+    <section id="section-top" style="padding-top:30px" class="container-fluid content-section text-center">
         <h1><span id="msg-top"></span></h1>
     </section>
 
-	<section id="section-middle" class="container-fluid content-section text-center" style="padding:0;">
+	<section id="section-middle" class="container-fluid content-section text-center">
         <h4><span id="msg-middle"></span></h4>
     </section>
 
-    <section id="section-bottom" style="" class="container-fluid content-section text-center" style="padding:0;">
-        <h2><span id="msg-bottom"></span></h2>
+    <section id="section-bottom" style="" class="container-fluid content-section text-center">
+        <h4><span id="msg-bottom"></span></h4>
     </section>
 	
-	<section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
+	<section id="section-btn" class="container-fluid content-section text-center centered">
         <div id="next-btn" class="btn btn-lg btn-click-look" onclick="next();">Suivant</div>
     </section>
 
