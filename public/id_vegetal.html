@@ -14,9 +14,9 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Custom Fonts -->
-    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/> 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-
+    <!--link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/--> 
+ 	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    
     <!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
@@ -34,8 +34,7 @@
             	document.getElementById("img-loading").style.display = "none";
 				document.getElementById("section-standBy").style.display = "";
                 document.getElementById("msg-standby").innerHTML = "Déposez votre signature chimique sur l'écran";
-            	document.getElementById("section-bottom").style.display = "none";
-                setTimeout(function() {
+            	setTimeout(function() {
 					setStage(0);
 				}, 5000);
 				break;
@@ -43,8 +42,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Analyse de votre signature chimique";
             	document.getElementById("img-loading").style.display = "";
-				document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
+				document.getElementById("section-standBy").style.display = "none";
                 setTimeout(function() {
 					setStage(1);
 				}, 3000);
@@ -53,9 +51,8 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Accès refusé";
                 document.getElementById("img-loading").style.display = "none";
-                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "";
-                document.getElementById("msg-standby").innerHTML = "ATTENTION !<br/>Une personne reconnue coupable de vol d’identité<br/>peut être condamnée à cinq ans de prison<br/>et à une amende maximale de 75.000€.";
+                document.getElementById("msg-standby").innerHTML = "ATTENTION !<br/>Une personne reconnue coupable de vol d’identité peut être condamnée à cinq ans de prison et à une amende maximale de 75.000€.";
                 break;
         }
             
@@ -120,12 +117,8 @@
         <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
     </section>
 
-    <section id="section-standBy" style="" class="container-fluid text-center centered" style="padding:0;">
-        <h4><span id="msg-standby"></span></h4>
-    </section>
-	
-	<section id="section-bottom" style="" class="container-fluid content-section text-center" style="padding:0;">
-        <h1><span id="msg-bottom"></span></h1>
+    <section id="section-standBy" class="container-fluid text-center centered" style="padding:0; width:90%;">
+        <h4><span id="msg-standby" style="font-size:12px"></span></h4>
     </section>
 	
 	<section id="section-btn" class="container-fluid content-section text-center centered" style="padding:0;">

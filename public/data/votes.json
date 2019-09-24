@@ -43,7 +43,7 @@
               "en": "Anarchy",
               "fr": "Anarchie"
             },
-            "votes": 15
+            "votes": 18
           },
           {
             "id": "democracy",
@@ -125,7 +125,7 @@
               "en": "only intelligent",
               "fr": "seule intelligence"
             },
-            "votes": 0
+            "votes": 1
           },
           {
             "id": "most_intelligent",
@@ -137,7 +137,7 @@
               "en": "most intelligent",
               "fr": "plus intelligente"
             },
-            "votes": 3
+            "votes": 4
           },
           {
             "id": "another_intelligent",
@@ -219,7 +219,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 4
+            "votes": 5
           },
           {
             "id": "human",
@@ -277,7 +277,7 @@
               "en": "mineral",
               "fr": "minéral"
             },
-            "votes": 6
+            "votes": 7
           },
           {
             "id": "vegetal",
@@ -289,7 +289,7 @@
               "en": "vegetal",
               "fr": "végétal"
             },
-            "votes": 14
+            "votes": 15
           },
           {
             "id": "animal",
@@ -301,7 +301,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 7
+            "votes": 8
           },
           {
             "id": "machine",
@@ -313,7 +313,7 @@
               "en": "machine",
               "fr": "machine"
             },
-            "votes": 5
+            "votes": 6
           },
           {
             "id": "no",
@@ -359,7 +359,7 @@
               "en": "mineral",
               "fr": "minéral"
             },
-            "votes": 16
+            "votes": 17
           },
           {
             "id": "vegetal",
@@ -371,7 +371,7 @@
               "en": "vegetal",
               "fr": "végétal"
             },
-            "votes": 29
+            "votes": 30
           },
           {
             "id": "animal",
@@ -383,7 +383,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 19
+            "votes": 20
           },
           {
             "id": "human",
@@ -395,7 +395,7 @@
               "en": "human",
               "fr": "humain"
             },
-            "votes": 19
+            "votes": 20
           },
           {
             "id": "machine",
@@ -407,7 +407,7 @@
               "en": "machine",
               "fr": "machine"
             },
-            "votes": 14
+            "votes": 15
           }
         ]
       },
