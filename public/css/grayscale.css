@@ -291,6 +291,18 @@ td, tr {
     left: 50%;
     transform: translate(-50%, 0);
 }
+.box {
+	width: 300px;
+
+}
+.fullscreen {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
 .content-section2 {
   /*padding-top: 100px;*/
   margin-top: calc(50vh - 100px);
