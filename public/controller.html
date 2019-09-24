@@ -179,6 +179,14 @@
 
     });
 
+	function backUp() {
+		$.post("/backUp",{}, function(data){
+			if(data == "ok") {
+				console.log("- Success sending backUp");
+			}
+		});
+	}
+	
 	function sendOSC2(_address, _args) {
 		$.post("/sendOSC",{address:_address, args:_args}, function(data){
 			if(data == "ok")
@@ -236,6 +244,7 @@
 		<br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(-1);setReferendum('present');">Reset Server</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendClearVotes()">Clear Votes</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="backUp()">Back Up Votes</button><br/>
 		<!--button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendAddVotes()">Add Local To Global</button><br/-->
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="getUsers()">Get Users</button><br/>

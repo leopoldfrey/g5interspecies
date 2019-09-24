@@ -1,6 +1,5 @@
 var express     = require("express");
 var http        = require("http");
-//var request		= require("request");
 var serveIndex  = require("serve-index");
 var multer      = require("multer");
 var fs          = require("fs");
@@ -8,10 +7,10 @@ var path        = require("path");
 var WebSocket   = require("ws");
 var WebSocketServer   = WebSocket.Server;
 var bodyParser  = require("body-parser");
-
-var app         =   express();
-var server = http.createServer(app);
-
+var ftpClient 	= require('ftp-client');
+	
+var app         = express();
+var server 		= http.createServer(app);
 
 /* PARAMETERS */
 
@@ -78,6 +77,7 @@ app.use('/vendor', express.static('public/vendor'));
 app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
 app.use('/img', express.static('public/img'));
+app.use('/data', express.static('public/data'));
 
 app.use('/uploads', express.static('uploads'));
 app.use('/uploads', serveIndex(__dirname + '/uploads'));
@@ -85,17 +85,75 @@ app.use('/uploads', serveIndex(__dirname + '/uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+/*----------- Download/Upload votes -----------*/
+
+var localDataFolder = path.dirname(fs.realpathSync(__filename))+'/public/data';
+console.log('local data folder', localDataFolder);
+
+// FTP CONFIG
+config = {
+    host: 'ftp.cluster021.hosting.ovh.net',
+    port: 21,
+    user: 'grabugemuz',
+    password: 'Asifnu12'
+};
+options = {
+    logging: 'basic'
+};
+    
+function downloadVotes()
+{
+	client = new ftpClient(config, options);
+	client.connect(function ()
+	{
+		console.log("Connected to download !");
+    	client.download('/www/g5/public/data', localDataFolder, {
+        	overwrite: 'all'
+    	}, function (result) {
+        	console.log(result);
+    	});
+    	votes = JSON.parse(fs.readFileSync(fileName));
+    	console.log("Done downloading votes !");
+	});
+}
+
+function uploadVotes()
+{
+	client = new ftpClient(config, options);
+	client.connect(function ()
+	{
+		console.log("Connected to upload !");
+    	client.upload(['public/data/*.json'], '/www/g5', {
+        	baseDir: '/www/g5	',
+        	overwrite: 'older'
+    	}, function (result) {
+        	console.log(result);
+    	});//*/
+    	console.log("Done uploading !");
+	});
+}
+
+/*----------- parameters -----------*/
+
+var fileName = 'public/data/votes.json';
+var votes;
+var curVote = -1;
+var lang = 'fr';
+var referendum = 'present';
+
+/*----------- Launch server -----------*/
+
 server.listen(port,function() {
     console.log("| Web Server listening port " + port);
+	downloadVotes();
 });
-/*----------- Static Files -----------*/
 
-// Tools
+/*----------- Tools -----------*/
+
 String.prototype.replaceAll = function(search, replacement) {
   var target = this;
   return target.replace(new RegExp(search, 'g'), replacement);
 };
-
 
 /*----------- Img receive -----------*/
 
@@ -130,23 +188,6 @@ app.post('/image', upload.single("image"), function (req, res) {
        });
    });
 });
-
-var fileName = 'public/votes.json';
-var rawvotes = fs.readFileSync(fileName);
-var votes = JSON.parse(rawvotes);
-var curVote = -1;
-var lang = 'fr';
-var referendum = 'present';
-
-/*
-request('https://www.grabugemusic.fr/g5/votes.json').on('data',(data) => {
-    try{
-		votes = JSON.parse(data);    
-    }
-    catch(error){
-        console.log("ERROR WHILE READING JSON : "+error);
-    }
-});//*/
 
 /*----------- newVote receive -----------*/
 app.post('/newVote', function (req, res) {
@@ -256,35 +297,6 @@ app.post('/addVoteMulti', function (req, res) {
   }
   res.send("ok");
 })
-
-/*----------- addvote receive -----------*/
-/*app.post('/addvote', function (req, res) {
-  console.log('| Server received /addvote '+req.body.vote);
-  if (req.body.vote) {
-  	console.log('- Add vote : '+req.body.vote +' '+ req.body.ref +' '+ req.body.value);
-  	if(votes.hasOwnProperty(req.body.vote))
-  	{
-  		v = votes[req.body.vote];
-  		v[req.body.ref] = (parseFloat(v[req.body.ref]) + parseFloat(req.body.value));
-  		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync('public/votes.json', jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err)
-			} else {
-				console.log('Successfully wrote file')
-			}
-		})
-  	} else {
-  		console.log("not found : "+req.body.vote);
-  	}
-  	//console.log(votes);
-  	
-  } else {
-    console.log("* Error: invalid vote received");  
-  }
-
-  res.send("ok");
-})//*/
 
 /*----------- setLang receive -----------*/
 app.post('/setLang', function (req, res) {
@@ -418,6 +430,13 @@ app.post('/getUsers', function(req, res) {
 	console.log('| Server received /getUsers');
 	//console.log(wss.clients.size);
 	res.send(""+wss.clients.size);
+})
+
+/*------------ BACKUP ----------*/
+app.post('/backUp', function(req, res) {
+	console.log('| Server received /backUp');
+	uploadVotes();
+	res.send("ok");
 })
 
 /*------------ SEND OSC ------------*/
