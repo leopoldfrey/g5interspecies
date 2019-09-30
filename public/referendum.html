@@ -69,22 +69,29 @@
     function cancelHybrid() {
     	if(document.querySelector('input[value="no"]').checked) {
     		document.querySelector('input[value="mineral"]').checked = false;
-    		document.querySelector('input[value="human"]').checked = false;
-    		document.querySelector('input[value="fear"]').checked = false;
     		document.querySelector('input[value="vegetal"]').checked = false;
     		document.querySelector('input[value="animal"]').checked = false;
     		document.querySelector('input[value="machine"]').checked = false;
+    		if(document.querySelector('input[value="human"]'))
+    		{
+    			document.querySelector('input[value="human"]').checked = false;
+    			document.querySelector('input[value="fear"]').checked = false;
+    		}
     	}
     }
     
     function checkHybrid() {
     	if(document.querySelector('input[value="mineral"]').checked ||
-    		document.querySelector('input[value="human"]').checked ||
-    		document.querySelector('input[value="fear"]').checked ||
     		document.querySelector('input[value="vegetal"]').checked ||
     		document.querySelector('input[value="animal"]').checked ||
     		document.querySelector('input[value="machine"]').checked) {
-    		document.querySelector('input[value="no"]').checked = false;	
+    			document.querySelector('input[value="no"]').checked = false;	
+    	}
+    	if(document.querySelector('input[value="human"]')) {
+    		if(document.querySelector('input[value="human"]').checked ||
+    		document.querySelector('input[value="fear"]').checked) {
+    			document.querySelector('input[value="no"]').checked = false;	
+    		}
     	}
     }
 
