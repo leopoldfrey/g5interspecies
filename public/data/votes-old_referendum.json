@@ -162,18 +162,6 @@
               "fr": "autre forme"
             },
             "votes": 22
-          },
-          {
-            "id": "donk_know",
-            "inLabel": {
-              "en": "I don't know",
-              "fr": "Je ne sais pas"
-            },
-            "outLabel": {
-              "en": "dont know",
-              "fr": "ne sais pas"
-            },
-            "votes": 0
           }
         ]
       },
@@ -256,18 +244,88 @@
               "fr": "machine"
             },
             "votes": 4
-          },
+          }
+        ]
+      },
+      {
+        "id": "hybridization",
+        "title": {
+          "en": "Relationships _ Hybridizations",
+          "fr": "Rapports _ Hybridations"
+        },
+        "question": {
+          "en": "Would you like to hybridize with a",
+          "fr": "Souhaiteriez-vous vous hybrider avec"
+        },
+        "question-end": {
+          "en": "",
+          "fr": ""
+        },
+        "display": {
+          "input": "multi",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
           {
-            "id": "donk_know",
+            "id": "mineral",
             "inLabel": {
-              "en": "I don't know",
-              "fr": "Je ne sais pas"
+              "en": "mineral",
+              "fr": "le minéral"
             },
             "outLabel": {
-              "en": "dont know",
-              "fr": "ne sais pas"
+              "en": "mineral",
+              "fr": "minéral"
             },
-            "votes": 0
+            "votes": 7
+          },
+          {
+            "id": "vegetal",
+            "inLabel": {
+              "en": "vegetal",
+              "fr": "le végétal"
+            },
+            "outLabel": {
+              "en": "vegetal",
+              "fr": "végétal"
+            },
+            "votes": 15
+          },
+          {
+            "id": "animal",
+            "inLabel": {
+              "en": "animal",
+              "fr": "l'animal"
+            },
+            "outLabel": {
+              "en": "animal",
+              "fr": "animal"
+            },
+            "votes": 8
+          },
+          {
+            "id": "machine",
+            "inLabel": {
+              "en": "machine",
+              "fr": "la machine"
+            },
+            "outLabel": {
+              "en": "machine",
+              "fr": "machine"
+            },
+            "votes": 6
+          },
+          {
+            "id": "no",
+            "inLabel": {
+              "en": "I would prefer not to",
+              "fr": "rien"
+            },
+            "outLabel": {
+              "en": "nothing",
+              "fr": "rien"
+            },
+            "votes": 9
           }
         ]
       },
@@ -354,190 +412,234 @@
         ]
       },
       {
-        "id": "devoration",
+        "id": "mineral_domination",
         "title": {
-          "en": "Relationships _ Devoration",
-          "fr": "Rapports _ Dévoration"
+          "en": "Relationships _ Domination _ Mineral",
+          "fr": "Rapports _ Domination _ Minéral"
         },
         "question": {
-          "en": "Would you like to be devoured by",
-          "fr": "Êtes-vous d'accord pour vous faire dévorer par"
+          "en": "Humans are",
+          "fr": "Les humains sont"
         },
         "question-end": {
-          "en": "",
-          "fr": ""
+          "en": "to <u>minerals</u>",
+          "fr": "aux <u>minéraux</u>"
         },
         "display": {
-          "input": "multi",
+          "input": "radio",
           "outWeb": "radar",
           "outUnity": "radar"
         },
         "options": [
           {
-            "id": "mineral",
+            "id": "equal",
             "inLabel": {
-              "en": "minerals",
-              "fr": "minéraux"
+              "en": "equal",
+              "fr": "égaux"
             },
             "outLabel": {
-              "en": "mineral",
-              "fr": "minéral"
+              "en": "equal",
+              "fr": "égaux"
             },
-            "votes": 0
+            "votes": 21
           },
           {
-            "id": "vegetal",
+            "id": "superior",
             "inLabel": {
-              "en": "vegetals",
-              "fr": "végétaux"
+              "en": "superior",
+              "fr": "supérieurs"
             },
             "outLabel": {
-              "en": "vegetal",
-              "fr": "végétal"
+              "en": "superior",
+              "fr": "supérieur"
             },
-            "votes": 0
+            "votes": 10
           },
           {
-            "id": "animal",
+            "id": "inferior",
             "inLabel": {
-              "en": "animals",
-              "fr": "animaux"
+              "en": "inferior",
+              "fr": "inférieurs"
             },
             "outLabel": {
-              "en": "animal",
-              "fr": "animal"
+              "en": "inferior",
+              "fr": "inférieur"
             },
-            "votes": 0
-          },
-          {
-            "id": "human",
-            "inLabel": {
-              "en": "humans",
-              "fr": "humains"
-            },
-            "outLabel": {
-              "en": "human",
-              "fr": "humain"
-            },
-            "votes": 0
-          },
-          {
-            "id": "machine",
-            "inLabel": {
-              "en": "machines",
-              "fr": "machines"
-            },
-            "outLabel": {
-              "en": "machine",
-              "fr": "machine"
-            },
-            "votes": 0
-          },
-          {
-            "id": "nothing",
-            "inLabel": {
-              "en": "nothing",
-              "fr": "rien"
-            },
-            "outLabel": {
-              "en": "nothing",
-              "fr": "rien"
-            },
-            "votes": 0
-          },
-          {
-            "id": "fear",
-            "inLabel": {
-              "en": "the fear",
-              "fr": "la peur"
-            },
-            "outLabel": {
-              "en": "fear",
-              "fr": "peur"
-            },
-            "votes": 0
+            "votes": 7
           }
         ]
       },
       {
-        "id": "hybridization",
+        "id": "vegetal_domination",
         "title": {
-          "en": "Relationships _ Hybridizations",
-          "fr": "Rapports _ Hybridations"
+          "en": "Relationships _ Domination _ Vegetal",
+          "fr": "Rapports _ Domination _ Végétal"
         },
         "question": {
-          "en": "Would you like to hybridize with a",
-          "fr": "Souhaiteriez-vous vous hybrider avec"
+          "en": "Humans are",
+          "fr": "Les humains sont"
         },
         "question-end": {
-          "en": "",
-          "fr": ""
+          "en": "to <u>vegetals</u>",
+          "fr": "aux <u>végétaux</u>"
         },
         "display": {
-          "input": "multi",
+          "input": "radio",
           "outWeb": "radar",
           "outUnity": "radar"
         },
         "options": [
           {
-            "id": "mineral",
+            "id": "equal",
             "inLabel": {
-              "en": "mineral",
-              "fr": "le minéral"
+              "en": "equal",
+              "fr": "égaux"
             },
             "outLabel": {
-              "en": "mineral",
-              "fr": "minéral"
+              "en": "equal",
+              "fr": "égaux"
             },
-            "votes": 7
+            "votes": 25
           },
           {
-            "id": "vegetal",
+            "id": "superior",
             "inLabel": {
-              "en": "vegetal",
-              "fr": "le végétal"
+              "en": "superior",
+              "fr": "supérieurs"
             },
             "outLabel": {
-              "en": "vegetal",
-              "fr": "végétal"
+              "en": "superior",
+              "fr": "supérieur"
             },
-            "votes": 15
+            "votes": 5
           },
           {
-            "id": "animal",
+            "id": "inferior",
             "inLabel": {
-              "en": "animal",
-              "fr": "l'animal"
+              "en": "inferior",
+              "fr": "inférieurs"
             },
             "outLabel": {
-              "en": "animal",
-              "fr": "animal"
+              "en": "inferior",
+              "fr": "inférieur"
+            },
+            "votes": 8
+          }
+        ]
+      },
+      {
+        "id": "animal_domination",
+        "title": {
+          "en": "Relationships _ Domination _ Animal",
+          "fr": "Rapports _ Domination _ Animal"
+        },
+        "question": {
+          "en": "Humans are",
+          "fr": "Les humains sont"
+        },
+        "question-end": {
+          "en": "to <u>animals</u>",
+          "fr": "aux <u>animaux</u>"
+        },
+        "display": {
+          "input": "radio",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "equal",
+            "inLabel": {
+              "en": "equal",
+              "fr": "égaux"
+            },
+            "outLabel": {
+              "en": "equal",
+              "fr": "égaux"
+            },
+            "votes": 26
+          },
+          {
+            "id": "superior",
+            "inLabel": {
+              "en": "superior",
+              "fr": "supérieurs"
+            },
+            "outLabel": {
+              "en": "superior",
+              "fr": "supérieur"
             },
             "votes": 8
           },
           {
-            "id": "machine",
+            "id": "inferior",
             "inLabel": {
-              "en": "machine",
-              "fr": "la machine"
+              "en": "inferior",
+              "fr": "inférieurs"
             },
             "outLabel": {
-              "en": "machine",
-              "fr": "machine"
+              "en": "inferior",
+              "fr": "inférieur"
             },
-            "votes": 6
+            "votes": 4
+          }
+        ]
+      },
+      {
+        "id": "machine_domination",
+        "title": {
+          "en": "Relationships _ Domination _ Machine",
+          "fr": "Rapports _ Domination _ Machine"
+        },
+        "question": {
+          "en": "Humans are",
+          "fr": "Les humains sont"
+        },
+        "question-end": {
+          "en": "to <u>machines</u>",
+          "fr": "aux <u>machines</u>"
+        },
+        "display": {
+          "input": "radio",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "equal",
+            "inLabel": {
+              "en": "equal",
+              "fr": "égaux"
+            },
+            "outLabel": {
+              "en": "equal",
+              "fr": "égaux"
+            },
+            "votes": 13
           },
           {
-            "id": "no",
+            "id": "superior",
             "inLabel": {
-              "en": "I would prefer not to",
-              "fr": "rien"
+              "en": "superior",
+              "fr": "supérieurs"
             },
             "outLabel": {
-              "en": "nothing",
-              "fr": "rien"
+              "en": "superior",
+              "fr": "supérieur"
             },
-            "votes": 9
+            "votes": 22
+          },
+          {
+            "id": "inferior",
+            "inLabel": {
+              "en": "inferior",
+              "fr": "inférieurs"
+            },
+            "outLabel": {
+              "en": "inferior",
+              "fr": "inférieur"
+            },
+            "votes": 3
           }
         ]
       },
