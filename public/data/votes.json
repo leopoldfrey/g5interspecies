@@ -167,7 +167,7 @@
             "id": "donk_know",
             "inLabel": {
               "en": "I don't know",
-              "fr": "Je ne sais pas"
+              "fr": "je ne sais pas"
             },
             "outLabel": {
               "en": "dont know",
@@ -261,7 +261,7 @@
             "id": "donk_know",
             "inLabel": {
               "en": "I don't know",
-              "fr": "Je ne sais pas"
+              "fr": "je ne sais pas"
             },
             "outLabel": {
               "en": "dont know",
@@ -434,18 +434,6 @@
             "votes": 0
           },
           {
-            "id": "nothing",
-            "inLabel": {
-              "en": "nothing",
-              "fr": "rien"
-            },
-            "outLabel": {
-              "en": "nothing",
-              "fr": "rien"
-            },
-            "votes": 0
-          },
-          {
             "id": "fear",
             "inLabel": {
               "en": "the fear",
@@ -454,6 +442,18 @@
             "outLabel": {
               "en": "fear",
               "fr": "peur"
+            },
+            "votes": 0
+          },
+          {
+            "id": "no",
+            "inLabel": {
+              "en": "nothing",
+              "fr": "rien"
+            },
+            "outLabel": {
+              "en": "nothing",
+              "fr": "rien"
             },
             "votes": 0
           }

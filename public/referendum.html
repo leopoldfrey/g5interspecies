@@ -69,6 +69,8 @@
     function cancelHybrid() {
     	if(document.querySelector('input[value="no"]').checked) {
     		document.querySelector('input[value="mineral"]').checked = false;
+    		document.querySelector('input[value="human"]').checked = false;
+    		document.querySelector('input[value="fear"]').checked = false;
     		document.querySelector('input[value="vegetal"]').checked = false;
     		document.querySelector('input[value="animal"]').checked = false;
     		document.querySelector('input[value="machine"]').checked = false;
@@ -77,6 +79,8 @@
     
     function checkHybrid() {
     	if(document.querySelector('input[value="mineral"]').checked ||
+    		document.querySelector('input[value="human"]').checked ||
+    		document.querySelector('input[value="fear"]').checked ||
     		document.querySelector('input[value="vegetal"]').checked ||
     		document.querySelector('input[value="animal"]').checked ||
     		document.querySelector('input[value="machine"]').checked) {
@@ -165,7 +169,7 @@
 				case "multi":
 					html = cv['question'][lang]+"<br/><br/><table style='margin:auto'>";
 					cv['options'].forEach(function(o) {
-						if(cv['id'] == 'hybridization')
+						if(cv['id'] == 'hybridization' || cv['id'] == 'devoration')
 							html += "<tr><td><input type='checkbox' name='"+id+"' onchange='"+(o['id'] != 'no' ? "checkHybrid()":"cancelHybrid()")+"' value='"+o['id']+"'/></td><td>"+o['inLabel'][lang]+"</td></tr>"
 						else
 							html += "<tr><td><input type='checkbox' name='"+id+"' value='"+o['id']+"'/></td><td>"+o['inLabel'][lang]+"</td></tr>"
