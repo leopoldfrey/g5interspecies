@@ -20,7 +20,8 @@
     <!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
-
+	<script src="js/ws.js"></script>
+    
     <script>
 
 	stage = -1;
@@ -58,8 +59,41 @@
             
     }
     
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            $.post("/iAmNewWheteTo",{}, function(data){
+				if(data == "future")
+					window.location.href = '/referendum.html';
+			});
+        };
+    }
+    
         /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
+
+		connectToWS();
 
         window.onscroll = function (event) {
     		event.preventDefault();
@@ -97,8 +131,10 @@
     	}
 		
 		setStage(-1);
+		
+		
     });
-
+    
     </script>
 
 </head>
@@ -114,14 +150,15 @@
     <section id="section-top" style="padding-top:30px; display:none" class="container-fluid content-section text-center" style="padding:0;">
         <h1><span id="msg-top"></span></h1>
         <br/>
-        <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
+        <div class="text-center" style='height: 100px;'><img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
+    	</div>
     </section>
 
-    <section id="section-standBy" class="container-fluid text-center centered" style="padding:0; width:90%;">
+    <section id="section-standBy" class="container-fluid text-center" style="padding:0; width:90%;">
         <h4><span id="msg-standby" style="font-size:12px"></span></h4>
     </section>
 	
-	<section id="section-btn" class="container-fluid content-section text-center centered" style="padding:0;">
+	<section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
         <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">Retour à l'accueil</div>
     </section>
 

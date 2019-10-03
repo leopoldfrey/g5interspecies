@@ -255,7 +255,10 @@
 	                setVote(reply.vote);
             } else if(reply.command == "setReferendum") {
             	referendum = reply.referendum;
-            	setVote(0);
+            	if(referendum == "future")
+            		setVote(0);
+            	else
+            		setVote(vote);
             } else if(reply.command == "setLang") {
             	lang = reply.lang;
             	setVote(vote);
@@ -321,15 +324,15 @@
         <h1><span id="msg-top"></span></h1>
     </section>
 
-	<section id="section-middle" class="container-fluid content-section text-center">
+	<section id="section-middle" class="container-fluid content-section text-center" style="top: 0px;">
         <h4><span id="msg-middle"></span></h4>
     </section>
 
-    <section id="section-bottom" style="" class="container-fluid content-section text-center">
+    <section id="section-bottom" class="container-fluid content-section text-center" style="bottom: 0px;">
         <h4><span id="msg-bottom"></span></h4>
     </section>
 	
-	<section id="section-btn" class="container-fluid content-section text-center centered">
+	<section id="section-btn" class="container-fluid content-section text-center">
         <div id="next-btn" class="btn btn-lg btn-click-look" onclick="next();">Suivant</div>
     </section>
 

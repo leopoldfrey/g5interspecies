@@ -20,7 +20,8 @@
     <!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
-
+	<script src="js/ws.js"></script>
+    
     <script>
 
 	stage = -1;
@@ -38,11 +39,46 @@
             
     }
     
+	function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            $.post("/iAmNewWheteTo",{}, function(data){
+				if(data == "future")
+					window.location.href = '/referendum.html';
+			});
+        };
+    }
+    
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
+		connectToWS();
+        
         setStage(-1);
     });
+    
+    
 
     </script>
 

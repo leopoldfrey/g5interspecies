@@ -44,13 +44,20 @@
             console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
             if(reply.command == "sendOSC") {
-            	console.log("| WS Received OSC message " + reply.address + ". Propagating to WS2");
+            	console.log("| WS Received OSC message " + reply.address);
             	//sendOSC(reply.address, reply.args);
             	if(reply.address == "/chart/prev") {
             		prevRes();
             	} else if(reply.address == "/chart/next") {
             		nextRes();
-            	}
+            	}//*/
+            } else if(reply.command == "nextChart") {
+            	nextRes();
+            } else if(reply.command == "prevChart") {
+            	prevRes();
+            } else if(reply.command == "setChart") {
+            	curR = reply.chart;
+            	loadRes(curR);
             } else if(reply.command == "setReferendum") {
             	referendum = reply.referendum;
             	loadRes(curR);

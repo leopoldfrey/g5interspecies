@@ -92,7 +92,7 @@ input[type=range][orient=vertical]
 }
 
 td, tr {
-	padding: 8px;
+	padding: 4px;
 	text-align: left;
 }
 
@@ -261,33 +261,33 @@ td, tr {
   }
 }
 #section-btn {
-	position: fixed;
-	bottom: 40px;
+	/*position: fixed;*/
+	/*bottom: 40px;*/
 }
 #section-top {
-    position: fixed;
+    position: relative;
     margin: 0px;
     padding: 0px;
     top: 0px;
     width: 100%;
 }
 #section-standBy {
-    position: fixed;
+    /*position: relative;
     top: 100px;
-    bottom: 100px;
+    bottom: 100px;//*/
 }
 #section-middle {
 	position: relative;
 	top: 100px;
 }
 #section-bottom {
-	position: fixed;
+	position: relative;
 	width: 50%;
 	bottom: 60px;
 	margin-left: 25%;
 }
 .centered {
-    position: fixed;
+    position: relative;
     left: 50%;
     transform: translate(-50%, 0);
 }

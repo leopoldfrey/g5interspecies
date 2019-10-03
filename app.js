@@ -107,13 +107,17 @@ function downloadVotes()
 	client.connect(function ()
 	{
 		console.log("Connected to download !");
-    	client.download('/www/g5/public/data', localDataFolder, {
-        	overwrite: 'all'
-    	}, function (result) {
-        	console.log(result);
-    	});
-    	votes = JSON.parse(fs.readFileSync(fileName));
-    	console.log("Done downloading votes !");
+    	try{
+			client.download('/www/g5/public/data', localDataFolder, {
+				overwrite: 'all'
+			}, function (result) {
+				console.log(result);
+			});
+			votes = JSON.parse(fs.readFileSync(fileName));
+			console.log("Done downloading votes !");
+		} catch (err) {
+			console.log("Error downloading votes ! "+err);
+		}
 	});
 }
 
@@ -123,13 +127,18 @@ function uploadVotes()
 	client.connect(function ()
 	{
 		console.log("Connected to upload !");
-    	client.upload(['public/data/*.json'], '/www/g5', {
-        	baseDir: '/www/g5	',
-        	overwrite: 'older'
-    	}, function (result) {
-        	console.log(result);
-    	});//*/
-    	console.log("Done uploading !");
+		try{
+			client.upload(['public/data/votes.json'], '/www/g5', {
+				baseDir: '/www/g5	',
+				overwrite: 'older'
+			}, function (result) {
+				console.log(result);
+			});//*/
+			console.log("Done uploading !");
+    	} catch (err) {
+			console.log("Error downloading votes ! "+err);
+		}
+
 	});
 }
 
@@ -154,6 +163,118 @@ String.prototype.replaceAll = function(search, replacement) {
   var target = this;
   return target.replace(new RegExp(search, 'g'), replacement);
 };
+
+/*----------- Functions --------*/
+
+function setReferendum(ref) {
+    referendum = ref;
+	console.log("setReferendum "+referendum);
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "setReferendum",
+					referendum: referendum
+				}));
+		});
+  	}
+}
+
+function setLang(l) {
+	lang = l
+	console.log("setLang "+lang);
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "setLang",
+					lang: lang
+				}));
+		});
+  	}
+}
+
+function nextChart() {
+	console.log("Next Chart");
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "nextChart"
+				}));
+		});
+  	}
+}
+
+function prevChart() {
+	console.log("Previous Chart");
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "prevChart"
+				}));
+		});
+  	}
+
+}
+
+function setChart(i) {
+	console.log("Set Chart "+parseInt(i));
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "setChart",
+					chart: i
+				}));
+		});
+  	}
+
+}
+
+function clearVotes() {
+	var questions = Object.keys(votes);
+	questions.forEach(function(q) {
+		votes[q]['content'].forEach(function(o) {
+			//console.log(o);
+			if(o.hasOwnProperty('votes'))
+				o['votes'] = 0;
+			if(o.hasOwnProperty('growth'))
+				o['growth'] = 0;
+			if(o.hasOwnProperty('options'))
+				o['options'].forEach(function(o) {
+					if(o.hasOwnProperty('votes'))
+						o['votes'] = 0;
+					if(o.hasOwnProperty('growth'))
+						o['growth'] = 0;
+				});
+		});
+		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync(fileName, jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err)
+			} else {
+				console.log('Successfully wrote file')
+			}
+		})//*/
+	});
+}
 
 /*----------- Img receive -----------*/
 
@@ -301,40 +422,14 @@ app.post('/addVoteMulti', function (req, res) {
 /*----------- setLang receive -----------*/
 app.post('/setLang', function (req, res) {
 	console.log('| Server received /setLang '+req.body.lang);
-	lang = req.body.lang;
-	if(wss)
-  	{
-		wss.clients.forEach(function each(client) {
-			client.send(
-				JSON.stringify(
-				{
-					charset : 'utf8mb4', 
-					command: "setLang",
-					lang: lang
-				}));
-		});
-  	}
+	setLang(req.body.lang);
 	res.send("ok");
 })
 
 /*----------- setReferendum receive -----------*/
 app.post('/setReferendum', function (req, res) {
 	console.log('| Server received /setReferendum '+req.body.referendum);
-	referendum = req.body.referendum;
-	curVote = -1;
-	if(wss)
-  	{
-		wss.clients.forEach(function each(client) {
-			client.send(
-				JSON.stringify(
-				{
-					charset : 'utf8mb4', 
-					command: "setReferendum",
-					referendum: referendum,
-					vote: curVote
-				}));
-		});
-  	}
+	setReferendum(req.body.referendum);
 	res.send("ok");
 })
 
@@ -342,32 +437,7 @@ app.post('/setReferendum', function (req, res) {
 app.post('/clearVotes', function(req, res) {
 	console.log('| Server received /clearVotes');	
 	//console.log('TODO CLEAR VOTES');
-	var questions = Object.keys(votes);
-	questions.forEach(function(q) {
-		votes[q]['content'].forEach(function(o) {
-			//console.log(o);
-			if(o.hasOwnProperty('votes'))
-				o['votes'] = 0;
-			if(o.hasOwnProperty('growth'))
-				o['growth'] = 0;
-			if(o.hasOwnProperty('options'))
-				o['options'].forEach(function(o) {
-					if(o.hasOwnProperty('votes'))
-						o['votes'] = 0;
-					if(o.hasOwnProperty('growth'))
-						o['growth'] = 0;
-				});
-		});
-		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync(fileName, jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err)
-			} else {
-				console.log('Successfully wrote file')
-			}
-		})//*/
-	});
-	
+	clearVotes();
 	res.send("ok");
 })
 
@@ -440,7 +510,7 @@ app.post('/backUp', function(req, res) {
 })
 
 /*------------ SEND OSC ------------*/
-app.post('/sendOSC', function(req, res) {
+/*app.post('/sendOSC', function(req, res) {
 	console.log('| Server received /sendOSC');
 	if(wss)
   	{
@@ -456,7 +526,19 @@ app.post('/sendOSC', function(req, res) {
 		});
   	}
   	res.send("ok");
-})
+})//*/
+
+app.post('/nextChart', function(req, res) {
+	console.log('| Server received /nextChart');
+	nextChart();
+	res.send("ok");
+});
+
+app.post('/prevChart', function(req, res) {
+	console.log('| Server received /prevChart');
+	prevChart();
+	res.send("ok");
+});
 
 /*----------- WS Server -----------*/
 
@@ -469,13 +551,47 @@ wss.closeTimeout = 180 * 1000;
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('| WebSocket received : %s', message);
-
     var msg = JSON.parse(message);
     
-    switch(msg.type) {
+    switch(msg.command) {
+    	case "setLang":
+    		setLang(msg.lang);
+    		break;
+  		case "setReferendum":
+    		setReferendum(msg.referendum);
+    		break;
+    	case "resetServer":
+    		console.log("reset server");
+    		setReferendum("present");
+    		curVote = -1;
+			console.log("set vote : "+curVote);
+    		break;
+    	case "clearVotes":
+    		console.log("clear votes");
+    		clearVotes();
+    		break;
+    	case "backupVotes":
+    		console.log("backup votes");
+    		uploadVotes();
+    		break;
+    	case "reloadVotes":
+    		console.log("reload votes");
+    		downloadVotes();
+    		break;
+    	case "nextChart":
+    		nextChart();
+    		break;
+    	case "prevChart":
+    		prevChart();
+    		break;
+    	case "setChart":
+    		setChart(msg.chart);
+    		break;
+    	case "keepAlive":
+    		console.log("I am alive !");
+    		break;
   		default:
-  			console.log('* ignored : '+msg.type);
+  			console.log('| WebSocket received : %s (ignored)', message);
   			break;
     }
   });

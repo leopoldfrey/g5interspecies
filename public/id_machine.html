@@ -20,7 +20,8 @@
     <!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
-
+	<script src="js/ws.js"></script>
+    
     <script>
 
 	stage = -1;
@@ -111,11 +112,43 @@
         }
             
     }
+        
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            $.post("/iAmNewWheteTo",{}, function(data){
+				if(data == "future")
+					window.location.href = '/referendum.html';
+			});
+        };
+    }
     
         /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
-    	setStage(-1);
+    	connectToWS();
+		setStage(-1);
     });
 
     </script>
@@ -134,15 +167,15 @@
         <h1><span id="msg-top"></span></h1>
     </section>
 
-	<section id="section-middle" class="container-fluid text-center" style="padding:50px;">
+	<section id="section-middle" class="container-fluid text-center" style="padding:50px; top:0px">
         <h4><span id="msg-middle"></span></h4>
     </section>
 
-    <section id="section-bottom" style="" class="container-fluid text-center" style="padding:0;">
+    <section id="section-bottom" class="container-fluid text-center" style="padding:0px; bottom:30px;">
         <h1 id="msg-bottom"></h1>
     </section>
 
-	<section id="section-btn" class="container-fluid content-section text-center centered" style="padding:0;">
+	<section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
         <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">Retour à l'accueil</div>
     </section>
 

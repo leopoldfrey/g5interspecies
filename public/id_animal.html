@@ -23,7 +23,8 @@
 
     <!-- Img processing from phone -->
     <script src="js/load-image.all.min.js"></script>
-    
+	<script src="js/ws.js"></script>
+        
     <style>
 
     #img-loading {
@@ -214,8 +215,41 @@
             
     }
     
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            $.post("/iAmNewWheteTo",{}, function(data){
+				if(data == "future")
+					window.location.href = '/referendum.html';
+			});
+        };
+    }
+
         /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
+
+    	connectToWS();
 
         // Buttons
         document.getElementById("btn-click-look").onclick = onClick;
@@ -264,12 +298,12 @@
             
 			<div class="col-lg-12">
                 <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
-                <div id="btn-click-look"  class="btn btn-lg btn-click-look centered">PRENDRE UNE<br>PHOTO</div>
+                <div id="btn-click-look"  class="btn btn-lg btn-click-look">PRENDRE UNE<br>PHOTO</div>
             </div>            
        </div>
    </section>
 
-	<section id="section-middle2"  class="container-fluid content-section text-center centered" style="bottom: 80px; position: fixed; display: none; width:100%;">
+	<section id="section-middle2"  class="container-fluid content-section text-center" style="/*bottom: 80px; */position: relative; display: none; width:100%;">
 		<h4><span id="msg-bottom" style="font-size:12px;">
 			ATTENTION !<br/>
 			Une personne reconnue coupable de vol d’identité peut être condamnée à cinq ans de prison et à une amende maximale de 75.000€.
@@ -278,7 +312,7 @@
 			</p-->
 	</section>
 
-   <section id="section-btn" class="container-fluid content-section text-center centered" style="padding:0;">
+   <section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
         <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">RETOUR À L'ACCUEIL</div>
     </section>
 
