@@ -55,7 +55,7 @@
               "en": "Democracy",
               "fr": "Démocratie"
             },
-            "votes": 12
+            "votes": 15
           },
           {
             "id": "spirituality",
@@ -67,7 +67,7 @@
               "en": "Spirituality",
               "fr": "Spiritualité"
             },
-            "votes": 9
+            "votes": 10
           },
           {
             "id": "totalitarism",
@@ -149,7 +149,7 @@
               "en": "another intelligent",
               "fr": "autre intelligence"
             },
-            "votes": 13
+            "votes": 15
           },
           {
             "id": "another_form",
@@ -243,7 +243,7 @@
               "en": "human",
               "fr": "humain"
             },
-            "votes": 17
+            "votes": 18
           },
           {
             "id": "machine",
@@ -325,7 +325,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 20
+            "votes": 21
           },
           {
             "id": "human",
@@ -337,7 +337,7 @@
               "en": "human",
               "fr": "humain"
             },
-            "votes": 20
+            "votes": 21
           },
           {
             "id": "machine",
@@ -419,7 +419,7 @@
               "en": "human",
               "fr": "humain"
             },
-            "votes": 0
+            "votes": 1
           },
           {
             "id": "machine",
@@ -431,7 +431,7 @@
               "en": "machine",
               "fr": "machine"
             },
-            "votes": 0
+            "votes": 1
           },
           {
             "id": "fear",
@@ -443,7 +443,7 @@
               "en": "fear",
               "fr": "peur"
             },
-            "votes": 0
+            "votes": 1
           },
           {
             "id": "no",
@@ -513,7 +513,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 8
+            "votes": 9
           },
           {
             "id": "machine",
@@ -525,7 +525,7 @@
               "en": "machine",
               "fr": "machine"
             },
-            "votes": 6
+            "votes": 7
           },
           {
             "id": "no",
@@ -583,7 +583,7 @@
               "en": "vegetal",
               "fr": "végétal"
             },
-            "votes": 17
+            "votes": 18
           },
           {
             "id": "animal",
@@ -653,7 +653,7 @@
               "en": "no",
               "fr": "non"
             },
-            "votes": 10
+            "votes": 11
           }
         ]
       }
@@ -715,7 +715,7 @@
               "en": "another planet",
               "fr": "autre planète"
             },
-            "votes": 1
+            "votes": 3
           },
           {
             "id": "nowhere",
@@ -727,7 +727,7 @@
               "en": "nowhere",
               "fr": "nulle part"
             },
-            "votes": 12
+            "votes": 14
           }
         ]
       },
@@ -785,7 +785,7 @@
               "en": "natural",
               "fr": "naturel"
             },
-            "votes": 8
+            "votes": 10
           },
           {
             "id": "nowhere",
@@ -832,8 +832,8 @@
           "en": "mineral population",
           "fr": "population minérale"
         },
-        "votes": 29,
-        "growth": 18.43
+        "votes": 30,
+        "growth": 19.11
       },
       {
         "id": "vegetal_growth",

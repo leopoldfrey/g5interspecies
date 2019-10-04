@@ -58,6 +58,10 @@
             } else if(reply.command == "setChart") {
             	curR = reply.chart;
             	loadRes(curR);
+            } else if(reply.command == "goto") {
+            	referendum = reply.referendum;
+            	lang = reply.lang;
+            	loadRes(curR);
             } else if(reply.command == "setReferendum") {
             	referendum = reply.referendum;
             	loadRes(curR);
@@ -74,7 +78,11 @@
 
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
-            $.post("/iAmNewWheteTo",{}, function(data){});
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
         };
     }
     
@@ -165,6 +173,9 @@
 	} 
     
     function loadRes(key) {
+    
+    	if(!data)
+    		loadVotes();
 		config.data.labels.length = 0;
 		config.data.datasets.length = 0;
 		var colorName = colorNames[config.data.datasets.length % colorNames.length];

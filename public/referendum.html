@@ -43,27 +43,53 @@
 	// WEBSOCKET CONNECTION	
     
 	function sendVote(_vote, _value) {
-        $.post("/newVote",{ref: referendum, vote: _vote, value: _value}, function(data){
+        /*$.post("/newVote",{ref: referendum, vote: _vote, value: _value}, function(data){
         	if(data==="ok") {
                 console.log("- Success sending vote");
             }
-        });
+        });//*/
+        ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "newVote",
+					ref: referendum,
+					vote: _vote,
+					value: _value
+				}));
     }
     
     function addVote(_vote, _value) {
-    	$.post("/addVote",{ref: referendum, vote: _vote, value: _value}, function(data){
+    	/*$.post("/addVote",{ref: referendum, vote: _vote, value: _value}, function(data){
         	if(data==="ok") {
                 console.log("- Success sending vote");
             }
-        });
+        });//*/
+        ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "addVote",
+					ref: referendum,
+					vote: _vote,
+					value: _value
+				}));
     }
     
     function addVoteMulti(_id, _vote, _value) {
-    	$.post("/addVoteMulti",{ref: referendum, id: _id, vote: _vote, value: _value}, function(data){
+    	/*$.post("/addVoteMulti",{ref: referendum, id: _id, vote: _vote, value: _value}, function(data){
         	if(data==="ok") {
                 console.log("- Success sending vote");
             }
-        });
+        });//*/
+        
+        ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "addVoteMulti",
+					ref: referendum,
+					id: _id,
+					vote: _vote,
+					value: _value
+				}));
     }
     
     function cancelHybrid() {
@@ -239,6 +265,7 @@
             console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
             if (reply.command == "goto") {
+            	prevRef = referendum;
             	referendum = reply.referendum;
             	lang = reply.lang;
             	if(lang == 'fr')
@@ -246,16 +273,25 @@
 	            else if(lang == 'en')
 	            	document.getElementById("next-btn").innerHTML = "Next";
 	            
-	            if(reply.vote != -1)
-            		setVote(reply.vote);
-            	else
-            		setVote(vote);
+	            if(reply.vote)
+	            {
+					if(reply.vote != -1)
+						setVote(reply.vote);
+					else
+						setVote(vote);
+            	}
+            	
+            	if(prevRef != referendum && referendum == "future")
+            		setVote(0);
+            	
+	            
             } else if (reply.command == "nextvote") {
             	if(reply.vote != -1)
 	                setVote(reply.vote);
             } else if(reply.command == "setReferendum") {
+            	prevRef = referendum;
             	referendum = reply.referendum;
-            	if(referendum == "future")
+            	if(referendum == "future" && prevRef != referendum)
             		setVote(0);
             	else
             		setVote(vote);
@@ -269,6 +305,12 @@
 	            	
             } else if(reply.command == "users") {
             	//
+            } else if(reply.command == "newVoteOk") {
+            	console.log("Success sending vote");
+            } else if(reply.command == "addVoteOk") {
+            	console.log("Success sending vote");
+            } else if(reply.command == "addVoteMultiOk") {
+            	console.log("Success sending vote");
             }
         };
 
@@ -279,8 +321,11 @@
 
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
-            $.post("/iAmNewWheteTo",{}, function(data){
-			});
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
         };
     }
     

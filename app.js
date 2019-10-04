@@ -168,7 +168,7 @@ String.prototype.replaceAll = function(search, replacement) {
 
 function setReferendum(ref) {
     referendum = ref;
-	console.log("setReferendum "+referendum);
+	console.log("- setReferendum "+referendum);
 	if(wss)
   	{
 		wss.clients.forEach(function each(client) {
@@ -185,7 +185,7 @@ function setReferendum(ref) {
 
 function setLang(l) {
 	lang = l
-	console.log("setLang "+lang);
+	console.log("- setLang "+lang);
 	if(wss)
   	{
 		wss.clients.forEach(function each(client) {
@@ -201,7 +201,7 @@ function setLang(l) {
 }
 
 function nextChart() {
-	console.log("Next Chart");
+	console.log("- nextChart");
 	if(wss)
   	{
 		wss.clients.forEach(function each(client) {
@@ -216,7 +216,7 @@ function nextChart() {
 }
 
 function prevChart() {
-	console.log("Previous Chart");
+	console.log("- previousChart");
 	if(wss)
   	{
 		wss.clients.forEach(function each(client) {
@@ -232,7 +232,7 @@ function prevChart() {
 }
 
 function setChart(i) {
-	console.log("Set Chart "+parseInt(i));
+	console.log("- setChart "+parseInt(i));
 	if(wss)
   	{
 		wss.clients.forEach(function each(client) {
@@ -276,6 +276,107 @@ function clearVotes() {
 	});
 }
 
+function gotoVote(v) {
+	curVote = v;
+	if(wss)
+  	{
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "nextvote",
+					vote: curVote
+				}));
+		});
+  	}
+}
+
+function newVote(_ref, _vote, _value) {
+	console.log('- newVote : '+_ref +' '+_vote +' '+ _value);
+  	if(votes.hasOwnProperty(_ref))
+  	{
+  		ref = votes[_ref]['content'];
+  		ref.forEach(function(q) {
+  			if(q['id'] == _vote)
+  			{
+  				q['options'].forEach(function(o) {
+  					if(o['id'] == _value)
+  					{
+  						//console.log("HOURRAY");
+  						o['votes'] += 1;
+  					}
+  				});
+  			}
+  		});
+  		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync(fileName, jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err);
+			} else {
+				console.log('Successfully wrote file');
+			}
+		});
+  	} else {
+  		console.log("not found : "+_ref);
+  	}
+}
+
+function addVote(_ref, _vote, _value) {
+	console.log('- addVote : '+_ref +' '+_vote +' '+ _value);
+  	if(votes.hasOwnProperty(_ref))
+  	{
+  		ref = votes[_ref]['content'];
+  		ref.forEach(function(q) {
+  			if(q['id'] == _vote)
+  			{
+  				q['votes'] += 1;
+  				q['growth'] += parseFloat(_value);
+  			}
+  		});
+  		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync(fileName, jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err);
+			} else {
+				console.log('Successfully wrote file');
+			}
+		});
+  	} else {
+  		console.log("not found : "+_ref);
+  	}
+}
+
+function addVoteMulti(_ref, _id, _vote, _value) {
+	console.log('- addVoteMulti : '+_ref +' '+_id+' '+_vote +' '+ _value);
+  	if(votes.hasOwnProperty(_ref))
+  	{
+  		ref = votes[_ref]['content'];
+  		ref.forEach(function(q) {
+  			if(q['id'] == _id)
+  			{
+  				q['options'].forEach(function(o) {
+  					if(o['id'] == _vote)
+  					{
+  						o['votes'] += 1;
+  						o['growth'] += parseFloat(_value);
+  					}
+  				});
+  			}
+  		});
+  		jsonString = JSON.stringify(votes, null, 2);
+  		fs.writeFileSync(fileName, jsonString, err => {
+			if (err) {
+				console.log('Error writing file', err);
+			} else {
+				console.log('Successfully wrote file');
+			}
+		});
+  	} else {
+  		console.log("not found : "+_ref);
+  	}
+}
+
 /*----------- Img receive -----------*/
 
 var upload = multer({ dest: '/tmp' })
@@ -310,173 +411,9 @@ app.post('/image', upload.single("image"), function (req, res) {
    });
 });
 
-/*----------- newVote receive -----------*/
-app.post('/newVote', function (req, res) {
-  console.log('| Server received /newVote '+req.body.vote);
-  if (req.body.vote) {
-  	console.log('- New vote : '+req.body.ref +' '+req.body.vote +' '+ req.body.value);
-  	if(votes.hasOwnProperty(req.body.ref))
-  	{
-  		ref = votes[req.body.ref]['content'];
-  		ref.forEach(function(q) {
-  			if(q['id'] == req.body.vote)
-  			{
-  				q['options'].forEach(function(o) {
-  					if(o['id'] == req.body.value)
-  					{
-  						//console.log("HOURRAY");
-  						o['votes'] += 1;
-  					}
-  				});
-  			}
-  		});
-  		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync(fileName, jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err);
-			} else {
-				console.log('Successfully wrote file');
-			}
-		});
-		//console.log("DONE");
-  			
-  	} else {
-  		console.log("not found : "+req.body.ref);
-  	}
-  } else {
-    console.log("* Error: invalid vote received");  
-  }
-  
-  res.send("ok");
-})
-
-/*----------- addvote receive -----------*/
-app.post('/addVote', function (req, res) {
-  console.log('| Server received /addVote '+req.body.vote);
-  if (req.body.vote) {
-  	console.log('- Add vote : '+req.body.ref +' '+req.body.vote +' '+ req.body.value);
-  	if(votes.hasOwnProperty(req.body.ref))
-  	{
-  		ref = votes[req.body.ref]['content'];
-  		ref.forEach(function(q) {
-  			if(q['id'] == req.body.vote)
-  			{
-  				q['votes'] += 1;
-  				q['growth'] += parseFloat(req.body.value);
-  			}
-  		});
-  		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync(fileName, jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err);
-			} else {
-				console.log('Successfully wrote file');
-			}
-		});
-  	} else {
-  		console.log("not found : "+req.body.ref);
-  	}
-  } else {
-    console.log("* Error: invalid vote received");  
-  }
-  res.send("ok");
-})
-
-/*----------- addvoteMulti receive -----------*/
-app.post('/addVoteMulti', function (req, res) {
-  console.log('| Server received /addVoteMulti '+req.body.vote);
-  if (req.body.vote) {
-  	console.log('- Add vote multi : '+req.body.ref +' '+req.body.id+' '+req.body.vote +' '+ req.body.value);
-  	if(votes.hasOwnProperty(req.body.ref))
-  	{
-  		ref = votes[req.body.ref]['content'];
-  		ref.forEach(function(q) {
-  			if(q['id'] == req.body.id)
-  			{
-  				q['options'].forEach(function(o) {
-  					if(o['id'] == req.body.vote)
-  					{
-  						o['votes'] += 1;
-  						o['growth'] += parseFloat(req.body.value);
-  					}
-  				});
-  			}
-  		});
-  		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync(fileName, jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err);
-			} else {
-				console.log('Successfully wrote file');
-			}
-		});
-  	} else {
-  		console.log("not found : "+req.body.ref);
-  	}
-  } else {
-    console.log("* Error: invalid vote received");  
-  }
-  res.send("ok");
-})
-
-/*----------- setLang receive -----------*/
-app.post('/setLang', function (req, res) {
-	console.log('| Server received /setLang '+req.body.lang);
-	setLang(req.body.lang);
-	res.send("ok");
-})
-
-/*----------- setReferendum receive -----------*/
-app.post('/setReferendum', function (req, res) {
-	console.log('| Server received /setReferendum '+req.body.referendum);
-	setReferendum(req.body.referendum);
-	res.send("ok");
-})
-
-/*------------ CLEAR VOTES ----------*/
-app.post('/clearVotes', function(req, res) {
-	console.log('| Server received /clearVotes');	
-	//console.log('TODO CLEAR VOTES');
-	clearVotes();
-	res.send("ok");
-})
-
-/*------------ CLEAR GLOBAL VOTES ----------*/
-app.post('/clearGlobalVotes', function(req, res) {
-	console.log('| Server received /clearGlobalVotes TODO');	
-	console.log('TODO CLEAR GLOBAL VOTES');
-	res.send("todo");
-})
-
-/*------------ ADD LOCAL VOTES ----------*/
-app.post('/addLocalVotes', function(req, res) {
-	console.log('| Server received /addLocalVotes TODO');	
-	console.log('TODO ADD LOCAL VOTES');
-	res.send("todo");
-})
-
-/*------------ GOTO VOTE ----------*/
-app.post('/gotoVote', function(req, res) {
-	console.log('| Server received /gotoVote '+req.body.vote);	
-	curVote = req.body.vote;
-	if(wss)
-  	{
-		wss.clients.forEach(function each(client) {
-			client.send(
-				JSON.stringify(
-				{
-					charset : 'utf8mb4', 
-					command: "nextvote",
-					vote: curVote
-				}));
-		});
-  	}
-	res.send("ok");
-})
-
 /*------------ I AM NEW WHERE TO ----------*/
 app.post('/iAmNewWheteTo', function(req, res) {
-	console.log('| Server received /iAmNewWheteTo');
+	console.log('| Server received /iAmNewWheteTo IT SHOULD NOT !!!!');
 	res.send(referendum);
 	if(wss)
   	{
@@ -494,51 +431,6 @@ app.post('/iAmNewWheteTo', function(req, res) {
 		});
   	}
 })
-
-/*------------ GET USERS ----------*/
-app.post('/getUsers', function(req, res) {
-	console.log('| Server received /getUsers');
-	//console.log(wss.clients.size);
-	res.send(""+wss.clients.size);
-})
-
-/*------------ BACKUP ----------*/
-app.post('/backUp', function(req, res) {
-	console.log('| Server received /backUp');
-	uploadVotes();
-	res.send("ok");
-})
-
-/*------------ SEND OSC ------------*/
-/*app.post('/sendOSC', function(req, res) {
-	console.log('| Server received /sendOSC');
-	if(wss)
-  	{
-		wss.clients.forEach(function each(client) {
-			client.send(
-				JSON.stringify(
-				{
-					charset : 'utf8mb4', 
-					command: "sendOSC",
-					address: req.body.address,
-					args: req.body.args
-				}));
-		});
-  	}
-  	res.send("ok");
-})//*/
-
-app.post('/nextChart', function(req, res) {
-	console.log('| Server received /nextChart');
-	nextChart();
-	res.send("ok");
-});
-
-app.post('/prevChart', function(req, res) {
-	console.log('| Server received /prevChart');
-	prevChart();
-	res.send("ok");
-});
 
 /*----------- WS Server -----------*/
 
@@ -561,21 +453,21 @@ wss.on('connection', function connection(ws) {
     		setReferendum(msg.referendum);
     		break;
     	case "resetServer":
-    		console.log("reset server");
+    		console.log("* reset server");
     		setReferendum("present");
     		curVote = -1;
-			console.log("set vote : "+curVote);
+			console.log("- set vote : "+curVote);
     		break;
     	case "clearVotes":
-    		console.log("clear votes");
+    		console.log("* clear votes");
     		clearVotes();
     		break;
     	case "backupVotes":
-    		console.log("backup votes");
+    		console.log("* backup votes");
     		uploadVotes();
     		break;
     	case "reloadVotes":
-    		console.log("reload votes");
+    		console.log("* reload votes");
     		downloadVotes();
     		break;
     	case "nextChart":
@@ -588,8 +480,55 @@ wss.on('connection', function connection(ws) {
     		setChart(msg.chart);
     		break;
     	case "keepAlive":
-    		console.log("I am alive !");
+    		console.log("* I am alive !");
     		break;
+    	case "iAmNewWheteTo":
+    		console.log('* iAmNewWheteTo');
+  			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "goto",
+					lang: lang,
+					referendum: referendum
+				}));
+			break;
+		case "getUsers":
+			console.log('* getUsers');
+  			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "users",
+					users: wss.clients.size
+				}));
+			break;
+		case "gotoVote":
+			console.log('* gotoVote '+msg.vote);
+			gotoVote(msg.vote);
+			break;
+		case "newVote":
+			newVote(msg.ref, msg.vote, msg.value);
+			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "newVoteOk"
+				}));
+			break;
+  		case "addVote":
+			addVote(msg.ref, msg.vote, msg.value);
+			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "addVoteOk"
+				}));
+			break;
+  		case "addVoteMulti":
+			addVoteMulti(msg.ref, msg.id, msg.vote, msg.value);
+			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "addVoteMultiOk"
+				}));
+			break;
   		default:
   			console.log('| WebSocket received : %s (ignored)', message);
   			break;

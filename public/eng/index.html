@@ -65,17 +65,11 @@
 
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
-            $.post("/iAmNewWheteTo",{}, function(data){
-				if(data)
+            ws.send(JSON.stringify(
 				{
-					console.log("| Success sending iAmNewWheteTo");
-					//console.log("| Received : "+data);
-					if(data == 13) {
-						window.location.href = '/referendum.html?vote=13';
-					}
-					
-				}
-			});
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
         };
     }
 

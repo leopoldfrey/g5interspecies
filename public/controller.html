@@ -22,7 +22,6 @@
     <link href="css/grayscale.css" rel="stylesheet">
     
 	<script src="js/ws.js"></script>
-    <!--script src="js/ws2.js"></script-->
 
     <script>
 
@@ -34,19 +33,20 @@
 
         // Log messages from the server
         ws.onmessage = function (e) {
-            //console.log("| WS Received message: " + e.data);
+            console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
             
-            // PROPAGATE LOCAL OSC
-            if(reply.command == "sendOSC") {
-            	console.log("| WS Received OSC message " + reply.address + ". Propagating to WS2");
-            	sendOSC(reply.address, reply.args);
-            } else if(reply.command == "goto") {
+            if(reply.command == "goto") {
             	document.getElementById("curL").value = reply.lang;
 				document.getElementById("curR").value = reply.referendum;
-				v = parseInt(reply.vote);
-				document.getElementById("curV").value = v;
-				document.getElementById("curU").value = reply.users;
+				if(reply.vote) {
+					console.log("reply.vote : "+reply.vote);
+					v = parseInt(reply.vote);
+					document.getElementById("curV").value = v;
+				}
+				if(reply.users) {
+					document.getElementById("curU").value = reply.users;
+				}
             } else if(reply.command == "nextvote") {
             	v = parseInt(reply.vote);
            		document.getElementById("curV").value = v;
@@ -58,7 +58,10 @@
            			v = parseInt(reply.vote);
            			document.getElementById("curV").value = v;	
            		}
-			}
+			} else if(reply.command == "users") {
+				console.log("| Users : " + reply.users);
+				document.getElementById("curU").value = reply.users;
+           	}
 			
         };
 
@@ -69,105 +72,78 @@
 
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
-            $.post("/iAmNewWheteTo",{}, function(data){
-            
-            	if(data=="ok")
-            	{
-            		console.log("| Success sending iAmNewWheteTo");
-				}
-			});
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
         };
     }
-    		
-    /*function connectToWS2() {
-        // Connect to websocket server
-        ws2 = new WebSocket(wsServer2);
-
-        // Log messages from the server
-        ws2.onmessage = function (e) {
-        	console.log("| WS2 Received message: " + e.data + ". Propagating to WS1.");
-            var reply = JSON.parse(e.data);
-            if(reply.command == "setLang") {
-           		document.getElementById("curL").value = reply.lang;
-           		setLang(reply.lang);
-        	} else if(reply.command == "setReferendum") {
-           		document.getElementById("curR").value = reply.referendum;
-           		setReferendum(reply.referendum);
-           }
-        };
-
-        // Log errors
-        ws2.onerror = function (error) {
-            console.error("* WS2 WebSocket Error " + error.stack);
-        };
-
-        ws2.onopen = function (event) {
-            console.log("- Connected to ws2 server");
-        };
-    }//*/
     
 	function nextChart() {
-		$.post("/nextChart", function(data) {
-			if(data==="ok") {
-				console.log("- Success sending nextChart");
-			}
-		});
+		ws.send(JSON.stringify(
+			{
+				charset : 'utf8mb4', 
+				command: "nextChart"
+			}));
 	}
     
 	function prevChart() {
-		$.post("/prevChart", function(data) {
-			if(data==="ok") {
-				console.log("- Success sending prevChart");
-			}
-		});
+		ws.send(JSON.stringify(
+			{
+				charset : 'utf8mb4', 
+				command: "prevChart"
+			}));
 	}
     
 	function sendClearVotes() {
 		if(confirm("Clear votes ?")) {
-			$.post("/clearVotes",{type:"clearVotes"}, function(data){
-				if(data==="ok") {
-					console.log("- Success sending clearVotes");
-				}
-			});
+			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "clearVotes"
+				}));
 		}
     }
     
     function sendClearGlobalVotes() {
 		if(confirm("Clear global votes ?")) {
-			$.post("/clearGlobalVotes",{type:"clearGlobalVotes"}, function(data){
-				if(data==="ok") {
-					console.log("- Success sending clearGlobalVotes");
-				}
-			});
+			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "clearGlobalVotes"
+				}));
 		}
     }
 	
 	function sendAddVotes() {
 		if(confirm("Add local votes to global ?")) {
-			$.post("/addLocalVotes",{type:"addVotes"}, function(data){
-				if(data==="ok") {
-					console.log("- Success sending addLocalVotes");
-				}
-			});
+			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "addLocalVotes"
+				}));
 		}
     }
     
     function setReferendum(ref)
     {
-    	$.post("/setReferendum",{referendum:ref}, function(data){
-			if(data==="ok") {
-				console.log("- Success sending setReferendum");
-			}
-		});
+    	ws.send(JSON.stringify(
+			{
+				charset : 'utf8mb4', 
+				command: "setReferendum",
+				referendum: ref
+			}));
     }
     
     function setLang(l)
     {
-    	$.post("/setLang",{lang:l}, function(data){
-			if(data==="ok") {
-				console.log("- Success sending setLang");
-			}
-		});
+    	ws.send(JSON.stringify(
+			{
+				charset : 'utf8mb4', 
+				command: "setLang",
+				lang: l
+			}));
     }
     
 	function sendNextVote() {
@@ -181,67 +157,37 @@
 	function gotoVote(_vote) {
 		v = _vote;
 		document.getElementById("curV").value = v;
-		$.post("/gotoVote",{vote:_vote}, function(data){
-			if(data==="ok") {
-				console.log("- Success sending gotoVote");
-			}
-		});
+		ws.send(JSON.stringify(
+			{
+				charset : 'utf8mb4', 
+				command: "gotoVote",
+				vote: _vote
+			}));
     }
     
     function getUsers() {
-    	$.post("/getUsers",{}, function(data){
-			if(data) {
-				console.log("- Success sending getUsers");
-				document.getElementById("curU").value = data;
-			}
-		});
+    	ws.send(JSON.stringify(
+			{
+				charset : 'utf8mb4', 
+				command: "getUsers"
+			}));
     }
     
     document.addEventListener("DOMContentLoaded", function(event) {
     	
     	// Connect to websocket server
     	connectToWS();
-        //connectToWS2();
 
     });
 
 	function backUp() {
-		$.post("/backUp",{}, function(data){
-			if(data == "ok") {
-				console.log("- Success sending backUp");
-			}
-		});
+		ws.send(JSON.stringify(
+			{
+				charset : 'utf8mb4', 
+				command: "backupVotes"
+			}));
 	}
 	
-	/*
-	function sendOSC2(_address, _args) {
-		$.post("/sendOSC",{address:_address, args:_args}, function(data){
-			if(data == "ok")
-			{
-				console.log("| Success sending /sendOSC to WS");
-			}
-		});
-	}
-
-	function sendOSC(_address, _args) {
-		console.log("- Send OSC : "+_address);
-		ws2.send(
-			JSON.stringify(
-			{
-				type:"sendOSC",
-				address:_address,
-				args:_args
-			})
-			, function (err) {
-				if (err) {
-					console.log("* Error sending sendOSC to WS2");
-				} else {
-					console.log("| Success sending sendOSC to WS2");
-				}  
-			}
-		);
-	}//*/
-    
 	</script>
 	
 </head>

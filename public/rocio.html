@@ -38,6 +38,10 @@
             } else if(reply.command == "setLang") {
             	lang = reply.lang;
             	loadRes(curR);
+            } else if(reply.command == "goto") {
+            	referendum = reply.referendum;
+            	lang = reply.lang;
+            	loadRes(curR);
             }
         };
 
@@ -48,11 +52,11 @@
 
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
-            $.post("/iAmNewWheteTo",{}, function(data){
-				if(data == "ok") {
-					console.log("| Success sending iAmNewWheteTo");
-				}
-			});
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
         };
     }
     
@@ -86,6 +90,9 @@
     
 	function loadRes() {
     	
+    	if(!data)
+    		loadVotes();
+    		
 		data['content'].forEach(function(res){
 			
 			var vals = [];
@@ -154,17 +161,6 @@
 		
 	};
 	
-	function sendOSC(_address, _args) {
-		console.log("sendOSC : "+_address);
-		
-		$.post("/sendOSC",{address:_address, args:_args}, function(data){
-			if(data == "ok")
-			{
-				console.log("| Success sending /sendOSC to WS");
-			}
-		});
-	}
-    
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -182,9 +178,7 @@
 
 	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" style="background-color: black; color: white">
 	<!-- Section -->
-    <!--button class="btn btn-lg btn-click-look" style="position: fixed; top: 5px; margin: 5px; width: 50px; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="sendOSC('/chart/prev', JSON.stringify([{ type: 'i', value: 1 }]))">&nbsp;<&nbsp;</button>
-	<button class="btn btn-lg btn-click-look" style="position: fixed; top: 50px; margin: 5px; width: 50px; text-align:center; padding: 0px; background-color: black; color: lightgray;" onclick="sendOSC('/chart/next', JSON.stringify([{ type: 'i', value: 1 }]))">&nbsp;>&nbsp;</button-->
-	<section id="section" class="container-fluid content-section text-center" style="padding:20px;">
+    <section id="section" class="container-fluid content-section text-center" style="padding:20px;">
 		<div id="result" style="margin-bottom: 20px; border:0px; text-align:center;"></div>
 	</section>
 	

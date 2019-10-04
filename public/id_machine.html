@@ -137,10 +137,11 @@
 
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
-            $.post("/iAmNewWheteTo",{}, function(data){
-				if(data == "future")
-					window.location.href = '/referendum.html';
-			});
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
         };
     }
     
