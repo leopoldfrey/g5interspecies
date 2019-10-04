@@ -77,6 +77,10 @@
 					charset : 'utf8mb4', 
 					command: "iAmNewWheteTo"
 				}));
+			setInterval(function() {
+				getUsers();
+			}, 1000);
+
         };
     }
     
@@ -166,6 +170,7 @@
     }
     
     function getUsers() {
+    	//console.log("GET USERS");
     	ws.send(JSON.stringify(
 			{
 				charset : 'utf8mb4', 
@@ -177,7 +182,6 @@
     	
     	// Connect to websocket server
     	connectToWS();
-
     });
 
 	function backUp() {
