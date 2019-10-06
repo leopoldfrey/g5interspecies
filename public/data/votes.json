@@ -55,7 +55,7 @@
               "en": "Democracy",
               "fr": "Démocratie"
             },
-            "votes": 15
+            "votes": 12
           },
           {
             "id": "spirituality",
@@ -67,7 +67,7 @@
               "en": "Spirituality",
               "fr": "Spiritualité"
             },
-            "votes": 10
+            "votes": 9
           },
           {
             "id": "totalitarism",
@@ -149,7 +149,7 @@
               "en": "another intelligent",
               "fr": "autre intelligence"
             },
-            "votes": 15
+            "votes": 13
           },
           {
             "id": "another_form",
@@ -243,7 +243,7 @@
               "en": "human",
               "fr": "humain"
             },
-            "votes": 18
+            "votes": 17
           },
           {
             "id": "machine",
@@ -325,7 +325,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 21
+            "votes": 20
           },
           {
             "id": "human",
@@ -337,7 +337,7 @@
               "en": "human",
               "fr": "humain"
             },
-            "votes": 21
+            "votes": 20
           },
           {
             "id": "machine",
@@ -419,7 +419,7 @@
               "en": "human",
               "fr": "humain"
             },
-            "votes": 1
+            "votes": 0
           },
           {
             "id": "machine",
@@ -431,7 +431,7 @@
               "en": "machine",
               "fr": "machine"
             },
-            "votes": 1
+            "votes": 0
           },
           {
             "id": "fear",
@@ -443,7 +443,7 @@
               "en": "fear",
               "fr": "peur"
             },
-            "votes": 1
+            "votes": 0
           },
           {
             "id": "no",
@@ -513,7 +513,7 @@
               "en": "animal",
               "fr": "animal"
             },
-            "votes": 9
+            "votes": 8
           },
           {
             "id": "machine",
@@ -525,7 +525,7 @@
               "en": "machine",
               "fr": "machine"
             },
-            "votes": 7
+            "votes": 6
           },
           {
             "id": "no",
@@ -583,7 +583,7 @@
               "en": "vegetal",
               "fr": "végétal"
             },
-            "votes": 18
+            "votes": 17
           },
           {
             "id": "animal",
@@ -653,7 +653,7 @@
               "en": "no",
               "fr": "non"
             },
-            "votes": 11
+            "votes": 10
           }
         ]
       }
@@ -715,7 +715,7 @@
               "en": "another planet",
               "fr": "autre planète"
             },
-            "votes": 3
+            "votes": 1
           },
           {
             "id": "nowhere",
@@ -727,7 +727,7 @@
               "en": "nowhere",
               "fr": "nulle part"
             },
-            "votes": 14
+            "votes": 12
           }
         ]
       },
@@ -785,7 +785,7 @@
               "en": "natural",
               "fr": "naturel"
             },
-            "votes": 10
+            "votes": 8
           },
           {
             "id": "nowhere",
@@ -829,11 +829,11 @@
           "outUnity": "bar2"
         },
         "outLabel": {
-          "en": "mineral population",
-          "fr": "population minérale"
+          "en": "mineral pop.",
+          "fr": "pop. minérale"
         },
-        "votes": 30,
-        "growth": 19.11
+        "votes": 29,
+        "growth": 18.43
       },
       {
         "id": "vegetal_growth",
@@ -863,8 +863,8 @@
           "outUnity": "bar2"
         },
         "outLabel": {
-          "en": "vegetal population",
-          "fr": "population végétale"
+          "en": "vegetal pop.",
+          "fr": "pop. végétale"
         },
         "votes": 28,
         "growth": 13.31
@@ -897,8 +897,8 @@
           "outUnity": "bar2"
         },
         "outLabel": {
-          "en": "animal population",
-          "fr": "population animale"
+          "en": "animal pop.",
+          "fr": "pop. animale"
         },
         "votes": 27,
         "growth": 9.59
@@ -931,8 +931,8 @@
           "outUnity": "bar2"
         },
         "outLabel": {
-          "en": "human population",
-          "fr": "population humaine"
+          "en": "human pop.",
+          "fr": "pop. humaine"
         },
         "votes": 27,
         "growth": 11.9
@@ -965,8 +965,8 @@
           "outUnity": "bar2"
         },
         "outLabel": {
-          "en": "machine population",
-          "fr": "population machine"
+          "en": "machine pop.",
+          "fr": "pop. machine"
         },
         "votes": 27,
         "growth": 17.31

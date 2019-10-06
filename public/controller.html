@@ -184,12 +184,24 @@
     	connectToWS();
     });
 
-	function backUp() {
-		ws.send(JSON.stringify(
-			{
-				charset : 'utf8mb4', 
-				command: "backupVotes"
-			}));
+	function backupVotes() {
+		if(confirm("Back up votes ?")) {
+			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "backupVotes"
+				}));
+		}
+	}
+	
+	function reloadVotes() {
+		if(confirm("Reload votes ?")) {
+			ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "reloadVotes"
+				}));
+		}
 	}
 	
 	</script>
@@ -202,10 +214,18 @@
     </nav>
 
     <!-- Section -->
+    <section id="section" class="container-fluid content-section text-center" style='margin: 10px'>
+	<a style='border:1px solid orange; margin:5px; padding: 2px' href='index.html' target='_blank' rel='noopener'>start page</a>
+	<a style='border:1px solid orange; margin:5px; padding: 2px' href='referendum.html' target='_blank' rel='noopener'>referendum</a>
+	<a style='border:1px solid orange; margin:5px; padding: 2px' href='rocio.html' target='_blank' rel='noopener'>rocio</a>
+	<a style='border:1px solid orange; margin:5px; padding: 2px' href='results.html' target='_blank' rel='noopener'>charts</a>
+	<a style='border:1px solid orange; margin:5px; padding: 2px' href='data/votes.json' target='_blank' rel='noopener'>votes.json</a>
+	</section>
+	<br/>
     <section id="section" class="container-fluid content-section text-center">
-		<input id="curL" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray; background-color:black;" disabled="disabled"/><br/>
-		<input id="curR" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray; background-color:black;" disabled="disabled"/><br/>
-		<input id="curV" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; color:gray; background-color:black;" disabled="disabled"/><br/>
+		<input id="curL" type="text" class="btn btn-lg btn-click-look" style="width:55px; text-align:center; color:white; background-color:black;" disabled="disabled"/>
+		<input id="curR" type="text" class="btn btn-lg btn-click-look" style="width:100px; text-align:center; color:white; background-color:black;" disabled="disabled"/>
+		<input id="curV" type="text" class="btn btn-lg btn-click-look" style="width:55px; text-align:center; color:white; background-color:black;" disabled="disabled"/><br/>
 		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="setLang('fr')">FR</button>
 		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="setLang('en')">EN</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:100px; text-align:center; background-color:black; color: white;" onclick="setReferendum('present')">Present</button>
@@ -221,11 +241,12 @@
 		<br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="gotoVote(-1);setReferendum('present');">Reset Server</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendClearVotes()">Clear Votes</button><br/>
-		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="backUp()">Back Up Votes</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="backupVotes()">Back Up Votes</button><br/>
+		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="reloadVotes()">Reload Votes</button><br/>
 		<!--button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendClearGlobalVotes()">Clear Global Votes</button><br/>
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="sendAddVotes()">Add Local To Global</button><br/-->
 		<button class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" onclick="getUsers()">Get Users</button><br/>
-		<input id="curU" type="text" class="btn btn-lg btn-click-look" style="width:220px; border:0px; text-align:center; background-color:black; color: gray;" disabled="disabled"/><br/>
+		<input id="curU" type="text" class="btn btn-lg btn-click-look" style="width:220px; text-align:center; background-color:black; color: white;" disabled="disabled"/><br/>
 	</section>
 	
 	<!-- jQuery -->

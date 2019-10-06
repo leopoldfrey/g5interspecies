@@ -86,3 +86,5 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+g5i.sublime-project
+g5i.sublime-workspace
