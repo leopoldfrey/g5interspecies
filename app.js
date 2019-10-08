@@ -108,7 +108,7 @@ var votes;
 var curVote = -1;
 var lang = 'fr';
 var referendum = 'present';
-githu
+
 function downloadVotes()
 {
 	client = new ftpClient(config, options);
