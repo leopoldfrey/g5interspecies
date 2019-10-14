@@ -7,8 +7,8 @@ var path        = require("path");
 var WebSocket   = require("ws");
 var WebSocketServer   = WebSocket.Server;
 var bodyParser  = require("body-parser");
-var ftpClient 	= require('ftp-client');
-	
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var request 	= require('request');
 var app         = express();
 var server 		= http.createServer(app);
 
@@ -88,18 +88,7 @@ app.use(bodyParser.json());
 /*----------- Download/Upload votes -----------*/
 
 var localDataFolder = path.dirname(fs.realpathSync(__filename))+'/public/data';
-console.log('local data folder', localDataFolder);
-
-// FTP CONFIG
-config = {
-    host: 'ftp.cluster021.hosting.ovh.net',
-    port: 21,
-    user: 'grabugemuz',
-    password: 'Asifnu12'
-};
-options = {
-    logging: 'basic'
-};
+console.log('local data folder \"', localDataFolder, "\"");
     
 /*----------- parameters -----------*/
 
@@ -110,43 +99,39 @@ var lang = 'fr';
 var referendum = 'present';
 
 function downloadVotes()
-{
-	client = new ftpClient(config, options);
-	client.connect(function ()
-	{
-		console.log("Connected to download !");
-    	try{
-			client.download('/www/g5/public/data', localDataFolder, {
-				overwrite: 'all'
-			}, function (result) {
-				console.log(result);
-			});
-			votes = JSON.parse(fs.readFileSync(fileName));
-			console.log("Done downloading votes !");
-		} catch (err) {
-			console.log("Error downloading votes ! "+err);
-		}
-	});
+{	
+	var xmlReq = new XMLHttpRequest();
+			filename = "https://www.grabugemusic.fr/g5/public/data/votes.json";
+			xmlReq.open('GET', filename);
+			xmlReq.setRequestHeader('Cache-Control', 'no-cache');
+    		xmlReq.onloadend = function() {
+				console.log("\""+filename+"\" loaded.");
+				votes = JSON.parse(xmlReq.responseText);
+				jsonString = JSON.stringify(votes, null, 2);
+  				fs.writeFileSync(fileName, jsonString, err => {
+					if (err) {
+						console.log('Error writing file', err);
+					} else {
+						console.log('Successfully wrote file');
+					}
+				});
+			}
+			xmlReq.send();
 }
 
 function uploadVotes()
-{
-	client = new ftpClient(config, options);
-	client.connect(function ()
-	{
-		console.log("Connected to upload !");
-		try{
-			client.upload(['public/data/votes.json'], '/www/g5', {
-				baseDir: '/www/g5	',
-				overwrite: 'older'
-			}, function (result) {
-				console.log(result);
-			});//*/
-			console.log("Done uploading !");
-    	} catch (err) {
-			console.log("Error downloading votes ! "+err);
+{	
+	request.post({
+    	url: 'https://www.grabugemusic.fr/g5/public/data/backupVotes.php',
+    	json: true,
+    	body: votes
+	}, function(error, response, body){
+    	if (!error && response.statusCode == 200) {
+			if(body.success)
+				console.log("Done uploading votes ! " +body.message+" "+body.date);
+			else
+				console.log("Error uploading votes ! " +body.message+" "+body.date);
 		}
-
 	});
 }
 
@@ -493,7 +478,7 @@ wss.on('connection', function connection(ws) {
 				}));
 			break;
 		case "getUsers":
-			console.log('* getUsers');
+			//console.log('* getUsers');
   			ws.send(JSON.stringify(
 				{
 					charset : 'utf8mb4', 

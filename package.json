@@ -9,10 +9,11 @@
     "chart.js": "^2.8.0",
     "express": "^4.17.1",
     "fs": "latest",
-    "ftp-client": "leopoldfrey/node-ftp-client",
     "jsonfile": "latest",
     "multer": "1.1.0",
+    "request": "^2.88.0",
     "serve-index": "latest",
-    "ws": "latest"
+    "ws": "latest",
+    "xmlhttprequest": "git+https://github.com/driverdan/node-XMLHttpRequest.git"
   }
 }

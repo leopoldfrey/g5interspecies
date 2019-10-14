@@ -33,14 +33,14 @@
 
         // Log messages from the server
         ws.onmessage = function (e) {
-            console.log("| WS Received message: " + e.data);
+            //console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
             
             if(reply.command == "goto") {
             	document.getElementById("curL").value = reply.lang;
 				document.getElementById("curR").value = reply.referendum;
 				if(reply.vote) {
-					console.log("reply.vote : "+reply.vote);
+					//console.log("reply.vote : "+reply.vote);
 					v = parseInt(reply.vote);
 					document.getElementById("curV").value = v;
 				}
@@ -59,9 +59,11 @@
            			document.getElementById("curV").value = v;	
            		}
 			} else if(reply.command == "users") {
-				console.log("| Users : " + reply.users);
+				//console.log("| Users : " + reply.users);
 				document.getElementById("curU").value = reply.users;
-           	}
+           	} else {
+           		console.log("| WS Received message: " + e.data);
+            }
 			
         };
 
@@ -79,7 +81,7 @@
 				}));
 			setInterval(function() {
 				getUsers();
-			}, 1000);
+			}, 2000);
 
         };
     }
