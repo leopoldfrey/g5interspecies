@@ -1,6 +1,9 @@
 {
   "name": "G5-server",
   "version": "0.0.1",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "start": "node app.js"
   },
