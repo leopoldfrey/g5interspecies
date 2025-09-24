@@ -19,55 +19,90 @@ const port = process.env.PORT || 3000;
 //var webServerPort = 8080; // Web server (http) listens on this port
 
 app.get('/',function(req,res){
-      res.sendFile(__dirname + "/public/index.html");
+	if(lang == 'fr')
+    	res.sendFile(__dirname + "/public/fr/index.html");
+	else if(lang == 'en')
+		res.sendFile(__dirname + "/public/en/index.html");
+	else if(lang == 'es')
+		res.sendFile(__dirname + "/public/es/index.html");
 });
 
 app.get('/index.html',function(req,res){
-      res.sendFile(__dirname + "/public/index.html");
+    if(lang == 'fr')
+    	res.sendFile(__dirname + "/public/fr/index.html");
+	else if(lang == 'en')
+		res.sendFile(__dirname + "/public/en/index.html");
+	else if(lang == 'es')
+		res.sendFile(__dirname + "/public/es/index.html");
 });
 
 app.get('/id_animal.html',function(req,res){
-      res.sendFile(__dirname + "/public/id_animal.html");
+	if(lang == 'fr')
+    	res.sendFile(__dirname + "/public/fr/id_animal.html");
+	else if(lang == 'en')
+		res.sendFile(__dirname + "/public/en/id_animal.html");
+	else if(lang == 'es')
+		res.sendFile(__dirname + "/public/es/id_animal.html");
 });
 
 app.get('/id_vegetal.html',function(req,res){
-      res.sendFile(__dirname + "/public/id_vegetal.html");
+    if(lang == 'fr')
+    	res.sendFile(__dirname + "/public/fr/id_vegetal.html");
+	else if(lang == 'en')
+		res.sendFile(__dirname + "/public/en/id_vegetal.html");
+	else if(lang == 'es')
+		res.sendFile(__dirname + "/public/es/id_vegetal.html");
 });
 
 app.get('/id_mineral.html',function(req,res){
-      res.sendFile(__dirname + "/public/id_mineral.html");
+    if(lang == 'fr')
+    	res.sendFile(__dirname + "/public/fr/id_mineral.html");
+	else if(lang == 'en')
+		res.sendFile(__dirname + "/public/en/id_mineral.html");
+	else if(lang == 'es')
+		res.sendFile(__dirname + "/public/es/id_mineral.html");
 });
 
 app.get('/id_human.html',function(req,res){
-      res.sendFile(__dirname + "/public/id_human.html");
+    if(lang == 'fr')
+    	res.sendFile(__dirname + "/public/fr/id_human.html");
+	else if(lang == 'en')
+		res.sendFile(__dirname + "/public/en/id_human.html");
+	else if(lang == 'es')
+		res.sendFile(__dirname + "/public/es/id_human.html");
 });
 
 app.get('/id_machine.html',function(req,res){
-      res.sendFile(__dirname + "/public/id_machine.html");
+	if(lang == 'fr')
+    	res.sendFile(__dirname + "/public/fr/id_machine.html");
+	else if(lang == 'en')
+		res.sendFile(__dirname + "/public/en/id_machine.html");
+	else if(lang == 'es')
+		res.sendFile(__dirname + "/public/es/id_machine.html");
 });
 
 app.get('/referendum.html',function(req,res){
-      res.sendFile(__dirname + "/public/referendum.html");
+    res.sendFile(__dirname + "/public/referendum.html");
 });
 
 app.get('/controller.html',function(req,res){
-      res.sendFile(__dirname + "/public/controller.html");
+    res.sendFile(__dirname + "/public/controller.html");
 });
 
 app.get('/votes.json',function(req,res){
-      res.sendFile(__dirname + "/public/votes.json");
+    res.sendFile(__dirname + "/public/votes.json");
 });
 
 app.get('/backup.json',function(req,res){
-      res.sendFile(__dirname + "/public/backup.json");
+    res.sendFile(__dirname + "/public/backup.json");
 });
 
 app.get('/rocio.html',function(req,res){
-      res.sendFile(__dirname + "/public/rocio.html");
+    res.sendFile(__dirname + "/public/rocio.html");
 });
 
 app.get('/results.html',function(req,res){
-      res.sendFile(__dirname + "/public/results.html");
+    res.sendFile(__dirname + "/public/results.html");
 });
 
 app.use('/scripts', express.static(__dirname + '/node_modules/chart.js/dist/'));
@@ -95,7 +130,7 @@ console.log('local data folder \"', localDataFolder, "\"");
 var fileName = 'public/data/votes.json';
 var votes;
 var curVote = -1;
-var lang = 'fr';
+var lang = 'es';
 var referendum = 'present';
 
 function downloadVotes()

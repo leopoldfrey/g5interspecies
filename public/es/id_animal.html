@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>G5 Interspecies</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom Fonts -->
+    <!--link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/--> 
+ 	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    
+    <!-- Theme CSS -->
+    <!--link href="css/grayscale.min.css" rel="stylesheet"-->
+    <link href="css/grayscale.css" rel="stylesheet">
+
+    <!-- Img processing from phone -->
+    <script src="js/load-image.all.min.js"></script>
+	<script src="js/ws.js"></script>
+        
+    <style>
+
+    #img-loading {
+    	position: relative;
+		top: 50%;
+		transform: translate(0%, -50%);
+    }
+    
+    #img-result {
+        height:200px;
+		min-width:100%;
+		max-width:none;
+		margin: 0 -50%;
+		border: solid white 10px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    #imgResultDiv {
+    	width: 200px;
+    	height: 200px;
+    	text-align: center;
+		margin: 0 auto;
+  		position: relative;
+  		margin-bottom: 40px;
+    }
+    
+    .avatar-div {
+    	margin-bottom: 40px;
+    }
+    
+    .avatar-canvas {
+    	height:200px;
+		margin: 0 -50%;
+		border: solid white 10px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    </style>
+    
+    <script>
+
+	stage = -1;
+
+    function onClick() {
+		switch (stage) {
+			case -1:
+				document.getElementById("btn-click-photo-os").click();
+				break;
+			default:
+				break;
+		}
+	}
+
+/* Utility function to convert a canvas to a BLOB */
+    var dataURLToBlob = function(dataURL) {
+      //console.log("DataURLToBlob")
+        var BASE64_MARKER = ';base64,';
+        if (dataURL.indexOf(BASE64_MARKER) == -1) {
+            var parts = dataURL.split(',');
+            var contentType = parts[0].split(':')[1];
+            var raw = parts[1];
+
+            return new Blob([raw], {type: contentType});
+        }
+
+        var parts = dataURL.split(BASE64_MARKER);
+        var contentType = parts[0].split(':')[1];
+        var raw = window.atob(parts[1]);
+        var rawLength = raw.length;
+
+        var uInt8Array = new Uint8Array(rawLength);
+
+        for (var i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+
+        return new Blob([uInt8Array], {type: contentType});
+    }
+    /* End Utility function to convert a canvas to a BLOB      */
+
+    // https://www.codeforest.net/html5-image-upload-resize-and-crop
+
+    function resizeAndUpload() {
+        var loadingImage = loadImage(
+            event.target.files[0],
+            function (canvas) {
+            
+            	var dataURL = canvas.toDataURL("image/jpeg");
+
+				var resultDiv = document.querySelector("#avatar-div-id");
+				canvas.classList.add("avatar-canvas");
+	            resultDiv.replaceChild(canvas, resultDiv.children[0]);
+	            
+                // Transform to blob and upload
+                var blob = dataURLToBlob(dataURL);
+                uploadImageAsBlob(blob);
+
+                // In order to trigger again onchange
+                document.getElementById('btn-click-photo-os').value = null;
+            },
+            {
+                maxWidth: 300,
+                //maxHeight: 888,
+                //minWidth: 500,
+                //minHeight: 500,
+                canvas: true,
+                orientation: true
+            }
+        );
+        if (!loadingImage) {
+            console.log("* Error, image not loaded");
+        }
+        setTimeout(function(){
+            setStage(0);
+        }, 1500);
+    	
+    }
+
+    /*-- --*/
+
+    function uploadImageAsBlob(blob) {
+
+    	console.log("| Upload blob");
+            
+        var formData = new FormData();
+        formData.append("image", blob);
+        formData.append("name", (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase());
+		
+        $.ajax({
+            url: "/image",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // .. do something
+                var reply = JSON.parse(response);
+                console.log("- Success! Server: " + reply.message);
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                console.log("* "+errorMessage); // Optional
+            }
+        });
+
+    }
+
+    function setStage(_stage) {
+		stage = _stage;
+        switch(parseInt(stage)) {
+            case -1:
+                document.getElementById("section-middle2").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Identificación";
+            	document.getElementById("img-result").src = "";
+            	document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "";
+            	document.getElementById("btn-click-look").innerHTML = "Tome un selfie";
+                document.getElementById("btn-click-look").style.display = "";
+                break;
+            case 0:
+                document.getElementById("section-middle2").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Análisis de su selfie";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
+                setTimeout(function() {
+					setStage(1);
+				}, 3000);
+                break;
+            case 1:
+                document.getElementById("section-middle2").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Acceso denegado";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "";
+            	document.getElementById("btn-click-look").style.display = "none";
+                break;
+        }
+            
+    }
+    
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
+        };
+    }
+
+        /* Onload */
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+    	connectToWS();
+
+        // Buttons
+        document.getElementById("btn-click-look").onclick = onClick;
+        
+        if (window.File && window.FileReader && window.FormData) {
+
+            document.getElementById("btn-click-photo-os").onchange = function (event) {
+
+                // Resize image and upload
+                resizeAndUpload();
+
+            };
+
+        } else {
+            alert("File upload is not supported!");
+        }
+		
+    	setStage(-1);
+    });
+
+    </script>
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
+    
+    </nav>
+
+    <!-- Section -->
+    <section id="section-top" style="padding-top:30px; display:none" class="container-fluid content-section text-center" style="padding:0;">
+        
+        <h1><span id="msg-top"></span></h1>
+        
+        <div class="row">
+
+			<div id="avatar-div-id" class="avatar-div" style="display:none">
+				<canvas></canvas>
+			</div>
+            <div id="imgResultDiv" style="display:none"><!--class="col-lg-12" style=""-->
+                <img id="img-result" src="" style="display:none"></img>
+                <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
+            </div>
+            
+			<div class="col-lg-12">
+                <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
+                <div id="btn-click-look"  class="btn btn-lg btn-click-look">TOMAR <br/>UNA FOTO</div>
+            </div>            
+       </div>
+   </section>
+
+	<section id="section-middle2"  class="container-fluid content-section text-center" style="/*bottom: 80px; */position: relative; display: none; width:100%;">
+		<h4><span id="msg-bottom" style="font-size:12px;">
+			¡ATENCIÓN!<br/>
+			Quien sea declarado culpable de un delito de usurpación de identidad podrá ser condenado a una pena de hasta cinco años de prisión y a una multa de hasta 75.000 €.
+		</span></h4>
+        <!--p style="font-size: 20px; padding: 0px 20px;text-transform: uppercase;">
+			</p-->
+	</section>
+
+   <section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">VOLVER A INICIO</div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <!--script src="js/grayscale.min.js"></script-->
+    <script src="js/grayscale.js"></script>
+
+</body>
+
+</html>

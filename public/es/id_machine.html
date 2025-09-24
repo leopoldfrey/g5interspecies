@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>G5 Interspecies</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom Fonts -->
+    <!--link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/--> 
+ 	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    
+    <!-- Theme CSS -->
+    <!--link href="css/grayscale.min.css" rel="stylesheet"-->
+    <link href="css/grayscale.css" rel="stylesheet">
+	<script src="js/ws.js"></script>
+    
+    <script>
+
+	stage = -1;
+	
+	function checkSum() {
+		r = document.getElementById("result").value;
+		if(r == "110111111011") {
+			console.log("OK");
+			document.getElementById("msg-bottom").innerHTML = "TRUE";
+			setTimeout(function() {
+					setStage(0);
+				}, 1000);
+		} else if (r == "1000101111011001") {
+			console.log("OK");
+			document.getElementById("msg-bottom").innerHTML = "TRUE";
+			setTimeout(function() {
+					setStage(1);
+				}, 1000);
+		} else if (r == "01010111011010000111") {
+			console.log("OK");
+			document.getElementById("msg-bottom").innerHTML = "TRUE";
+			setTimeout(function() {
+					setStage(2);
+				}, 1000);
+		} else {
+			console.log("NOT OK : \""+r+"\"");
+			document.getElementById("msg-bottom").innerHTML = "FALSE";
+			setTimeout(function() {
+					setStage(6);
+				}, 2000);
+		}
+		
+	}
+				
+    function setStage(_stage) {
+		stage = _stage;
+        switch(parseInt(stage)) {
+            case -1:
+                document.getElementById("section-bottom").style.display = "";
+                document.getElementById("section-middle").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Identificación Binaria 1";
+            	document.getElementById("msg-middle").style = "text-transform: none";
+            	document.getElementById("msg-middle").innerHTML = "<code>&nbsp;&nbsp;&nbsp;0b&nbsp;010011010010<br/>&nbsp;+&nbsp;0b&nbsp;100100101001<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right; color:black;' value='' onchange='checkSum()' size='12'></input></code>";
+            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Validar</div>";
+                break;
+            case 0:
+                document.getElementById("section-bottom").style.display = "";
+                document.getElementById("section-middle").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Identificación Binaria 2";
+            	document.getElementById("msg-middle").style = "text-transform: none";
+            	document.getElementById("msg-middle").innerHTML = "<code>&nbsp;&nbsp;&nbsp;0b&nbsp;001100000111001<br/>&nbsp;+&nbsp;0b&nbsp;010110111010000<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right; color:black;' value='' onchange='checkSum()' size='16'></input></code>";
+            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Validar</div>";
+                break;
+            case 1:
+                document.getElementById("section-bottom").style.display = "";
+                document.getElementById("section-middle").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Identificación Binaria 3";
+            	document.getElementById("msg-middle").style = "text-transform: none";
+            	document.getElementById("msg-middle").innerHTML = "<code>&nbsp;&nbsp;&nbsp;0b&nbsp;00011110001001000000<br/>&nbsp;+&nbsp;0b&nbsp;00111001010001000111<br/>&nbsp;=&nbsp;0b&nbsp;<input type='text' id='result' style='text-align:right; color:black;' value='' onchange='checkSum()' size='20'></input></code>";
+            	document.getElementById("msg-bottom").innerHTML = "<div class='btn btn-lg btn-click-look' onclick='checkSum()'>Validar</div>";
+                break;
+            case 2:
+                document.getElementById("section-bottom").style.display = "";
+                document.getElementById("section-middle").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Acceso denegado";
+            	document.getElementById("msg-middle").style = "text-transform: uppercase";
+            	document.getElementById("msg-middle").innerHTML = "¡ATENCIÓN!<br/>Este referéndum está reservado únicamente para humanos.";
+            	document.getElementById("msg-bottom").innerHTML = "";
+				break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                document.getElementById("section-bottom").style.display = "none";
+                document.getElementById("section-middle").style.display = "";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Acceso denegado";
+                document.getElementById("msg-middle").innerHTML = "¡ATENCIÓN!<br/>Quien sea declarado culpable de un delito de usurpación de identidad podrá ser condenado a una pena de hasta cinco años de prisión y a una multa de hasta 75.000 €.";
+				document.getElementById("msg-bottom").innerHTML = "";
+				break;
+        }
+            
+    }
+        
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
+        };
+    }
+    
+        /* Onload */
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+    	connectToWS();
+		setStage(-1);
+    });
+
+    </script>
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
+    
+    </nav>
+
+    <!-- Section -->
+    <section id="section-top" style="padding-top:30px" class="container-fluid content-section text-center" style="padding:0;">
+        <h1><span id="msg-top"></span></h1>
+    </section>
+
+	<section id="section-middle" class="container-fluid text-center" style="padding:50px; top:0px">
+        <h4><span id="msg-middle"></span></h4>
+    </section>
+
+    <section id="section-bottom" class="container-fluid text-center" style="padding:0px; bottom:30px;">
+        <h1 id="msg-bottom"></h1>
+    </section>
+
+	<section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
+        <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">VOLVER A INICIO</div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <!--script src="js/grayscale.min.js"></script-->
+    <script src="js/grayscale.js"></script>
+
+</body>
+
+</html>

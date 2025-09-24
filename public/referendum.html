@@ -38,7 +38,7 @@
     var questions;
 	var referendum = "present";
 	var vote = 0;
-	var lang = "en";
+	var lang = "es";
 	
 	// WEBSOCKET CONNECTION	
     
@@ -272,6 +272,8 @@
 	            	document.getElementById("next-btn").innerHTML = "Suivant";
 	            else if(lang == 'en')
 	            	document.getElementById("next-btn").innerHTML = "Next";
+	            else if(lang == 'es')
+	            	document.getElementById("next-btn").innerHTML = "Siguiente";
 	            
 	            if(reply.vote)
 	            {
@@ -302,6 +304,8 @@
 	            	document.getElementById("next-btn").innerHTML = "Suivant";
 	            else if(lang == 'en')
 	            	document.getElementById("next-btn").innerHTML = "Next";
+				else if(lang == 'es')
+	            	document.getElementById("next-btn").innerHTML = "Siguiente";
 	            	
             } else if(reply.command == "users") {
             	//
@@ -344,7 +348,7 @@
     	if(referendum == null)
     		referendum = "present";
     	if(lang == null)
-    		lang = "fr";
+    		lang = "es";
     	if(vote == null)
     		vote = 0;
     	
