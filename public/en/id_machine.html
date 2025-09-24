@@ -14,13 +14,13 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <!--link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/--> 
+ 	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
     <!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
+	<script src="js/ws.js"></script>
 
     <script>
 
@@ -112,10 +112,43 @@
         }
             
     }
+        
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
+        };
+    }
     
         /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
+    	connectToWS();
     	setStage(-1);
     });
 
@@ -131,19 +164,19 @@
     </nav>
 
     <!-- Section -->
-    <section id="section-top" style="padding-top:30px" class="container content-section text-center" style="padding:0;">
+    <section id="section-top" style="padding-top:30px" class="container-fluid content-section text-center" style="padding:0;">
         <h1><span id="msg-top"></span></h1>
     </section>
 
-	<section id="section-middle" class="container text-center" style="padding:0;">
-        <h1><span id="msg-middle"></span></h1>
+	<section id="section-middle" class="container-fluid text-center" style="padding:50px; top:0px">
+        <h4><span id="msg-middle"></span></h4>
     </section>
 
-    <section id="section-bottom" style="" class="container text-center" style="padding:0;">
+    <section id="section-bottom" class="container-fluid text-center" style="padding:0px; bottom:30px;">
         <h1 id="msg-bottom"></h1>
     </section>
 
-	<section id="section-btn" class="container content-section text-center" style="padding:0;">
+	<section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
         <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">GO BACK</div>
     </section>
 

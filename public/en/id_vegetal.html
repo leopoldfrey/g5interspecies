@@ -14,13 +14,13 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <!--link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/--> 
+ 	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
     <!-- Theme CSS -->
     <!--link href="css/grayscale.min.css" rel="stylesheet"-->
     <link href="css/grayscale.css" rel="stylesheet">
+	<script src="js/ws.js"></script>
 
     <script>
 
@@ -35,8 +35,7 @@
             	document.getElementById("img-loading").style.display = "none";
 				document.getElementById("section-standBy").style.display = "";
                 document.getElementById("msg-standby").innerHTML = "Deposit your chemical signature on the screen";
-            	document.getElementById("section-bottom").style.display = "none";
-                setTimeout(function() {
+            	setTimeout(function() {
 					setStage(0);
 				}, 5000);
 				break;
@@ -44,8 +43,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Analyzing your chemical signature";
             	document.getElementById("img-loading").style.display = "";
-				document.getElementById("section-bottom").style.display = "none";
-                document.getElementById("section-standBy").style.display = "none";
+				document.getElementById("section-standBy").style.display = "none";
                 setTimeout(function() {
 					setStage(1);
 				}, 3000);
@@ -54,7 +52,6 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Access Denied";
                 document.getElementById("img-loading").style.display = "none";
-                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "";
                 document.getElementById("msg-standby").innerHTML = "WARNING !<br/>A person convicted of identity theft<br/>can be sentenced up to five years in prison<br/>and fined up to €75,000.";
                 break;
@@ -62,8 +59,42 @@
             
     }
     
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
+        };
+    }
+    
         /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
+
+		connectToWS();
 
         window.onscroll = function (event) {
     		event.preventDefault();
@@ -101,6 +132,8 @@
     	}
 		
 		setStage(-1);
+		
+		
     });
 
     </script>
@@ -115,21 +148,18 @@
     </nav>
 
     <!-- Section -->
-    <section id="section-top" style="padding-top:30px; display:none" class="container content-section text-center" style="padding:0;">
+    <section id="section-top" style="padding-top:30px; display:none" class="container-fluid content-section text-center" style="padding:0;">
         <h1><span id="msg-top"></span></h1>
         <br/>
-        <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
-    </section>
-
-    <section id="section-standBy" style="" class="container text-center" style="padding:0;">
-        <h1><span id="msg-standby"></span></h1>
+        <div class="text-center" style='height: 100px;'><img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
+        </div>
     </section>
 	
-	<section id="section-bottom" style="" class="container content-section text-center" style="padding:0;">
-        <h1><span id="msg-bottom"></span></h1>
+    <section id="section-standBy" class="container-fluid text-center">
+        <h4><span id="msg-standby" style="font-size:12px"></span></h4>
     </section>
 	
-	<section id="section-btn" class="container content-section text-center" style="padding:0;">
+	<section id="section-btn" class="container-fluid content-section text-center" style="padding:0;">
         <div class="btn btn-lg btn-click-look" onclick="window.location.href = '/#main';">GO BACK</div>
     </section>
 
