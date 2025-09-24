@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>G5 Interspecies</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <!--link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/orkney" type="text/css"/--> 
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+ 	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    
+    <!-- Theme CSS -->
+    <link href="css/grayscale.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<script src="js/ws.js"></script>
+    
+    <script>
+
+	function selspecies() {
+		v = document.getElementById("select_species").value
+		if(v != "")
+		{
+			console.log("Selspecies " + v);
+			window.location.href = '/id_'+v+'.html';
+		}
+	}
+    
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("| WS Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.command == "goto") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            } else if(reply.command == "setReferendum") {
+            	if(reply.referendum == "future")
+            		window.location.href = '/referendum.html';
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error.stack);
+        };
+
+        ws.onopen = function (event) {
+            console.log("- Connected to ws server");
+            ws.send(JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					command: "iAmNewWheteTo"
+				}));
+        };
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+        connectToWS();
+        
+    });
+
+    </script>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
+    </nav>
+
+    <!-- Intro Header -->
+    <header class="intro container-fluid">
+        <div class="intro-body">
+                <div class="row">
+                    <h1 class="brand-heading">Coexistence</h1>
+                    <p class="intro-text">Référendum Humain</p>
+                    <a href="#main" class="btn btn-circle page-scroll">
+                        <i class="fa fa-angle-double-down animated"></i>
+                    </a>
+                </div>
+        </div>
+    </header>
+    <section id="main" class="fullscreen">
+        	<div class="box text-center">
+				<h1>Référendum</h1>
+				<h4>Identification Requise</h4>
+				<select id="select_species" name="species" onchange="selspecies()" style="color:black">
+					<option value="">Sélectionnez votre espèce...</option>
+					<option value="mineral">Minéral</option>
+					<option value="vegetal">Végétal</option>
+					<option value="animal">Animal</option>
+					<option value="human">Humain</option>
+					<option value="machine">Machine</option>
+				</select>
+			</div>
+    </section>
+
+    <style>
+    .btn-click {
+        background-color: white;
+        color: gray;
+        border: 1px solid lightgray;
+        height: 36px;
+        /*position: fixed;*/
+        bottom: 40px;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: 15px;
+        /*color: rgba(255, 255, 255, 0.2)*/
+    }
+    </style>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <!--script src="js/grayscale.min.js"></script-->
+    <script src="js/grayscale.js"></script>
+
+</body>
+
+</html>

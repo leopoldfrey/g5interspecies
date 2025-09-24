@@ -89,13 +89,15 @@ app.get('/controller.html',function(req,res){
     res.sendFile(__dirname + "/public/controller.html");
 });
 
+/*
 app.get('/votes.json',function(req,res){
-    res.sendFile(__dirname + "/public/votes.json");
+    res.sendFile(__dirname + "/public/data/votes.json");
 });
 
 app.get('/backup.json',function(req,res){
-    res.sendFile(__dirname + "/public/backup.json");
+    res.sendFile(__dirname + "/public/data/backup.json");
 });
+*/
 
 app.get('/rocio.html',function(req,res){
     res.sendFile(__dirname + "/public/rocio.html");
@@ -112,7 +114,7 @@ app.use('/vendor', express.static('public/vendor'));
 app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
 app.use('/img', express.static('public/img'));
-app.use('/data', express.static('public/data'));
+//app.use('/data', express.static('public/data'));
 
 app.use('/uploads', express.static('uploads'));
 app.use('/uploads', serveIndex(__dirname + '/uploads'));
