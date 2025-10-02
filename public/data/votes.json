@@ -8,7 +8,7 @@
     "endTitle": {
       "en": "Thank you for<br/>your participation<br/>in this REFERENDUM",
       "fr": "Merci pour<br/>votre participation<br/>à ce référendum",
-      "es": "Gracias por<br/>su participación<br/>en este referéndum"
+      "es": "Gracias por<br/>tu participación<br/>en este REFERÉNDUM"
     },
     "endMessage": {
       "en": "Please stay connected",
@@ -32,7 +32,84 @@
           "en": "",
           "fr": "",
           "es": ""
-        }
+        },
+        "display": {
+          "input": "radio",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "anarchy",
+            "inLabel": {
+              "en": "Anarchy",
+              "fr": "Anarchie",
+              "es": "Anarquía"
+            },
+            "outLabel": {
+              "en": "Anarchy",
+              "fr": "Anarchie",
+              "es": "Anarquía"
+            },
+            "votes": 5
+          },
+          {
+            "id": "democracy",
+            "inLabel": {
+              "en": "Democracy",
+              "fr": "Démocratie",
+              "es": "Democracia"
+            },
+            "outLabel": {
+              "en": "Democracy",
+              "fr": "Démocratie",
+              "es": "Democracia"
+            },
+            "votes": 14
+          },
+          {
+            "id": "spirituality",
+            "inLabel": {
+              "en": "Spirituality",
+              "fr": "Spiritualité",
+              "es": "Espiritualidad"
+            },
+            "outLabel": {
+              "en": "Spirituality",
+              "fr": "Spiritualité",
+              "es": "Espiritualidad"
+            },
+            "votes": 4
+          },
+          {
+            "id": "totalitarism",
+            "inLabel": {
+              "en": "Totalitarism",
+              "fr": "Totalitarisme",
+              "es": "Totalitarismo"
+            },
+            "outLabel": {
+              "en": "Totalitarism",
+              "fr": "Totalitarisme",
+              "es": "Totalitarismo"
+            },
+            "votes": 0
+          },
+          {
+            "id": "other",
+            "inLabel": {
+              "en": "Other",
+              "fr": "Autre",
+              "es": "Otro"
+            },
+            "outLabel": {
+              "en": "Other",
+              "fr": "Autre",
+              "es": "Otro"
+            },
+            "votes": 0
+          }
+        ]
       },
       {
         "id": "human_definition",
@@ -50,14 +127,91 @@
           "en": "",
           "fr": "",
           "es": ""
-        }
+        },
+        "display": {
+          "input": "radio",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "only_intelligent",
+            "inLabel": {
+              "en": "the only form of intelligence on earth",
+              "fr": "la seule forme d'intelligence sur terre",
+              "es": "la única forma de inteligencia en la tierra"
+            },
+            "outLabel": {
+              "en": "only intelligent",
+              "fr": "seule intelligence",
+              "es": "única inteligencia"
+            },
+            "votes": 0
+          },
+          {
+            "id": "most_intelligent",
+            "inLabel": {
+              "en": "the most intelligent form on earth",
+              "fr": "la plus intelligente forme de vie sur terre",
+              "es": "la forma de vida más inteligente en la tierra"
+            },
+            "outLabel": {
+              "en": "most intelligent",
+              "fr": "plus intelligente",
+              "es": "más inteligente"
+            },
+            "votes": 0
+          },
+          {
+            "id": "another_intelligent",
+            "inLabel": {
+              "en": "another form of intelligence on earth",
+              "fr": "une autre forme d'intelligence sur terre",
+              "es": "otra forma de inteligencia en la tierra"
+            },
+            "outLabel": {
+              "en": "another intelligent",
+              "fr": "autre intelligence",
+              "es": "otra inteligencia"
+            },
+            "votes": 2
+          },
+          {
+            "id": "another_form",
+            "inLabel": {
+              "en": "another form of life among others",
+              "fr": "une forme de vie parmi d'autres",
+              "es": "otra forma de vida entre otras"
+            },
+            "outLabel": {
+              "en": "other form",
+              "fr": "autre forme",
+              "es": "otra forma"
+            },
+            "votes": 21
+          },
+          {
+            "id": "donk_know",
+            "inLabel": {
+              "en": "I don't know",
+              "fr": "je ne sais pas",
+              "es": "no sé"
+            },
+            "outLabel": {
+              "en": "dont know",
+              "fr": "ne sait pas",
+              "es": "no sabe"
+            },
+            "votes": 0
+          }
+        ]
       },
       {
         "id": "otherness",
         "title": {
           "en": "Otherness",
           "fr": "Être un autre",
-          "es": "Alteridad"
+          "es": "Otreridad"
         },
         "question": {
           "en": "Would you rather prefer to be a",
@@ -68,7 +222,98 @@
           "en": "",
           "fr": "",
           "es": ""
-        }
+        },
+        "display": {
+          "input": "radio",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "mineral",
+            "inLabel": {
+              "en": "mineral",
+              "fr": "minéral",
+              "es": "mineral"
+            },
+            "outLabel": {
+              "en": "mineral",
+              "fr": "minéral",
+              "es": "mineral"
+            },
+            "votes": 2
+          },
+          {
+            "id": "vegetal",
+            "inLabel": {
+              "en": "vegetal",
+              "fr": "végétal",
+              "es": "vegetal"
+            },
+            "outLabel": {
+              "en": "vegetal",
+              "fr": "végétal",
+              "es": "vegetal"
+            },
+            "votes": 0
+          },
+          {
+            "id": "animal",
+            "inLabel": {
+              "en": "animal",
+              "fr": "animal",
+              "es": "animales"
+            },
+            "outLabel": {
+              "en": "animal",
+              "fr": "animal",
+              "es": "animal"
+            },
+            "votes": 9
+          },
+          {
+            "id": "human",
+            "inLabel": {
+              "en": "human",
+              "fr": "humain",
+              "es": "humano"
+            },
+            "outLabel": {
+              "en": "human",
+              "fr": "humain",
+              "es": "humano"
+            },
+            "votes": 8
+          },
+          {
+            "id": "machine",
+            "inLabel": {
+              "en": "machine",
+              "fr": "machine",
+              "es": "máquina"
+            },
+            "outLabel": {
+              "en": "machine",
+              "fr": "machine",
+              "es": "máquina"
+            },
+            "votes": 0
+          },
+          {
+            "id": "donk_know",
+            "inLabel": {
+              "en": "I don't know",
+              "fr": "je ne sais pas",
+              "es": "no sé"
+            },
+            "outLabel": {
+              "en": "dont know",
+              "fr": "ne sait pas",
+              "es": "no sabe"
+            },
+            "votes": 4
+          }
+        ]
       },
       {
         "id": "dependancy",
@@ -86,7 +331,84 @@
           "en": "",
           "fr": "",
           "es": ""
-        }
+        },
+        "display": {
+          "input": "multi",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "mineral",
+            "inLabel": {
+              "en": "minerals",
+              "fr": "minéraux",
+              "es": "minerales"
+            },
+            "outLabel": {
+              "en": "mineral",
+              "fr": "minéral",
+              "es": "mineral"
+            },
+            "votes": 15
+          },
+          {
+            "id": "vegetal",
+            "inLabel": {
+              "en": "vegetals",
+              "fr": "végétaux",
+              "es": "vegetales"
+            },
+            "outLabel": {
+              "en": "vegetal",
+              "fr": "végétal",
+              "es": "vegetal"
+            },
+            "votes": 19
+          },
+          {
+            "id": "animal",
+            "inLabel": {
+              "en": "animals",
+              "fr": "animaux",
+              "es": "animales"
+            },
+            "outLabel": {
+              "en": "animal",
+              "fr": "animal",
+              "es": "animal"
+            },
+            "votes": 19
+          },
+          {
+            "id": "human",
+            "inLabel": {
+              "en": "humans",
+              "fr": "humains",
+              "es": "humanos"
+            },
+            "outLabel": {
+              "en": "human",
+              "fr": "humain",
+              "es": "humano"
+            },
+            "votes": 15
+          },
+          {
+            "id": "machine",
+            "inLabel": {
+              "en": "machines",
+              "fr": "machines",
+              "es": "máquinas"
+            },
+            "outLabel": {
+              "en": "machine",
+              "fr": "machine",
+              "es": "máquina"
+            },
+            "votes": 9
+          }
+        ]
       },
       {
         "id": "devoration",
@@ -98,13 +420,118 @@
         "question": {
           "en": "Would you like to be devoured by",
           "fr": "Êtes-vous d'accord pour vous faire dévorer par",
-          "es": "¿Aceptarías ser devorado por"
+          "es": "¿Te gustaría ser devorado por"
         },
         "question-end": {
           "en": "",
           "fr": "",
           "es": ""
-        }
+        },
+        "display": {
+          "input": "multi",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "mineral",
+            "inLabel": {
+              "en": "minerals",
+              "fr": "minéraux",
+              "es": "minerales"
+            },
+            "outLabel": {
+              "en": "mineral",
+              "fr": "minéral",
+              "es": "mineral"
+            },
+            "votes": 4
+          },
+          {
+            "id": "vegetal",
+            "inLabel": {
+              "en": "vegetals",
+              "fr": "végétaux",
+              "es": "vegetales"
+            },
+            "outLabel": {
+              "en": "vegetal",
+              "fr": "végétal",
+              "es": "vegetal"
+            },
+            "votes": 11
+          },
+          {
+            "id": "animal",
+            "inLabel": {
+              "en": "animals",
+              "fr": "animaux",
+              "es": "animales"
+            },
+            "outLabel": {
+              "en": "animal",
+              "fr": "animal",
+              "es": "animal"
+            },
+            "votes": 9
+          },
+          {
+            "id": "human",
+            "inLabel": {
+              "en": "humans",
+              "fr": "humains",
+              "es": "humanos"
+            },
+            "outLabel": {
+              "en": "human",
+              "fr": "humain",
+              "es": "humano"
+            },
+            "votes": 1
+          },
+          {
+            "id": "machine",
+            "inLabel": {
+              "en": "machines",
+              "fr": "machines",
+              "es": "máquinas"
+            },
+            "outLabel": {
+              "en": "machine",
+              "fr": "machine",
+              "es": "máquina"
+            },
+            "votes": 0
+          },
+          {
+            "id": "fear",
+            "inLabel": {
+              "en": "the fear",
+              "fr": "la peur",
+              "es": "el miedo"
+            },
+            "outLabel": {
+              "en": "fear",
+              "fr": "peur",
+              "es": "miedo"
+            },
+            "votes": 3
+          },
+          {
+            "id": "no",
+            "inLabel": {
+              "en": "nothing",
+              "fr": "rien",
+              "es": "nada"
+            },
+            "outLabel": {
+              "en": "nothing",
+              "fr": "rien",
+              "es": "nada"
+            },
+            "votes": 8
+          }
+        ]
       },
       {
         "id": "hybridization",
@@ -122,7 +549,84 @@
           "en": "",
           "fr": "",
           "es": ""
-        }
+        },
+        "display": {
+          "input": "multi",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "mineral",
+            "inLabel": {
+              "en": "mineral",
+              "fr": "le minéral",
+              "es": "mineral"
+            },
+            "outLabel": {
+              "en": "mineral",
+              "fr": "minéral",
+              "es": "mineral"
+            },
+            "votes": 1
+          },
+          {
+            "id": "vegetal",
+            "inLabel": {
+              "en": "vegetal",
+              "fr": "le végétal",
+              "es": "vegetal"
+            },
+            "outLabel": {
+              "en": "vegetal",
+              "fr": "végétal",
+              "es": "vegetal"
+            },
+            "votes": 8
+          },
+          {
+            "id": "animal",
+            "inLabel": {
+              "en": "animal",
+              "fr": "l'animal",
+              "es": "animal"
+            },
+            "outLabel": {
+              "en": "animal",
+              "fr": "animal",
+              "es": "animal"
+            },
+            "votes": 9
+          },
+          {
+            "id": "machine",
+            "inLabel": {
+              "en": "machine",
+              "fr": "la machine",
+              "es": "máquina"
+            },
+            "outLabel": {
+              "en": "machine",
+              "fr": "machine",
+              "es": "máquina"
+            },
+            "votes": 2
+          },
+          {
+            "id": "no",
+            "inLabel": {
+              "en": "I would prefer not to",
+              "fr": "rien",
+              "es": "preferiría no hacerlo"
+            },
+            "outLabel": {
+              "en": "nothing",
+              "fr": "rien",
+              "es": "nada"
+            },
+            "votes": 7
+          }
+        ]
       },
       {
         "id": "coexistence",
@@ -134,31 +638,129 @@
         "question": {
           "en": "I vote for the creation of inclusive spaces between humans and",
           "fr": "Je suis pour la création d'espaces inclusifs entre les humaines et les",
-          "es": "Voto por la creación de espacios inclusivos entre los humanos y"
+          "es": "Voto por la creación de espacios inclusivos entre humanos y"
         },
         "question-end": {
           "en": "",
           "fr": "",
           "es": ""
-        }
+        },
+        "display": {
+          "input": "multi",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "mineral",
+            "inLabel": {
+              "en": "minerals",
+              "fr": "minéraux",
+              "es": "minerales"
+            },
+            "outLabel": {
+              "en": "mineral",
+              "fr": "minéral",
+              "es": "mineral"
+            },
+            "votes": 7
+          },
+          {
+            "id": "vegetal",
+            "inLabel": {
+              "en": "vegetals",
+              "fr": "végétaux",
+              "es": "vegetales"
+            },
+            "outLabel": {
+              "en": "vegetal",
+              "fr": "végétal",
+              "es": "vegetal"
+            },
+            "votes": 11
+          },
+          {
+            "id": "animal",
+            "inLabel": {
+              "en": "animals",
+              "fr": "animaux",
+              "es": "animales"
+            },
+            "outLabel": {
+              "en": "animal",
+              "fr": "animal",
+              "es": "animal"
+            },
+            "votes": 16
+          },
+          {
+            "id": "machine",
+            "inLabel": {
+              "en": "machines",
+              "fr": "machines",
+              "es": "máquinas"
+            },
+            "outLabel": {
+              "en": "machine",
+              "fr": "machine",
+              "es": "máquina"
+            },
+            "votes": 2
+          }
+        ]
       },
       {
         "id": "nondividual",
         "title": {
           "en": "Projets _ Nondividual",
           "fr": "Projets _ Nodividu",
-          "es": "Proyectos _ No-individuo"
+          "es": "Proyectos _ Nodividual"
         },
         "question": {
           "en": "Would you agree with the project of changing the notion of individual to nondividual* ?",
           "fr": "Êtes-vous d'accord avec le projet de changer la notion d'individu par nodividu* ?",
-          "es": "¿Estás de acuerdo con el proyecto de cambiar la noción de individuo por no-individuo*?"
+          "es": "¿Estarías de acuerdo con el proyecto de cambiar la noción de individuo por nodividuo*?"
         },
         "question-end": {
           "en": "* nondividual is an entity who can’t be thought without his environment.",
           "fr": "* un nodividu est une entité qui ne peut pas être pensée sans son environnement.",
-          "es": "* un no-individuo es una entidad que no puede pensarse sin su entorno."
-        }
+          "es": "* nodividuo es una entidad que no se puede pensar sin su entorno."
+        },
+        "display": {
+          "input": "radio",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "yes",
+            "inLabel": {
+              "en": "yes",
+              "fr": "oui",
+              "es": "sí"
+            },
+            "outLabel": {
+              "en": "yes",
+              "fr": "oui",
+              "es": "sí"
+            },
+            "votes": 14
+          },
+          {
+            "id": "no",
+            "inLabel": {
+              "en": "no",
+              "fr": "non",
+              "es": "no"
+            },
+            "outLabel": {
+              "en": "no",
+              "fr": "non",
+              "es": "no"
+            },
+            "votes": 7
+          }
+        ]
       }
     ]
   },
@@ -166,12 +768,12 @@
     "title": {
       "en": "YOUR PARTICIPATION<br/>TO THE FUTURE",
       "fr": "VOTRE PARTICIPATION<br/>AU FUTUR",
-      "es": "TU PARTICIPACIÓN<br/>EN EL FUTURO"
+      "es": "TU PARTICIPACIÓN<br/>AL FUTURO"
     },
     "endTitle": {
       "en": "Thank you for<br/>your participation<br/>to the future",
       "fr": "Merci pour<br/>votre participation<br/>au futur",
-      "es": "Gracias por<br/>tu participación<br/>en el futuro"
+      "es": "Gracias por<br/>tu participación<br/>al futuro"
     },
     "endMessage": {
       "en": "",
@@ -190,7 +792,61 @@
           "en": "In 2120, humans will live",
           "fr": "En 2120, les humains vivront",
           "es": "En 2120, los humanos vivirán"
-        }
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "radio",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "earth",
+            "inLabel": {
+              "en": "on earth",
+              "fr": "sur terre",
+              "es": "en la tierra"
+            },
+            "outLabel": {
+              "en": "earth",
+              "fr": "terre",
+              "es": "tierra"
+            },
+            "votes": 11
+          },
+          {
+            "id": "other_planet",
+            "inLabel": {
+              "en": "on another planet",
+              "fr": "sur une autre planète",
+              "es": "en otro planeta"
+            },
+            "outLabel": {
+              "en": "another planet",
+              "fr": "autre planète",
+              "es": "otro planeta"
+            },
+            "votes": 4
+          },
+          {
+            "id": "nowhere",
+            "inLabel": {
+              "en": "nowhere",
+              "fr": "nulle part",
+              "es": "en ningún sitio"
+            },
+            "outLabel": {
+              "en": "nowhere",
+              "fr": "nulle part",
+              "es": "en ningún sitio"
+            },
+            "votes": 2
+          }
+        ]
       },
       {
         "id": "human_environment",
@@ -203,7 +859,75 @@
           "en": "In 2120, humans will live",
           "fr": "En 2120, les humains vivront",
           "es": "En 2120, los humanos vivirán"
-        }
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "radio",
+          "outWeb": "radar",
+          "outUnity": "radar"
+        },
+        "options": [
+          {
+            "id": "urban",
+            "inLabel": {
+              "en": "in an urban environment",
+              "fr": "dans un environnement urbain",
+              "es": "en un entorno urbano"
+            },
+            "outLabel": {
+              "en": "urban",
+              "fr": "urbain",
+              "es": "urbano"
+            },
+            "votes": 6
+          },
+          {
+            "id": "rural",
+            "inLabel": {
+              "en": "in a rural environment",
+              "fr": "dans un environnement rural",
+              "es": "en un entorno rural"
+            },
+            "outLabel": {
+              "en": "rural",
+              "fr": "rural",
+              "es": "rural"
+            },
+            "votes": 4
+          },
+          {
+            "id": "natural",
+            "inLabel": {
+              "en": "in a natural environment",
+              "fr": "dans un environnement naturel",
+              "es": "en un entorno natural"
+            },
+            "outLabel": {
+              "en": "natural",
+              "fr": "naturel",
+              "es": "natural"
+            },
+            "votes": 4
+          },
+          {
+            "id": "nowhere",
+            "inLabel": {
+              "en": "nowhere",
+              "fr": "nulle part",
+              "es": "en ningún sitio"
+            },
+            "outLabel": {
+              "en": "nowhere",
+              "fr": "nulle part",
+              "es": "en ningún sitio"
+            },
+            "votes": 3
+          }
+        ]
       },
       {
         "id": "mineral_growth",
@@ -215,8 +939,35 @@
         "question": {
           "en": "In 2120, <u>mineral</u> population will",
           "fr": "En 2120, la population <u>minérale</u> va",
-          "es": "En 2120, la población <u>mineral</u> va a"
-        }
+          "es": "En 2120, la población <u>mineral</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "mineral pop.",
+          "fr": "pop. minérale",
+          "es": "pob. mineral"
+        },
+        "votes": 17,
+        "growth": 10.28
       },
       {
         "id": "vegetal_growth",
@@ -228,8 +979,35 @@
         "question": {
           "en": "In 2120, <u>vegetal</u> population will",
           "fr": "En 2120, la population <u>végétale</u> va",
-          "es": "En 2120, la población <u>vegetal</u> va a"
-        }
+          "es": "En 2120, la población <u>vegetal</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "vegetal pop.",
+          "fr": "pop. végétale",
+          "es": "pob. vegetal"
+        },
+        "votes": 17,
+        "growth": 6.78
       },
       {
         "id": "animal_growth",
@@ -241,8 +1019,35 @@
         "question": {
           "en": "In 2120, <u>animal</u> population will",
           "fr": "En 2120, la population <u>animale</u> va",
-          "es": "En 2120, la población <u>animal</u> va a"
-        }
+          "es": "En 2120, la población <u>animal</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "animal pop.",
+          "fr": "pop. animale",
+          "es": "pob. animal"
+        },
+        "votes": 17,
+        "growth": 6.29
       },
       {
         "id": "human_growth",
@@ -254,8 +1059,35 @@
         "question": {
           "en": "In 2120, <u>human</u> population will",
           "fr": "En 2120, la population <u>humaine</u> va",
-          "es": "En 2120, la población <u>humana</u> va a"
-        }
+          "es": "En 2120, la población <u>humana</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "human pop.",
+          "fr": "pop. humaine",
+          "es": "pob. humana"
+        },
+        "votes": 17,
+        "growth": 7.88
       },
       {
         "id": "machine_growth",
@@ -267,8 +1099,35 @@
         "question": {
           "en": "In 2120, <u>machine</u> population will",
           "fr": "En 2120, la population <u>machine</u> va",
-          "es": "En 2120, la población de <u>máquinas</u> va a"
-        }
+          "es": "En 2120, la población <u>máquina</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "machine pop.",
+          "fr": "pop. machine",
+          "es": "pob. máquina"
+        },
+        "votes": 17,
+        "growth": 10.29
       },
       {
         "id": "hybrid_vote",
@@ -281,7 +1140,79 @@
           "en": "In 2120, humans will hybridise with",
           "fr": "En 2120, les humains s'hybrideront avec",
           "es": "En 2120, los humanos se hibridarán con"
-        }
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "multislider",
+          "outWeb": "radar2",
+          "outUnity": "radar2"
+        },
+        "options": [
+          {
+            "id": "mineral",
+            "inLabel": {
+              "en": "minerals",
+              "fr": "des minéraux",
+              "es": "minerales"
+            },
+            "outLabel": {
+              "en": "mineral",
+              "fr": "minéral",
+              "es": "mineral"
+            },
+            "votes": 17,
+            "growth": 7.41
+          },
+          {
+            "id": "vegetal",
+            "inLabel": {
+              "en": "vegetals",
+              "fr": "des végétaux",
+              "es": "vegetales"
+            },
+            "outLabel": {
+              "en": "vegetal",
+              "fr": "végétal",
+              "es": "vegetal"
+            },
+            "votes": 17,
+            "growth": 10.03
+          },
+          {
+            "id": "animal",
+            "inLabel": {
+              "en": "animals",
+              "fr": "des animaux",
+              "es": "animales"
+            },
+            "outLabel": {
+              "en": "animal",
+              "fr": "animal",
+              "es": "animal"
+            },
+            "votes": 17,
+            "growth": 9.7
+          },
+          {
+            "id": "machine",
+            "inLabel": {
+              "en": "machines",
+              "fr": "des machines",
+              "es": "máquinas"
+            },
+            "outLabel": {
+              "en": "machine",
+              "fr": "machine",
+              "es": "máquina"
+            },
+            "votes": 17,
+            "growth": 11.25
+          }
+        ]
       },
       {
         "id": "temperature_growth",
@@ -293,8 +1224,35 @@
         "question": {
           "en": "In 2120, <u>temperature</u> will",
           "fr": "En 2120, la <u>température</u> va",
-          "es": "En 2120, la <u>temperatura</u> va a"
-        }
+          "es": "En 2120, la <u>temperatura</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "temperature",
+          "fr": "température",
+          "es": "temperatura"
+        },
+        "votes": 17,
+        "growth": 13.42
       },
       {
         "id": "pollution_growth",
@@ -306,8 +1264,35 @@
         "question": {
           "en": "In 2120, <u>pollution</u> will",
           "fr": "En 2120, la <u>pollution</u> va",
-          "es": "En 2120, la <u>contaminación</u> va a"
-        }
+          "es": "En 2120, la <u>contaminación</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "pollution",
+          "fr": "pollution",
+          "es": "contaminación"
+        },
+        "votes": 17,
+        "growth": 12.3
       },
       {
         "id": "violence_growth",
@@ -319,8 +1304,35 @@
         "question": {
           "en": "In 2120, <u>violence</u> will",
           "fr": "En 2120, la <u>violence</u> va",
-          "es": "En 2120, la <u>violencia</u> va a"
-        }
+          "es": "En 2120, la <u>violencia</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "violence",
+          "fr": "violence",
+          "es": "violencia"
+        },
+        "votes": 17,
+        "growth": 11.18
       },
       {
         "id": "equality_growth",
@@ -332,8 +1344,35 @@
         "question": {
           "en": "In 2120, <u>equality</u> will",
           "fr": "En 2120, l'<u>égalité</u> va",
-          "es": "En 2120, la <u>igualdad</u> va a"
-        }
+          "es": "En 2120, la <u>igualdad</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "equality",
+          "fr": "égalité",
+          "es": "igualdad"
+        },
+        "votes": 17,
+        "growth": 4.49
       },
       {
         "id": "freedom_growth",
@@ -345,8 +1384,35 @@
         "question": {
           "en": "In 2120, <u>freedom</u> will",
           "fr": "En 2120, la <u>liberté</u> va",
-          "es": "En 2120, la <u>libertad</u> va a"
-        }
+          "es": "En 2120, la <u>libertad</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "freedom",
+          "fr": "liberté",
+          "es": "libertad"
+        },
+        "votes": 17,
+        "growth": 5.95
       },
       {
         "id": "knowledge_growth",
@@ -358,8 +1424,35 @@
         "question": {
           "en": "In 2120, <u>knowledge</u> will",
           "fr": "En 2120, la <u>connaissance</u> va",
-          "es": "En 2120, el <u>conocimiento</u> va a"
-        }
+          "es": "En 2120, el <u>conocimiento</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "knowledge",
+          "fr": "savoir",
+          "es": "conocimiento"
+        },
+        "votes": 16,
+        "growth": 9.57
       },
       {
         "id": "language_growth",
@@ -371,8 +1464,35 @@
         "question": {
           "en": "In 2120, <u>language</u> will",
           "fr": "En 2120, le <u>langage</u> va",
-          "es": "En 2120, el <u>lenguaje</u> va a"
-        }
+          "es": "En 2120, el <u>lenguaje</u> va"
+        },
+        "question-end": {
+          "en": "",
+          "fr": "",
+          "es": ""
+        },
+        "display": {
+          "input": "slider",
+          "labelUp": {
+            "en": "increase",
+            "fr": "augmenter",
+            "es": "aumentar"
+          },
+          "labelDown": {
+            "en": "decrease",
+            "fr": "diminuer",
+            "es": "disminuir"
+          },
+          "outWeb": "bar2",
+          "outUnity": "bar2"
+        },
+        "outLabel": {
+          "en": "language",
+          "fr": "langage",
+          "es": "lenguaje"
+        },
+        "votes": 15,
+        "growth": 7.98
       }
     ]
   }
