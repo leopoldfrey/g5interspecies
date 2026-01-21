@@ -130,7 +130,7 @@ console.log('local data folder \"', localDataFolder, "\"");
 var fileName = 'public/data/votes.json';
 var votes;
 var curVote = -1;
-var lang = 'es';
+var lang = 'fr';
 var referendum = 'present';
 
 function downloadVotes()
