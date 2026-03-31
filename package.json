@@ -1,22 +1,20 @@
 {
-  "name": "G5-server",
-  "version": "0.0.1",
+  "name": "g5interspecies-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "WebSocket and Express server for G5 Interspecies",
+  "main": "app.js",
   "engines": {
-    "node": "10.x"
+    "node": ">=18"
   },
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "body-parser": "latest",
     "chart.js": "^2.9.4",
     "express": "^4.17.1",
-    "fs": "latest",
-    "jsonfile": "^6.0.1",
     "multer": "^2.1.1",
-    "request": "^2.88.2",
     "serve-index": "latest",
-    "ws": "^8.2.3",
-    "xmlhttprequest": "git+https://github.com/driverdan/node-XMLHttpRequest.git"
+    "ws": "^8.2.3"
   }
 }

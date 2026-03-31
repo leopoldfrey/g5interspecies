@@ -1,173 +1,193 @@
-var express     = require("express");
-var http        = require("http");
-var serveIndex  = require("serve-index");
-var multer      = require("multer");
-var fs          = require("fs");
-var path        = require("path");
-var WebSocket   = require("ws");
-var WebSocketServer   = WebSocket.Server;
-var bodyParser  = require("body-parser");
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var request 	= require('request');
-var app         = express();
-var server 		= http.createServer(app);
+const express = require("express");
+const http = require("http");
+const https = require("https");
+const serveIndex = require("serve-index");
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
+const WebSocket = require("ws");
+const { Server: WebSocketServer } = WebSocket;
+
+const app = express();
+const server = http.createServer(app);
 
 /* PARAMETERS */
 
 // use alternate localhost and the port Heroku assigns to $PORT
 const port = process.env.PORT || 3000;
-//var webServerPort = 8080; // Web server (http) listens on this port
+const publicDir = path.join(__dirname, "public");
+const dataDir = path.join(publicDir, "data");
+const uploadsDir = path.join(__dirname, "uploads");
+const fileName = path.join(dataDir, "votes.json");
+const backupFileName = path.join(dataDir, "backup.json");
+const remoteVotesUrl = "https://www.grabugemusic.fr/g5/public/data/votes.json";
+const remoteBackupUrl = "https://www.grabugemusic.fr/g5/public/data/backupVotes.php";
 
-app.get('/',function(req,res){
-	if(lang == 'fr')
-    	res.sendFile(__dirname + "/public/fr/index.html");
-	else if(lang == 'en')
-		res.sendFile(__dirname + "/public/en/index.html");
-	else if(lang == 'es')
-		res.sendFile(__dirname + "/public/es/index.html");
+let votes = {};
+let curVote = -1;
+let lang = 'fr';
+let referendum = 'present';
+
+function sendLocalizedFile(res, file) {
+	res.sendFile(path.join(publicDir, lang, file));
+}
+
+app.get('/', function(req, res) {
+	sendLocalizedFile(res, 'index.html');
 });
 
-app.get('/index.html',function(req,res){
-    if(lang == 'fr')
-    	res.sendFile(__dirname + "/public/fr/index.html");
-	else if(lang == 'en')
-		res.sendFile(__dirname + "/public/en/index.html");
-	else if(lang == 'es')
-		res.sendFile(__dirname + "/public/es/index.html");
+app.get('/index.html', function(req, res) {
+	sendLocalizedFile(res, 'index.html');
 });
 
-app.get('/id_animal.html',function(req,res){
-	if(lang == 'fr')
-    	res.sendFile(__dirname + "/public/fr/id_animal.html");
-	else if(lang == 'en')
-		res.sendFile(__dirname + "/public/en/id_animal.html");
-	else if(lang == 'es')
-		res.sendFile(__dirname + "/public/es/id_animal.html");
+app.get('/id_animal.html', function(req, res) {
+	sendLocalizedFile(res, 'id_animal.html');
 });
 
-app.get('/id_vegetal.html',function(req,res){
-    if(lang == 'fr')
-    	res.sendFile(__dirname + "/public/fr/id_vegetal.html");
-	else if(lang == 'en')
-		res.sendFile(__dirname + "/public/en/id_vegetal.html");
-	else if(lang == 'es')
-		res.sendFile(__dirname + "/public/es/id_vegetal.html");
+app.get('/id_vegetal.html', function(req, res) {
+	sendLocalizedFile(res, 'id_vegetal.html');
 });
 
-app.get('/id_mineral.html',function(req,res){
-    if(lang == 'fr')
-    	res.sendFile(__dirname + "/public/fr/id_mineral.html");
-	else if(lang == 'en')
-		res.sendFile(__dirname + "/public/en/id_mineral.html");
-	else if(lang == 'es')
-		res.sendFile(__dirname + "/public/es/id_mineral.html");
+app.get('/id_mineral.html', function(req, res) {
+	sendLocalizedFile(res, 'id_mineral.html');
 });
 
-app.get('/id_human.html',function(req,res){
-    if(lang == 'fr')
-    	res.sendFile(__dirname + "/public/fr/id_human.html");
-	else if(lang == 'en')
-		res.sendFile(__dirname + "/public/en/id_human.html");
-	else if(lang == 'es')
-		res.sendFile(__dirname + "/public/es/id_human.html");
+app.get('/id_human.html', function(req, res) {
+	sendLocalizedFile(res, 'id_human.html');
 });
 
-app.get('/id_machine.html',function(req,res){
-	if(lang == 'fr')
-    	res.sendFile(__dirname + "/public/fr/id_machine.html");
-	else if(lang == 'en')
-		res.sendFile(__dirname + "/public/en/id_machine.html");
-	else if(lang == 'es')
-		res.sendFile(__dirname + "/public/es/id_machine.html");
+app.get('/id_machine.html', function(req, res) {
+	sendLocalizedFile(res, 'id_machine.html');
 });
 
-app.get('/referendum.html',function(req,res){
-    res.sendFile(__dirname + "/public/referendum.html");
+app.get('/referendum.html', function(req, res) {
+	res.sendFile(path.join(publicDir, 'referendum.html'));
 });
 
-app.get('/controller.html',function(req,res){
-    res.sendFile(__dirname + "/public/controller.html");
+app.get('/controller.html', function(req, res) {
+	res.sendFile(path.join(publicDir, 'controller.html'));
 });
 
-app.get('/votes.json',function(req,res){
-    res.sendFile(__dirname + "/public/data/votes.json");
+app.get('/votes.json', function(req, res) {
+	res.sendFile(fileName);
 });
 
-app.get('/backup.json',function(req,res){
-    res.sendFile(__dirname + "/public/data/backup.json");
+app.get('/backup.json', function(req, res) {
+	res.sendFile(backupFileName);
 });
 
-app.get('/rocio.html',function(req,res){
-    res.sendFile(__dirname + "/public/rocio.html");
+app.get('/rocio.html', function(req, res) {
+	res.sendFile(path.join(publicDir, 'rocio.html'));
 });
 
-app.get('/results.html',function(req,res){
-    res.sendFile(__dirname + "/public/results.html");
+app.get('/results.html', function(req, res) {
+	res.sendFile(path.join(publicDir, 'results.html'));
 });
 
-app.use('/scripts', express.static(__dirname + '/node_modules/chart.js/dist/'));
+app.use('/scripts', express.static(path.join(__dirname, 'node_modules', 'chart.js', 'dist')));
 
 /*----------- Static Files -----------*/
-app.use('/vendor', express.static('public/vendor'));
-app.use('/css', express.static('public/css'));
-app.use('/js', express.static('public/js'));
-app.use('/img', express.static('public/img'));
-app.use('/data', express.static('public/data'));
+app.use('/vendor', express.static(path.join(publicDir, 'vendor')));
+app.use('/css', express.static(path.join(publicDir, 'css')));
+app.use('/js', express.static(path.join(publicDir, 'js')));
+app.use('/img', express.static(path.join(publicDir, 'img')));
+app.use('/data', express.static(dataDir));
 
-app.use('/uploads', express.static('uploads'));
-app.use('/uploads', serveIndex(__dirname + '/uploads'));
+app.use('/uploads', express.static(uploadsDir));
+app.use('/uploads', serveIndex(uploadsDir));
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 /*----------- Download/Upload votes -----------*/
 
-var localDataFolder = path.dirname(fs.realpathSync(__filename))+'/public/data';
-console.log('local data folder \"', localDataFolder, "\"");
-    
-/*----------- parameters -----------*/
+const localDataFolder = path.dirname(fs.realpathSync(__filename)) + '/public/data';
+console.log('local data folder "', localDataFolder, '"');
 
-var fileName = 'public/data/votes.json';
-var votes;
-var curVote = -1;
-var lang = 'fr';
-var referendum = 'present';
-
-function downloadVotes()
-{	
-	var xmlReq = new XMLHttpRequest();
-			filename = "https://www.grabugemusic.fr/g5/public/data/votes.json";
-			xmlReq.open('GET', filename);
-			xmlReq.setRequestHeader('Cache-Control', 'no-cache');
-    		xmlReq.onloadend = function() {
-				console.log("\""+filename+"\" loaded.");
-				votes = JSON.parse(xmlReq.responseText);
-				jsonString = JSON.stringify(votes, null, 2);
-  				fs.writeFileSync(fileName, jsonString, err => {
-					if (err) {
-						console.log('Error writing file', err);
-					} else {
-						console.log('Successfully wrote file');
-					}
-				});
-			}
-			xmlReq.send();
+function saveVotes() {
+	const jsonString = JSON.stringify(votes, null, 2);
+	fs.writeFileSync(fileName, jsonString);
+	console.log('Successfully wrote file');
 }
 
-function uploadVotes()
-{	
-	request.post({
-    	url: 'https://www.grabugemusic.fr/g5/public/data/backupVotes.php',
-    	json: true,
-    	body: votes
-	}, function(error, response, body){
-    	if (!error && response.statusCode == 200) {
-			if(body.success)
-				console.log("Done uploading votes ! " +body.message+" "+body.date);
-			else
-				console.log("Error uploading votes ! " +body.message+" "+body.date);
+function requestJson(url, options, body) {
+	return new Promise(function(resolve, reject) {
+		const parsedUrl = new URL(url);
+		const requestOptions = {
+			method: options && options.method ? options.method : 'GET',
+			hostname: parsedUrl.hostname,
+			port: parsedUrl.port || 443,
+			path: parsedUrl.pathname + parsedUrl.search,
+			headers: options && options.headers ? options.headers : {}
+		};
+
+		const req = https.request(requestOptions, function(response) {
+			let rawData = '';
+			response.setEncoding('utf8');
+			response.on('data', function(chunk) {
+				rawData += chunk;
+			});
+			response.on('end', function() {
+				if (response.statusCode < 200 || response.statusCode >= 300) {
+					reject(new Error('Request failed with status ' + response.statusCode));
+					return;
+				}
+
+				try {
+					resolve(rawData ? JSON.parse(rawData) : {});
+				} catch (error) {
+					reject(error);
+				}
+			});
+		});
+
+		req.on('error', reject);
+
+		if (body) {
+			req.write(body);
 		}
+
+		req.end();
 	});
+}
+
+async function downloadVotes() {
+	try {
+		votes = await requestJson(remoteVotesUrl, {
+			headers: {
+				'Cache-Control': 'no-cache'
+			}
+		});
+		console.log('"' + remoteVotesUrl + '" loaded.');
+		saveVotes();
+	} catch (error) {
+		console.error('Error downloading votes', error);
+		if (fs.existsSync(fileName)) {
+			votes = JSON.parse(fs.readFileSync(fileName, 'utf8'));
+			console.log('Loaded local votes fallback.');
+		}
+	}
+}
+
+async function uploadVotes() {
+	try {
+		const payload = JSON.stringify(votes);
+		const body = await requestJson(remoteBackupUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Content-Length': Buffer.byteLength(payload)
+			}
+		}, payload);
+
+		if (body.success) {
+			console.log('Done uploading votes ! ' + body.message + ' ' + body.date);
+		} else {
+			console.log('Error uploading votes ! ' + body.message + ' ' + body.date);
+		}
+	} catch (error) {
+		console.error('Error uploading votes', error);
+	}
 }
 
 /*----------- Launch server -----------*/
@@ -179,10 +199,9 @@ server.listen(port,function() {
 
 /*----------- Tools -----------*/
 
-String.prototype.replaceAll = function(search, replacement) {
-  var target = this;
-  return target.replace(new RegExp(search, 'g'), replacement);
-};
+function sanitizeUploadName(name) {
+	return String(name || 'upload').replace(/\s+/g, '_');
+}
 
 /*----------- Functions --------*/
 
@@ -272,7 +291,6 @@ function clearVotes() {
 	var questions = Object.keys(votes);
 	questions.forEach(function(q) {
 		votes[q]['content'].forEach(function(o) {
-			//console.log(o);
 			if(o.hasOwnProperty('votes'))
 				o['votes'] = 0;
 			if(o.hasOwnProperty('growth'))
@@ -285,15 +303,8 @@ function clearVotes() {
 						o['growth'] = 0;
 				});
 		});
-		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync(fileName, jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err)
-			} else {
-				console.log('Successfully wrote file')
-			}
-		})//*/
 	});
+	saveVotes();
 }
 
 function gotoVote(v) {
@@ -316,27 +327,19 @@ function newVote(_ref, _vote, _value) {
 	console.log('- newVote : '+_ref +' '+_vote +' '+ _value);
   	if(votes.hasOwnProperty(_ref))
   	{
-  		ref = votes[_ref]['content'];
+  		var ref = votes[_ref]['content'];
   		ref.forEach(function(q) {
   			if(q['id'] == _vote)
   			{
   				q['options'].forEach(function(o) {
   					if(o['id'] == _value)
   					{
-  						//console.log("HOURRAY");
   						o['votes'] += 1;
   					}
   				});
   			}
   		});
-  		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync(fileName, jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err);
-			} else {
-				console.log('Successfully wrote file');
-			}
-		});
+  		saveVotes();
   	} else {
   		console.log("not found : "+_ref);
   	}
@@ -346,7 +349,7 @@ function addVote(_ref, _vote, _value) {
 	console.log('- addVote : '+_ref +' '+_vote +' '+ _value);
   	if(votes.hasOwnProperty(_ref))
   	{
-  		ref = votes[_ref]['content'];
+  		var ref = votes[_ref]['content'];
   		ref.forEach(function(q) {
   			if(q['id'] == _vote)
   			{
@@ -354,14 +357,7 @@ function addVote(_ref, _vote, _value) {
   				q['growth'] += parseFloat(_value);
   			}
   		});
-  		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync(fileName, jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err);
-			} else {
-				console.log('Successfully wrote file');
-			}
-		});
+  		saveVotes();
   	} else {
   		console.log("not found : "+_ref);
   	}
@@ -371,7 +367,7 @@ function addVoteMulti(_ref, _id, _vote, _value) {
 	console.log('- addVoteMulti : '+_ref +' '+_id+' '+_vote +' '+ _value);
   	if(votes.hasOwnProperty(_ref))
   	{
-  		ref = votes[_ref]['content'];
+  		var ref = votes[_ref]['content'];
   		ref.forEach(function(q) {
   			if(q['id'] == _id)
   			{
@@ -384,14 +380,7 @@ function addVoteMulti(_ref, _id, _vote, _value) {
   				});
   			}
   		});
-  		jsonString = JSON.stringify(votes, null, 2);
-  		fs.writeFileSync(fileName, jsonString, err => {
-			if (err) {
-				console.log('Error writing file', err);
-			} else {
-				console.log('Successfully wrote file');
-			}
-		});
+  		saveVotes();
   	} else {
   		console.log("not found : "+_ref);
   	}
@@ -408,11 +397,20 @@ app.post('/image', upload.single("image"), function (req, res) {
    //var timeToAppend = date.getHours() + "h" + date.getMinutes() + "m" +  date.getSeconds() + "s" + date.getMilliseconds();
 
    var type = req.file.mimetype.split("/")[1];
-   var name = req.body.name.replaceAll(" ", "_");
-   var file = __dirname + "/uploads/" + name + /*"_" + timeToAppend +*/ "." + type;
-   file = file.replaceAll(" ", "_");
-   fs.readFile( req.file.path, function (err, data) {
+   var name = sanitizeUploadName(req.body.name);
+   var file = path.join(uploadsDir, name + /*"_" + timeToAppend +*/ "." + type);
+   fs.readFile(req.file.path, function (err, data) {
+        if (err) {
+             console.error(err);
+             res.end(JSON.stringify({
+                  message: 'Sorry, file could not be uploaded.',
+                  filename: req.file.originalname
+             }));
+             return;
+        }
+
         fs.writeFile(file, data, function (err) {
+         var response;
          if( err ){
               console.error( err );
               response = {
@@ -463,7 +461,14 @@ wss.closeTimeout = 180 * 1000;
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    var msg = JSON.parse(message);
+    var msg;
+
+    try {
+    	msg = JSON.parse(message);
+    } catch (error) {
+    	console.log('| Invalid WebSocket JSON received : %s', message);
+    	return;
+    }
     
     switch(msg.command) {
     	case "setLang":
