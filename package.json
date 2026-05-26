@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "chart.js": "^2.9.4",
-    "express": "^4.17.1",
+    "express": "^4.22.2",
     "multer": "^2.1.1",
     "serve-index": "latest",
     "ws": "^8.2.3"
