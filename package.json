@@ -13,7 +13,7 @@
   "dependencies": {
     "chart.js": "^2.9.4",
     "express": "^5.2.1",
-    "multer": "^2.2.0",
+    "multer": "^2.3.0",
     "serve-index": "latest",
     "ws": "^8.21.0"
   }
